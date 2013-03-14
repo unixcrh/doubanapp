@@ -1,25 +1,34 @@
 package org.scribe.builder.api;
 
+import org.scribe.extractors.*;
 import org.scribe.model.*;
-
 import org.scribe.utils.*;
 
-public class FacebookApi extends DefaultApi20 {
-	private static final String AUTHORIZE_URL = "https://www.facebook.com/dialog/oauth?client_id=%s&redirect_uri=%s";
+/**
+ * Douban OAuth 2.0 api.
+ */
+public class DoubanApi extends DefaultApi20 {
+	private static final String AUTHORIZE_URL = "https://www.douban.com/service/auth2/auth?client_id=%s&redirect_uri=%s&response_type=code";
 	private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL
 			+ "&scope=%s";
 
 	@Override
+	public Verb getAccessTokenVerb() {
+		return Verb.POST;
+	}
+
+	@Override
+	public AccessTokenExtractor getAccessTokenExtractor() {
+		return new JsonTokenExtractor();
+	}
+
+	@Override
 	public String getAccessTokenEndpoint() {
-		return "https://graph.facebook.com/oauth/access_token";
+		return "https://www.douban.com/service/auth2/token?grant_type=authorization_code";
 	}
 
 	@Override
 	public String getAuthorizationUrl(OAuthConfig config) {
-		Preconditions
-				.checkValidUrl(config.getCallback(),
-						"Must provide a valid url as callback. Facebook does not support OOB");
-
 		// Append scope if present
 		if (config.hasScope()) {
 			return String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(),

@@ -7,13 +7,13 @@ import org.scribe.model.*;
  * 
  * @author Pablo Fernandez
  */
-public interface RequestTokenExtractor
-{
-  /**
-   * Extracts the request token from the contents of an Http Response
-   *  
-   * @param response the contents of the response
-   * @return OAuth access token
-   */
-  public Token extract(String response);
+public interface RequestTokenExtractor {
+	/**
+	 * Extracts the request token from the contents of an Http Response
+	 * 
+	 * @param response
+	 *            the contents of the response
+	 * @return OAuth access token
+	 */
+	public Token extract(String response);
 }

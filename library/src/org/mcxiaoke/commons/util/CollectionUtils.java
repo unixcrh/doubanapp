@@ -26,7 +26,8 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * Miscellaneous collection utility methods. Mainly for internal use within the framework.
+ * Miscellaneous collection utility methods. Mainly for internal use within the
+ * framework.
  * 
  * @author Juergen Hoeller
  * @author Rob Harrop
@@ -36,9 +37,11 @@ import java.util.Properties;
 public abstract class CollectionUtils {
 
 	/**
-	 * Return <code>true</code> if the supplied Collection is <code>null</code> or empty. Otherwise, return
-	 * <code>false</code>.
-	 * @param collection the Collection to check
+	 * Return <code>true</code> if the supplied Collection is <code>null</code>
+	 * or empty. Otherwise, return <code>false</code>.
+	 * 
+	 * @param collection
+	 *            the Collection to check
 	 * @return whether the given Collection is empty
 	 */
 	public static boolean isEmpty(Collection<?> collection) {
@@ -46,8 +49,11 @@ public abstract class CollectionUtils {
 	}
 
 	/**
-	 * Return <code>true</code> if the supplied Map is <code>null</code> or empty. Otherwise, return <code>false</code>.
-	 * @param map the Map to check
+	 * Return <code>true</code> if the supplied Map is <code>null</code> or
+	 * empty. Otherwise, return <code>false</code>.
+	 * 
+	 * @param map
+	 *            the Map to check
 	 * @return whether the given Map is empty
 	 */
 	public static boolean isEmpty(Map<?, ?> map) {
@@ -55,11 +61,13 @@ public abstract class CollectionUtils {
 	}
 
 	/**
-	 * Convert the supplied array into a List. A primitive array gets converted into a List of the appropriate wrapper
-	 * type.
+	 * Convert the supplied array into a List. A primitive array gets converted
+	 * into a List of the appropriate wrapper type.
 	 * <p>
 	 * A <code>null</code> source value will be converted to an empty List.
-	 * @param source the (potentially primitive) array
+	 * 
+	 * @param source
+	 *            the (potentially primitive) array
 	 * @return the converted List result
 	 * @see ObjectUtils#toObjectArray(Object)
 	 */
@@ -69,10 +77,14 @@ public abstract class CollectionUtils {
 
 	/**
 	 * Merge the given array into the given Collection.
-	 * @param array the array to merge (may be <code>null</code>)
-	 * @param collection the target Collection to merge the array into
+	 * 
+	 * @param array
+	 *            the array to merge (may be <code>null</code>)
+	 * @param collection
+	 *            the target Collection to merge the array into
 	 */
-	public static void mergeArrayIntoCollection(Object array, Collection<Object> collection) {
+	public static void mergeArrayIntoCollection(Object array,
+			Collection<Object> collection) {
 		if (collection == null) {
 			throw new IllegalArgumentException("Collection must not be null");
 		}
@@ -83,19 +95,25 @@ public abstract class CollectionUtils {
 	}
 
 	/**
-	 * Merge the given Properties instance into the given Map, copying all properties (key-value pairs) over.
+	 * Merge the given Properties instance into the given Map, copying all
+	 * properties (key-value pairs) over.
 	 * <p>
-	 * Uses <code>Properties.propertyNames()</code> to even catch default properties linked into the original Properties
-	 * instance.
-	 * @param props the Properties instance to merge (may be <code>null</code>)
-	 * @param map the target Map to merge the properties into
+	 * Uses <code>Properties.propertyNames()</code> to even catch default
+	 * properties linked into the original Properties instance.
+	 * 
+	 * @param props
+	 *            the Properties instance to merge (may be <code>null</code>)
+	 * @param map
+	 *            the target Map to merge the properties into
 	 */
-	public static void mergePropertiesIntoMap(Properties props, Map<String, Object> map) {
+	public static void mergePropertiesIntoMap(Properties props,
+			Map<String, Object> map) {
 		if (map == null) {
 			throw new IllegalArgumentException("Map must not be null");
 		}
 		if (props != null) {
-			for (Enumeration<?> en = props.propertyNames(); en.hasMoreElements();) {
+			for (Enumeration<?> en = props.propertyNames(); en
+					.hasMoreElements();) {
 				String key = (String) en.nextElement();
 				Object value = props.getProperty(key);
 				if (value == null) {
@@ -107,11 +125,13 @@ public abstract class CollectionUtils {
 		}
 	}
 
-
 	/**
 	 * Check whether the given Iterator contains the given element.
-	 * @param iterator the Iterator to check
-	 * @param element the element to look for
+	 * 
+	 * @param iterator
+	 *            the Iterator to check
+	 * @param element
+	 *            the element to look for
 	 * @return <code>true</code> if found, <code>false</code> else
 	 */
 	public static boolean contains(Iterator<?> iterator, Object element) {
@@ -128,8 +148,11 @@ public abstract class CollectionUtils {
 
 	/**
 	 * Check whether the given Enumeration contains the given element.
-	 * @param enumeration the Enumeration to check
-	 * @param element the element to look for
+	 * 
+	 * @param enumeration
+	 *            the Enumeration to check
+	 * @param element
+	 *            the element to look for
 	 * @return <code>true</code> if found, <code>false</code> else
 	 */
 	public static boolean contains(Enumeration<?> enumeration, Object element) {
@@ -147,12 +170,17 @@ public abstract class CollectionUtils {
 	/**
 	 * Check whether the given Collection contains the given element instance.
 	 * <p>
-	 * Enforces the given instance to be present, rather than returning <code>true</code> for an equal element as well.
-	 * @param collection the Collection to check
-	 * @param element the element to look for
+	 * Enforces the given instance to be present, rather than returning
+	 * <code>true</code> for an equal element as well.
+	 * 
+	 * @param collection
+	 *            the Collection to check
+	 * @param element
+	 *            the element to look for
 	 * @return <code>true</code> if found, <code>false</code> else
 	 */
-	public static boolean containsInstance(Collection<?> collection, Object element) {
+	public static boolean containsInstance(Collection<?> collection,
+			Object element) {
 		if (collection != null) {
 			for (Object candidate : collection) {
 				if (candidate == element) {
@@ -164,13 +192,17 @@ public abstract class CollectionUtils {
 	}
 
 	/**
-	 * Return <code>true</code> if any element in '<code>candidates</code>' is contained in '<code>source</code>';
-	 * otherwise returns <code>false</code>.
-	 * @param source the source Collection
-	 * @param candidates the candidates to search for
+	 * Return <code>true</code> if any element in '<code>candidates</code>' is
+	 * contained in '<code>source</code>'; otherwise returns <code>false</code>.
+	 * 
+	 * @param source
+	 *            the source Collection
+	 * @param candidates
+	 *            the candidates to search for
 	 * @return whether any of the candidates has been found
 	 */
-	public static boolean containsAny(Collection<?> source, Collection<?> candidates) {
+	public static boolean containsAny(Collection<?> source,
+			Collection<?> candidates) {
 		if (isEmpty(source) || isEmpty(candidates)) {
 			return false;
 		}
@@ -183,14 +215,19 @@ public abstract class CollectionUtils {
 	}
 
 	/**
-	 * Return the first element in '<code>candidates</code>' that is contained in '<code>source</code>'. If no element
-	 * in '<code>candidates</code>' is present in '<code>source</code>' returns <code>null</code>. Iteration order is
-	 * {@link Collection} implementation specific.
-	 * @param source the source Collection
-	 * @param candidates the candidates to search for
+	 * Return the first element in '<code>candidates</code>' that is contained
+	 * in '<code>source</code>'. If no element in '<code>candidates</code>' is
+	 * present in '<code>source</code>' returns <code>null</code>. Iteration
+	 * order is {@link Collection} implementation specific.
+	 * 
+	 * @param source
+	 *            the source Collection
+	 * @param candidates
+	 *            the candidates to search for
 	 * @return the first present object, or <code>null</code> if not found
 	 */
-	public static Object findFirstMatch(Collection<?> source, Collection<?> candidates) {
+	public static Object findFirstMatch(Collection<?> source,
+			Collection<?> candidates) {
 		if (isEmpty(source) || isEmpty(candidates)) {
 			return null;
 		}
@@ -204,10 +241,13 @@ public abstract class CollectionUtils {
 
 	/**
 	 * Find a single value of the given type in the given Collection.
-	 * @param collection the Collection to search
-	 * @param type the type to look for
-	 * @return a value of the given type found if there is a clear match, or <code>null</code> if none or more than one
-	 *         such value found
+	 * 
+	 * @param collection
+	 *            the Collection to search
+	 * @param type
+	 *            the type to look for
+	 * @return a value of the given type found if there is a clear match, or
+	 *         <code>null</code> if none or more than one such value found
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T findValueOfType(Collection<?> collection, Class<T> type) {
@@ -228,14 +268,20 @@ public abstract class CollectionUtils {
 	}
 
 	/**
-	 * Find a single value of one of the given types in the given Collection: searching the Collection for a value of
-	 * the first type, then searching for a value of the second type, etc.
-	 * @param collection the collection to search
-	 * @param types the types to look for, in prioritized order
-	 * @return a value of one of the given types found if there is a clear match, or <code>null</code> if none or more
-	 *         than one such value found
+	 * Find a single value of one of the given types in the given Collection:
+	 * searching the Collection for a value of the first type, then searching
+	 * for a value of the second type, etc.
+	 * 
+	 * @param collection
+	 *            the collection to search
+	 * @param types
+	 *            the types to look for, in prioritized order
+	 * @return a value of one of the given types found if there is a clear
+	 *         match, or <code>null</code> if none or more than one such value
+	 *         found
 	 */
-	public static Object findValueOfType(Collection<?> collection, Class<?>[] types) {
+	public static Object findValueOfType(Collection<?> collection,
+			Class<?>[] types) {
 		if (isEmpty(collection) || ObjectUtils.isEmpty(types)) {
 			return null;
 		}
@@ -249,10 +295,14 @@ public abstract class CollectionUtils {
 	}
 
 	/**
-	 * Determine whether the given Collection only contains a single unique object.
-	 * @param collection the Collection to check
-	 * @return <code>true</code> if the collection contains a single reference or multiple references to the same
-	 *         instance, <code>false</code> else
+	 * Determine whether the given Collection only contains a single unique
+	 * object.
+	 * 
+	 * @param collection
+	 *            the Collection to check
+	 * @return <code>true</code> if the collection contains a single reference
+	 *         or multiple references to the same instance, <code>false</code>
+	 *         else
 	 */
 	public static boolean hasUniqueObject(Collection<?> collection) {
 		if (isEmpty(collection)) {
@@ -273,9 +323,11 @@ public abstract class CollectionUtils {
 
 	/**
 	 * Find the common element type of the given Collection, if any.
-	 * @param collection the Collection to check
-	 * @return the common element type, or <code>null</code> if no clear common type has been found (or the collection
-	 *         was empty)
+	 * 
+	 * @param collection
+	 *            the Collection to check
+	 * @return the common element type, or <code>null</code> if no clear common
+	 *         type has been found (or the collection was empty)
 	 */
 	public static Class<?> findCommonElementType(Collection<?> collection) {
 		if (isEmpty(collection)) {
@@ -295,10 +347,13 @@ public abstract class CollectionUtils {
 	}
 
 	/**
-	 * Marshal the elements from the given enumeration into an array of the given type. Enumeration elements must be
-	 * assignable to the type of the given array. The array returned will be a different instance than the array given.
+	 * Marshal the elements from the given enumeration into an array of the
+	 * given type. Enumeration elements must be assignable to the type of the
+	 * given array. The array returned will be a different instance than the
+	 * array given.
 	 */
-	public static <A, E extends A> A[] toArray(Enumeration<E> enumeration, A[] array) {
+	public static <A, E extends A> A[] toArray(Enumeration<E> enumeration,
+			A[] array) {
 		ArrayList<A> elements = new ArrayList<A>();
 		while (enumeration.hasMoreElements()) {
 			elements.add(enumeration.nextElement());
@@ -308,7 +363,9 @@ public abstract class CollectionUtils {
 
 	/**
 	 * Adapt an enumeration to an iterator.
-	 * @param enumeration the enumeration
+	 * 
+	 * @param enumeration
+	 *            the enumeration
 	 * @return the iterator
 	 */
 	public static <E> Iterator<E> toIterator(Enumeration<E> enumeration) {
@@ -326,14 +383,17 @@ public abstract class CollectionUtils {
 			this.enumeration = enumeration;
 		}
 
+		@Override
 		public boolean hasNext() {
 			return this.enumeration.hasMoreElements();
 		}
 
+		@Override
 		public E next() {
 			return this.enumeration.nextElement();
 		}
 
+		@Override
 		public void remove() throws UnsupportedOperationException {
 			throw new UnsupportedOperationException("Not supported");
 		}

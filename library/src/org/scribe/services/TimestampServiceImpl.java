@@ -7,62 +7,56 @@ import java.util.*;
  * 
  * @author Pablo Fernandez
  */
-public class TimestampServiceImpl implements TimestampService
-{
-  private Timer timer;
+public class TimestampServiceImpl implements TimestampService {
+	private Timer timer;
 
-  /**
-   * Default constructor. 
-   */
-  public TimestampServiceImpl()
-  {
-    timer = new Timer();
-  }
+	/**
+	 * Default constructor.
+	 */
+	public TimestampServiceImpl() {
+		timer = new Timer();
+	}
 
-  /**
-   * {@inheritDoc}
-   */
-  public String getNonce()
-  {
-    Long ts = getTs();
-    return String.valueOf(ts + timer.getRandomInteger());
-  }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getNonce() {
+		Long ts = getTs();
+		return String.valueOf(ts + timer.getRandomInteger());
+	}
 
-  /**
-   * {@inheritDoc}
-   */
-  public String getTimestampInSeconds()
-  {
-    return String.valueOf(getTs());
-  }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getTimestampInSeconds() {
+		return String.valueOf(getTs());
+	}
 
-  private Long getTs()
-  {
-    return timer.getMilis() / 1000;
-  }
+	private Long getTs() {
+		return timer.getMilis() / 1000;
+	}
 
-  void setTimer(Timer timer)
-  {
-    this.timer = timer;
-  }
+	void setTimer(Timer timer) {
+		this.timer = timer;
+	}
 
-  /**
-   * Inner class that uses {@link System} for generating the timestamps.
-   * 
-   * @author Pablo Fernandez
-   */
-  static class Timer
-  {
-    private final Random rand = new Random();
-    Long getMilis()
-    {
-      return System.currentTimeMillis();
-    }
+	/**
+	 * Inner class that uses {@link System} for generating the timestamps.
+	 * 
+	 * @author Pablo Fernandez
+	 */
+	static class Timer {
+		private final Random rand = new Random();
 
-    Integer getRandomInteger()
-    {
-      return rand.nextInt();
-    }
-  }
+		Long getMilis() {
+			return System.currentTimeMillis();
+		}
+
+		Integer getRandomInteger() {
+			return rand.nextInt();
+		}
+	}
 
 }
