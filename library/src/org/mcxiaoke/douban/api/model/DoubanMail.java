@@ -5,25 +5,28 @@ package org.mcxiaoke.douban.api.model;
 
 import java.util.Date;
 
+import org.mcxiaoke.douban.api.parser.DoubanDateDeserializer;
+import org.mcxiaoke.douban.api.parser.DoubanMailStatusDeserializer;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * @author mcxiaoke
  * 
  */
 public class DoubanMail extends AbstractModel {
-	public static enum Status {
-		READ, UNREAD;
-	}
 
 	@JsonProperty("id")
 	private long id;
+	@JsonDeserialize(using = DoubanMailStatusDeserializer.class)
 	@JsonProperty("status")
-	private String status;
+	private boolean unread;
 	@JsonProperty("title")
 	private String title;
+	@JsonDeserialize(using = DoubanDateDeserializer.class)
 	@JsonProperty("published")
-	private Date published;
+	private Date createdAt;
 	@JsonProperty("content")
 	private String content;
 	@JsonProperty("sender")
@@ -39,12 +42,12 @@ public class DoubanMail extends AbstractModel {
 		this.id = id;
 	}
 
-	public String getStatus() {
-		return status;
+	public boolean isUnread() {
+		return unread;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setUnread(boolean unread) {
+		this.unread = unread;
 	}
 
 	public String getTitle() {
@@ -55,12 +58,12 @@ public class DoubanMail extends AbstractModel {
 		this.title = title;
 	}
 
-	public Date getPublished() {
-		return published;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setPublished(Date published) {
-		this.published = published;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public String getContent() {
@@ -85,6 +88,27 @@ public class DoubanMail extends AbstractModel {
 
 	public void setReceiver(DoubanUser receiver) {
 		this.receiver = receiver;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanMail [id=");
+		builder.append(id);
+		builder.append(", unread=");
+		builder.append(unread);
+		builder.append(", title=");
+		builder.append(title);
+		builder.append(", createdAt=");
+		builder.append(createdAt);
+		builder.append(", content=");
+		builder.append(content);
+		builder.append(", sender=");
+		builder.append(sender);
+		builder.append(", receiver=");
+		builder.append(receiver);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }

@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
  * @author mcxiaoke
  * 
  */
-public class EventTypeDeserializer extends JsonDeserializer<DoubanEventType> {
+public class DoubanEventTypeDeserializer extends JsonDeserializer<DoubanEventType> {
 
 	@Override
 	public DoubanEventType deserialize(JsonParser parser,

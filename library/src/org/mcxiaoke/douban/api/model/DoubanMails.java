@@ -23,4 +23,19 @@ public class DoubanMails extends AbstractListModel {
 		this.mails = mails;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanMails [mails=");
+		builder.append(mails);
+		builder.append(", getCount()=");
+		builder.append(getCount());
+		builder.append(", getStart()=");
+		builder.append(getStart());
+		builder.append(", getTotal()=");
+		builder.append(getTotal());
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

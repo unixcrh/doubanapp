@@ -42,4 +42,17 @@ public class DoubanImage extends AbstractModel {
 		this.medium = medium;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanImage [small=");
+		builder.append(small);
+		builder.append(", large=");
+		builder.append(large);
+		builder.append(", medium=");
+		builder.append(medium);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }
