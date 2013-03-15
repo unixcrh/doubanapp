@@ -32,7 +32,7 @@ public class DoubanUser extends AbstractModel {
 	@JsonProperty("large_avatar")
 	private String largeAvatar;
 	@JsonProperty("alt")
-	private String alt;
+	private String webUrl;
 	@JsonProperty("relation")
 	private String relation;
 	@JsonDeserialize(using = DateDeserializer.class)
@@ -43,7 +43,7 @@ public class DoubanUser extends AbstractModel {
 	@JsonProperty("loc_name")
 	private String locName;
 	@JsonProperty("desc")
-	private String desc;
+	private String description;
 
 	public long getId() {
 		return id;
@@ -101,12 +101,12 @@ public class DoubanUser extends AbstractModel {
 		this.largeAvatar = largeAvatar;
 	}
 
-	public String getAlt() {
-		return alt;
+	public String getWebUrl() {
+		return webUrl;
 	}
 
-	public void setAlt(String alt) {
-		this.alt = alt;
+	public void setWebUrl(String webUrl) {
+		this.webUrl = webUrl;
 	}
 
 	public String getRelation() {
@@ -141,12 +141,12 @@ public class DoubanUser extends AbstractModel {
 		this.locName = locName;
 	}
 
-	public String getDesc() {
-		return desc;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override
@@ -164,8 +164,8 @@ public class DoubanUser extends AbstractModel {
 		builder.append(smallAvatar);
 		builder.append(", largeAvatar=");
 		builder.append(largeAvatar);
-		builder.append(", alt=");
-		builder.append(alt);
+		builder.append(", webUrl=");
+		builder.append(webUrl);
 		builder.append(", relation=");
 		builder.append(relation);
 		builder.append(", createdAt=");
@@ -175,7 +175,7 @@ public class DoubanUser extends AbstractModel {
 		builder.append(", locName=");
 		builder.append(locName);
 		builder.append(", desc=");
-		builder.append(desc);
+		builder.append(description);
 		builder.append("]");
 		return builder.toString();
 	}

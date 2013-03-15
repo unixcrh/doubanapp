@@ -5,7 +5,6 @@ package org.mcxiaoke.douban.api.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
 /**
  * @author mcxiaoke
  * 
@@ -16,7 +15,7 @@ public class DoubanAuthor extends AbstractModel {
 	@JsonProperty("name")
 	private String name;
 	@JsonProperty("alt")
-	private String alt;
+	private String webUrl;
 	@JsonProperty("avatars")
 	private DoubanImage avatars;
 
@@ -36,12 +35,12 @@ public class DoubanAuthor extends AbstractModel {
 		this.name = name;
 	}
 
-	public String getAlt() {
-		return alt;
+	public String getWebUrl() {
+		return webUrl;
 	}
 
-	public void setAlt(String alt) {
-		this.alt = alt;
+	public void setWebUrl(String webUrl) {
+		this.webUrl = webUrl;
 	}
 
 	public DoubanImage getAvatars() {
@@ -50,6 +49,21 @@ public class DoubanAuthor extends AbstractModel {
 
 	public void setAvatars(DoubanImage avatars) {
 		this.avatars = avatars;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanAuthor [id=");
+		builder.append(id);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", webUrl=");
+		builder.append(webUrl);
+		builder.append(", avatars=");
+		builder.append(avatars);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }

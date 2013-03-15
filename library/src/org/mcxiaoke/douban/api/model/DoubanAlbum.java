@@ -20,17 +20,17 @@ public class DoubanAlbum extends AbstractModel {
 	@JsonProperty("id")
 	private long id;
 	@JsonProperty("alt")
-	private String alt;
+	private String webUrl;
 	@JsonProperty("album_title")
 	private String albumTitle;
 	@JsonProperty("desc")
-	private String desc;
+	private String description;
 	@JsonDeserialize(using = DateDeserializer.class)
 	@JsonProperty("created")
-	private Date created;
+	private Date createdAt;
 	@JsonDeserialize(using = DateDeserializer.class)
 	@JsonProperty("updated")
-	private Date updated;
+	private Date updatedAt;
 	@JsonProperty("liked")
 	private boolean liked;
 	@JsonProperty("icon")
@@ -42,7 +42,7 @@ public class DoubanAlbum extends AbstractModel {
 	@JsonProperty("image")
 	private String image;
 	@JsonProperty("recs_count")
-	private int recsCount;
+	private int recommendedCount;
 	@JsonProperty("liked_count")
 	private int likedCount;
 	@JsonProperty("comments_count")
@@ -60,12 +60,12 @@ public class DoubanAlbum extends AbstractModel {
 		this.id = id;
 	}
 
-	public String getAlt() {
-		return alt;
+	public String getWebUrl() {
+		return webUrl;
 	}
 
-	public void setAlt(String alt) {
-		this.alt = alt;
+	public void setWebUrl(String webUrl) {
+		this.webUrl = webUrl;
 	}
 
 	public String getAlbumTitle() {
@@ -76,28 +76,28 @@ public class DoubanAlbum extends AbstractModel {
 		this.albumTitle = albumTitle;
 	}
 
-	public String getDesc() {
-		return desc;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public Date getCreated() {
-		return created;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setCreated(Date created) {
-		this.created = created;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
-	public Date getUpdated() {
-		return updated;
+	public Date getUpdatedAt() {
+		return updatedAt;
 	}
 
-	public void setUpdated(Date updated) {
-		this.updated = updated;
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
 	public boolean isLiked() {
@@ -140,12 +140,12 @@ public class DoubanAlbum extends AbstractModel {
 		this.image = image;
 	}
 
-	public int getRecsCount() {
-		return recsCount;
+	public int getRecommendedCount() {
+		return recommendedCount;
 	}
 
-	public void setRecsCount(int recsCount) {
-		this.recsCount = recsCount;
+	public void setRecommendedCount(int recommendedCount) {
+		this.recommendedCount = recommendedCount;
 	}
 
 	public int getLikedCount() {
@@ -178,6 +178,45 @@ public class DoubanAlbum extends AbstractModel {
 
 	public void setAuthor(DoubanUser author) {
 		this.author = author;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanAlbum [id=");
+		builder.append(id);
+		builder.append(", webUrl=");
+		builder.append(webUrl);
+		builder.append(", albumTitle=");
+		builder.append(albumTitle);
+		builder.append(", description=");
+		builder.append(description);
+		builder.append(", createdAt=");
+		builder.append(createdAt);
+		builder.append(", updatedAt=");
+		builder.append(updatedAt);
+		builder.append(", liked=");
+		builder.append(liked);
+		builder.append(", icon=");
+		builder.append(icon);
+		builder.append(", thumb=");
+		builder.append(thumb);
+		builder.append(", cover=");
+		builder.append(cover);
+		builder.append(", image=");
+		builder.append(image);
+		builder.append(", recommendedCount=");
+		builder.append(recommendedCount);
+		builder.append(", likedCount=");
+		builder.append(likedCount);
+		builder.append(", commentsCount=");
+		builder.append(commentsCount);
+		builder.append(", privacy=");
+		builder.append(privacy);
+		builder.append(", author=");
+		builder.append(author);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }

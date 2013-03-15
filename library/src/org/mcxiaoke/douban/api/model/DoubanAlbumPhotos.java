@@ -53,4 +53,19 @@ public class DoubanAlbumPhotos extends AbstractListModel {
 		this.photos = photos;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanAlbumPhotos [order=");
+		builder.append(order);
+		builder.append(", sortBy=");
+		builder.append(sortBy);
+		builder.append(", album=");
+		builder.append(album);
+		builder.append(", photos=");
+		builder.append(photos);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }
