@@ -5,28 +5,46 @@ package org.mcxiaoke.douban.api.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author mcxiaoke
  * 
  */
 public class DoubanMusic extends AbstractModel {
+	@JsonProperty("rating")
 	private DoubanRate rating;
+	@JsonProperty("author")
 	private List<String> author;
+	@JsonProperty("alt_title")
 	private String altTitle;
+	@JsonProperty("image")
 	private String image;
+	@JsonProperty("title")
 	private String title;
+	@JsonProperty("mobile_link")
 	private String mobileLink;
+	@JsonProperty("summary")
 	private String summary;
+	@JsonProperty("publisher")
 	private String publisher;
+	@JsonProperty("singer")
 	private String singer;
+	@JsonProperty("version")
 	private String version;
+	@JsonProperty("pubdate")
 	private String pubdate;
+	@JsonProperty("media")
 	private String media;
+	@JsonProperty("tracks")
 	private List<String> tracks;
+	@JsonProperty("discs")
 	private int discs;
+	@JsonProperty("alt")
 	private String alt;
+	@JsonProperty("id")
 	private long id;
+	@JsonProperty("tags")
 	private List<DoubanTag> tags;
 
 	public DoubanRate getRating() {

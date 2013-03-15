@@ -3,14 +3,18 @@
  */
 package org.mcxiaoke.douban.api.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author mcxiaoke
  * 
  */
 public class DoubanTag extends AbstractModel {
+	@JsonProperty("count")
 	private int count;
+	@JsonProperty("name")
 	private String name;
+	@JsonProperty("title")
 	private String title;
 
 	public int getCount() {

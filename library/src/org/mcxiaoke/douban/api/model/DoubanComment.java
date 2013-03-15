@@ -5,15 +5,21 @@ package org.mcxiaoke.douban.api.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 /**
  * @author mcxiaoke
  * 
  */
 public class DoubanComment extends AbstractModel {
+	@JsonProperty("id")
 	private long id;
+	@JsonProperty("created")
 	private Date created;
+	@JsonProperty("content")
 	private String content;
+	@JsonProperty("author")
 	private DoubanUser author;
 
 	public long getId() {

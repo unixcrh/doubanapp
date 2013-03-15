@@ -5,6 +5,7 @@ package org.mcxiaoke.douban.api.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author mcxiaoke
@@ -15,12 +16,19 @@ public class DoubanMail extends AbstractModel {
 		READ, UNREAD;
 	}
 
+	@JsonProperty("id")
 	private long id;
+	@JsonProperty("status")
 	private String status;
+	@JsonProperty("title")
 	private String title;
+	@JsonProperty("published")
 	private Date published;
+	@JsonProperty("content")
 	private String content;
+	@JsonProperty("sender")
 	private DoubanUser sender;
+	@JsonProperty("receiver")
 	private DoubanUser receiver;
 
 	public long getId() {

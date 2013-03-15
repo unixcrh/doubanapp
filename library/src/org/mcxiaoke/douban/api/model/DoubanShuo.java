@@ -6,31 +6,55 @@ package org.mcxiaoke.douban.api.model;
 import java.util.Date;
 import java.util.List;
 
+import org.mcxiaoke.douban.api.parser.DateDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * @author mcxiaoke
  * 
  */
 public class DoubanShuo extends AbstractModel {
+	@JsonProperty("id")
 	private long id;
+	@JsonProperty("type")
 	private String type;
+	@JsonProperty("category")
 	private String category;
+	@JsonProperty("title")
 	private String title;
+	@JsonProperty("text")
 	private String text;
+	@JsonDeserialize(using = DateDeserializer.class)
+	@JsonProperty("created")
 	private Date createdAt;
+	@JsonProperty("is_follow")
 	private boolean isFollow;
+	@JsonProperty("has_photo")
 	private boolean hasPhoto;
+	@JsonProperty("muted")
 	private boolean muted;
+	@JsonProperty("can_reply")
 	private boolean canReply;
+	@JsonProperty("liked")
 	private boolean liked;
+	@JsonProperty("reshared_count")
 	private int resharedCount;
+	@JsonProperty("like_count")
 	private int likeCount;
+	@JsonProperty("comments_count")
 	private int commentsCount;
 
+	@JsonProperty("attachments")
 	private List<DoubanShuoAttachment> attachments;
+	@JsonProperty("entities")
 	private List<DoubanShuoEntity> entities;
+	@JsonProperty("users")
 	private List<DoubanUser> users;
+	@JsonProperty("reshare_status")
 	private DoubanShuo resharedStatus;
+	@JsonProperty("source")
 	private DoubanSource source;
 
 	public long getId() {

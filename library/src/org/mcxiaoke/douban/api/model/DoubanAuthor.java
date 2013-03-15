@@ -3,15 +3,21 @@
  */
 package org.mcxiaoke.douban.api.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 /**
  * @author mcxiaoke
  * 
  */
 public class DoubanAuthor extends AbstractModel {
+	@JsonProperty("id")
 	private long id;
+	@JsonProperty("name")
 	private String name;
+	@JsonProperty("alt")
 	private String alt;
+	@JsonProperty("avatars")
 	private DoubanImage avatars;
 
 	public long getId() {

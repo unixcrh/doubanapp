@@ -5,31 +5,52 @@ package org.mcxiaoke.douban.api.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author mcxiaoke
  * 
  */
-public class DoubanPhoto extends DoubanAlbum {
+public class DoubanPhoto extends AbstractModel {
+	@JsonProperty("id")
 	private long id;
+	@JsonProperty("alt")
 	private String alt;
+	@JsonProperty("album_title")
 	private String albumTitle;
+	@JsonProperty("desc")
 	private String desc;
+	@JsonProperty("created")
 	private Date created;
+	@JsonProperty("updated")
 	private Date updated;
+	@JsonProperty("album_id")
 	private long albumId;
+	@JsonProperty("position")
 	private int position;
+	@JsonProperty("prev_photo")
 	private long prevPhoto;
+	@JsonProperty("next_photo")
 	private long nextPhoto;
+	@JsonProperty("liked")
 	private boolean liked;
+	@JsonProperty("icon")
 	private String icon;
+	@JsonProperty("thumb")
 	private String thumb;
+	@JsonProperty("cover")
 	private String cover;
+	@JsonProperty("image")
 	private String image;
+	@JsonProperty("resc_count")
 	private int recsCount;
+	@JsonProperty("liked_count")
 	private int likedCount;
+	@JsonProperty("comments_count")
 	private int commentsCount;
+	@JsonProperty("privacy")
 	private String privacy;
+	@JsonProperty("author")
 	private DoubanUser author;
 
 	public long getId() {

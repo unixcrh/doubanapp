@@ -3,14 +3,19 @@
  */
 package org.mcxiaoke.douban.api.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 /**
  * @author mcxiaoke
  * 
  */
 public class DoubanImage extends AbstractModel {
+	@JsonProperty("small")
 	private String small;
+	@JsonProperty("large")
 	private String large;
+	@JsonProperty("medium")
 	private String medium;
 
 	public String getSmall() {

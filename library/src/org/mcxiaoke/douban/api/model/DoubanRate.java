@@ -3,16 +3,22 @@
  */
 package org.mcxiaoke.douban.api.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author mcxiaoke
  * 
  */
 public class DoubanRate extends AbstractModel {
+	@JsonProperty("max")
 	private int max;
+	@JsonProperty("min")
 	private int min;
+	@JsonProperty("average")
 	private int average;
+	@JsonProperty("stars")
 	private int stars;
+	@JsonProperty("numRaterss")
 	private int numRaters;
 
 	public int getMax() {

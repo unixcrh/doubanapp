@@ -5,46 +5,78 @@ package org.mcxiaoke.douban.api.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author mcxiaoke
  * 
  */
 public class DoubanMovie extends AbstractModel {
+	@JsonProperty("rating")
 	private DoubanRate rating;
+	@JsonProperty("reviews_count")
 	private int reviewsCount;
+	@JsonProperty("wish_count")
 	private int wishCount;
+	@JsonProperty("collect_count")
 	private int collectCount;
+	@JsonProperty("comments_count")
 	private int commentsCount;
+	@JsonProperty("ratings_count")
 	private int ratingsCount;
+	@JsonProperty("douban_site")
 	private String doubanSite;
+	@JsonProperty("year")
 	private int year;
+	@JsonProperty("images")
 	private DoubanImage images;
+	@JsonProperty("alt")
 	private String alt;
+	@JsonProperty("id")
 	private long id;
+	@JsonProperty("mobie_url")
 	private String mobileUrl;
+	@JsonProperty("title")
 	private String title;
+	@JsonProperty("original_title")
 	private String originalTitle;
+	@JsonProperty("summay")
 	private String summary;
+	@JsonProperty("subtype")
 	private String subtype;
+	@JsonProperty("do_count")
 	private int doCount;
+	@JsonProperty("seasons_count")
 	private int seasonsCount;
+	@JsonProperty("current_season")
 	private int currentSeason;
+	@JsonProperty("episodes_count")
 	private int episodesCount;
+	@JsonProperty("schedule_url")
 	private String scheduleUrl;
+	@JsonProperty("genres")
 	private List<String> genres;
+	@JsonProperty("contries")
 	private List<String> contries;
+	@JsonProperty("aka")
 	private List<String> aka;
+	@JsonProperty("casts")
 	private List<DoubanAuthor> casts;
+	@JsonProperty("directors")
 	private List<DoubanAuthor> directors;
-
+	@JsonProperty("writers")
 	private List<DoubanAuthor> writers;
-
+	@JsonProperty("website")
 	private String website;
+	@JsonProperty("languages")
 	private List<String> languages;
+	@JsonProperty("durations")
 	private int durations;
+	@JsonProperty("pubdates")
 	private String pubdates;
+	@JsonProperty("mainland_pubdates")
 	private String mainlandPubdates;
+	@JsonProperty("pubdate")
 	private String pubdate;
 
 	public DoubanRate getRating() {

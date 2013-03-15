@@ -5,33 +5,52 @@ package org.mcxiaoke.douban.api.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author mcxiaoke
  * 
  */
 public class DoubanBook extends AbstractModel {
+	@JsonProperty("id")
 	private long id;
+	@JsonProperty("publisher")
 	private String publisher;
+	@JsonProperty("title")
 	private String title;
+	@JsonProperty("sub_title")
 	private String subTitle;
+	@JsonProperty("original_title")
 	private String originalTitle;
+	@JsonProperty("alt_title")
 	private String altTitle;
+	@JsonProperty("author_intro")
 	private String authorIntro;
+	@JsonProperty("pubdate")
 	private String pubDate;
-
+	@JsonProperty("isbn10")
 	private String isbn10;
+	@JsonProperty("isbn13")
 	private String isbn13;
-
+	@JsonProperty("binding")
 	private String binding;
+	@JsonProperty("url")
 	private String url;
+	@JsonProperty("image")
 	private String image;
+	@JsonProperty("price")
 	private String price;
+	@JsonProperty("pages")
 	private int pages;
+	@JsonProperty("author")
 	private List<String> author;
+	@JsonProperty("translator")
 	private List<String> translator;
+	@JsonProperty("tags")
 	private List<DoubanTag> tags;
+	@JsonProperty("rating")
 	private DoubanRate rating;
+	@JsonProperty("images")
 	private DoubanImage images;
 
 	public long getId() {

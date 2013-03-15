@@ -6,23 +6,36 @@ package org.mcxiaoke.douban.api.model;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author mcxiaoke
  * 
  */
 public class DoubanNote extends AbstractModel {
+	@JsonProperty("id")
 	private long id;
+	@JsonProperty("title")
 	private String title;
+	@JsonProperty("alt")
 	private String alt;
+	@JsonProperty("privacy")
 	private String privacy;
+	@JsonProperty("summary")
 	private String summary;
+	@JsonProperty("content")
 	private String content;
+	@JsonProperty("publish_time")
 	private Date publishTime;
+	@JsonProperty("udpate_time")
 	private Date updateTime;
+	@JsonProperty("resc_count")
 	private int recsCount;
+	@JsonProperty("comments_count")
 	private int commentsCount;
+	@JsonProperty("liked_count")
 	private int likedCount;
+	@JsonProperty("photos")
 	private List<String> photos;
 
 	public long getId() {

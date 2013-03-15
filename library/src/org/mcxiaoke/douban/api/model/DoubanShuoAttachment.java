@@ -2,14 +2,22 @@ package org.mcxiaoke.douban.api.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DoubanShuoAttachment extends AbstractModel {
+	@JsonProperty("description")
 	private String description;
+	@JsonProperty("title")
 	private String title;
+	@JsonProperty("media")
 	private List<DoubanShuoMedia> media;
+	@JsonProperty("expanded_href")
 	private String expandedHref;
+	@JsonProperty("caption")
 	private String caption;
+	@JsonProperty("type")
 	private String type;
+	@JsonProperty("properties")
 	private List<DoubanShuoProperty> properties;
 
 	public String getDescription() {

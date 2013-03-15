@@ -6,34 +6,58 @@ package org.mcxiaoke.douban.api.model;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author mcxiaoke
  * 
  */
 public class DoubanOnline extends AbstractModel {
+	@JsonProperty("liked")
 	private boolean liked;
+	@JsonProperty("album_id")
 	private long albumId;
+	@JsonProperty("image")
 	private String image;
+	@JsonProperty("resc_count")
 	private int recsCount;
+	@JsonProperty("owner")
 	private DoubanUser owner;
+	@JsonProperty("alt")
 	private String alt;
+	@JsonProperty("id")
 	private long id;
+	@JsonProperty("thumb")
 	private String thumb;
+	@JsonProperty("title")
 	private String title;
+	@JsonProperty("tags")
 	private List<String> tags;
+	@JsonProperty("related_url")
 	private String relatedUrl;
+	@JsonProperty("liked_count")
 	private int likedCount;
+	@JsonProperty("cascade_invite")
 	private boolean cascadeInvite;
+	@JsonProperty("desc")
 	private String desc;
+	@JsonProperty("participated")
 	private boolean participated;
+	@JsonProperty("shuo_topic")
 	private String shuoTopic;
+	@JsonProperty("begin_time")
 	private Date beginTime;
+	@JsonProperty("end_time")
 	private Date endTime;
+	@JsonProperty("icon")
 	private String icon;
+	@JsonProperty("cover")
 	private String cover;
+	@JsonProperty("created")
 	private Date created;
+	@JsonProperty("group_id")
 	private int groupId;
+	@JsonProperty("photo_count")
 	private int photoCount;
 
 	public boolean isLiked() {

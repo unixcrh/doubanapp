@@ -3,20 +3,30 @@
  */
 package org.mcxiaoke.douban.api.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author mcxiaoke
  * 
  */
 public class DoubanShuoMedia extends AbstractModel {
+	@JsonProperty("src")
 	private String src;
+	@JsonProperty("secret_pid")
 	private String secretPid;
+	@JsonProperty("original_src")
 	private String originalSrc;
+	@JsonProperty("href")
 	private String href;
+	@JsonProperty("type")
 	private String type;
+	@JsonProperty("imgsrc")
 	private String imgsrc;
+	@JsonProperty("title")
 	private String title;
+	@JsonProperty("artist")
 	private String artist;
+	@JsonProperty("album")
 	private String album;
 
 	public String getSrc() {

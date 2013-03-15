@@ -7,6 +7,7 @@ import java.util.Date;
 
 import org.mcxiaoke.douban.api.parser.DateDeserializer;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
@@ -16,18 +17,32 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * 
  */
 public class DoubanUser extends AbstractModel {
+	@JsonProperty("id")
 	private long id;
+	@JsonProperty("uid")
 	private String uid;
+	@JsonProperty("name")
 	private String name;
+	@JsonProperty("signature")
+	private String signature;
+	@JsonProperty("avatar")
 	private String avatar;
+	@JsonProperty("small_avatar")
 	private String smallAvatar;
+	@JsonProperty("large_avatar")
 	private String largeAvatar;
+	@JsonProperty("alt")
 	private String alt;
+	@JsonProperty("relation")
 	private String relation;
 	@JsonDeserialize(using = DateDeserializer.class)
-	private Date created;
+	@JsonProperty("created")
+	private Date createdAt;
+	@JsonProperty("loc_id")
 	private int locId;
+	@JsonProperty("loc_name")
 	private String locName;
+	@JsonProperty("desc")
 	private String desc;
 
 	public long getId() {
@@ -52,6 +67,14 @@ public class DoubanUser extends AbstractModel {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getSignature() {
+		return signature;
+	}
+
+	public void setSignature(String signature) {
+		this.signature = signature;
 	}
 
 	public String getAvatar() {
@@ -94,12 +117,12 @@ public class DoubanUser extends AbstractModel {
 		this.relation = relation;
 	}
 
-	public Date getCreated() {
-		return created;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setCreated(Date created) {
-		this.created = created;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public int getLocId() {
@@ -124,6 +147,37 @@ public class DoubanUser extends AbstractModel {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanUser [id=");
+		builder.append(id);
+		builder.append(", uid=");
+		builder.append(uid);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", avatar=");
+		builder.append(avatar);
+		builder.append(", smallAvatar=");
+		builder.append(smallAvatar);
+		builder.append(", largeAvatar=");
+		builder.append(largeAvatar);
+		builder.append(", alt=");
+		builder.append(alt);
+		builder.append(", relation=");
+		builder.append(relation);
+		builder.append(", createdAt=");
+		builder.append(createdAt);
+		builder.append(", locId=");
+		builder.append(locId);
+		builder.append(", locName=");
+		builder.append(locName);
+		builder.append(", desc=");
+		builder.append(desc);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }

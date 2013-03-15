@@ -40,7 +40,7 @@ import java.io.Writer;
  * @author Juergen Hoeller
  * @since 1.0
  */
-public abstract class FileCopyUtils {
+public abstract class FileUtils {
 
 	public static final int BUFFER_SIZE = 4096;
 

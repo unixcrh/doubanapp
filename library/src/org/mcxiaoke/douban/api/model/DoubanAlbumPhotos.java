@@ -5,43 +5,21 @@ package org.mcxiaoke.douban.api.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author mcxiaoke
  * 
  */
-public class DoubanAlbumPhotos extends AbstractModel {
-	private int count;
-	private int start;
-	private int total;
+public class DoubanAlbumPhotos extends AbstractListModel {
+	@JsonProperty("order")
 	private String order;
+	@JsonProperty("sortby")
 	private String sortBy;
+	@JsonProperty("album")
 	private DoubanAlbum album;
+	@JsonProperty("photos")
 	private List<DoubanPhoto> photos;
-
-	public int getCount() {
-		return count;
-	}
-
-	public void setCount(int count) {
-		this.count = count;
-	}
-
-	public int getStart() {
-		return start;
-	}
-
-	public void setStart(int start) {
-		this.start = start;
-	}
-
-	public int getTotal() {
-		return total;
-	}
-
-	public void setTotal(int total) {
-		this.total = total;
-	}
 
 	public String getOrder() {
 		return order;
