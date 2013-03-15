@@ -23,4 +23,19 @@ public class DoubanComments extends AbstractListModel {
 		this.comments = comments;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanComments [comments=");
+		builder.append(comments);
+		builder.append(", getCount()=");
+		builder.append(getCount());
+		builder.append(", getStart()=");
+		builder.append(getStart());
+		builder.append(", getTotal()=");
+		builder.append(getTotal());
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

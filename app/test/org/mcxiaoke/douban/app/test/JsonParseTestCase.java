@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.mcxiaoke.douban.api.model.DoubanAlbum;
 import org.mcxiaoke.douban.api.model.DoubanAlbumPhotos;
+import org.mcxiaoke.douban.api.model.DoubanComments;
 import org.mcxiaoke.douban.api.model.DoubanPhoto;
 import org.mcxiaoke.douban.api.model.DoubanShuo;
 import org.mcxiaoke.douban.api.model.DoubanUser;
@@ -51,7 +52,7 @@ public class JsonParseTestCase extends BaseTestCase {
 		debug(a);
 	}
 
-	public void testShuo() throws IOException {
+	public void atestShuo() throws IOException {
 		InputStream is = openAssets("json/shuo.json");
 		ObjectMapper om = new ObjectMapper();
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -63,6 +64,15 @@ public class JsonParseTestCase extends BaseTestCase {
 		for (DoubanShuo ds : a) {
 			debug(ds);
 		}
+	}
+
+	public void testComments() throws IOException {
+		InputStream is = openAssets("json/comments.json");
+		ObjectMapper om = new ObjectMapper();
+		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		DoubanComments a = om.readValue(is, DoubanComments.class);
+		assertNotNull(a);
+		debug(a);
 	}
 
 }
