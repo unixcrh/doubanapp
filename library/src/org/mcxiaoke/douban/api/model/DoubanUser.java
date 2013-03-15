@@ -5,7 +5,7 @@ package org.mcxiaoke.douban.api.model;
 
 import java.util.Date;
 
-import org.mcxiaoke.douban.api.parser.DateDeserializer;
+import org.mcxiaoke.douban.api.parser.DoubanDateDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -39,7 +39,7 @@ public class DoubanUser extends AbstractModel {
 	private String webUrl;
 	@JsonProperty("relation")
 	private String relation;
-	@JsonDeserialize(using = DateDeserializer.class)
+	@JsonDeserialize(using = DoubanDateDeserializer.class)
 	@JsonProperty("created")
 	private Date createdAt;
 	@JsonProperty("loc_id")

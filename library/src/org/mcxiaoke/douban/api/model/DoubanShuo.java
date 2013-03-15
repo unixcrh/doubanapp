@@ -6,7 +6,7 @@ package org.mcxiaoke.douban.api.model;
 import java.util.Date;
 import java.util.List;
 
-import org.mcxiaoke.douban.api.parser.DateDeserializer;
+import org.mcxiaoke.douban.api.parser.DoubanDateDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -26,7 +26,7 @@ public class DoubanShuo extends AbstractModel {
 	private String title;
 	@JsonProperty("text")
 	private String text;
-	@JsonDeserialize(using = DateDeserializer.class)
+	@JsonDeserialize(using = DoubanDateDeserializer.class)
 	@JsonProperty("created_at")
 	private Date createdAt;
 	@JsonProperty("is_follow")

@@ -5,7 +5,7 @@ package org.mcxiaoke.douban.api.model;
 
 import java.util.Date;
 
-import org.mcxiaoke.douban.api.parser.DateDeserializer;
+import org.mcxiaoke.douban.api.parser.DoubanDateDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -25,10 +25,10 @@ public class DoubanAlbum extends AbstractModel {
 	private String albumTitle;
 	@JsonProperty("desc")
 	private String description;
-	@JsonDeserialize(using = DateDeserializer.class)
+	@JsonDeserialize(using = DoubanDateDeserializer.class)
 	@JsonProperty("created")
 	private Date createdAt;
-	@JsonDeserialize(using = DateDeserializer.class)
+	@JsonDeserialize(using = DoubanDateDeserializer.class)
 	@JsonProperty("updated")
 	private Date updatedAt;
 	@JsonProperty("liked")

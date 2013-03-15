@@ -23,4 +23,19 @@ public class DoubanEvents extends AbstractListModel {
 		this.events = events;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanEvents [events=");
+		builder.append(events);
+		builder.append(", getCount()=");
+		builder.append(getCount());
+		builder.append(", getStart()=");
+		builder.append(getStart());
+		builder.append(", getTotal()=");
+		builder.append(getTotal());
+		builder.append("]");
+		return builder.toString();
+	}
+
 }
