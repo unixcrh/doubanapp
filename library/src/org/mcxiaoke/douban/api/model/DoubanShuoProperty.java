@@ -11,18 +11,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class DoubanShuoProperty extends AbstractModel {
 	@JsonProperty("href")
-	private String href;
+	private String webUrl;
 	@JsonProperty("uid")
 	private String uid;
 	@JsonProperty("name")
 	private String name;
 
-	public String getHref() {
-		return href;
+	public String getWebUrl() {
+		return webUrl;
 	}
 
-	public void setHref(String href) {
-		this.href = href;
+	public void setWebUrl(String webUrl) {
+		this.webUrl = webUrl;
 	}
 
 	public String getUid() {
@@ -39,6 +39,19 @@ public class DoubanShuoProperty extends AbstractModel {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanShuoProperty [webUrl=");
+		builder.append(webUrl);
+		builder.append(", uid=");
+		builder.append(uid);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }

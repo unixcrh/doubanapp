@@ -15,13 +15,13 @@ public class DoubanShuoMedia extends AbstractModel {
 	@JsonProperty("secret_pid")
 	private String secretPid;
 	@JsonProperty("original_src")
-	private String originalSrc;
+	private String imageUrl;
 	@JsonProperty("href")
-	private String href;
+	private String webUrl;
 	@JsonProperty("type")
 	private String type;
 	@JsonProperty("imgsrc")
-	private String imgsrc;
+	private String mediaUrl;
 	@JsonProperty("title")
 	private String title;
 	@JsonProperty("artist")
@@ -45,20 +45,20 @@ public class DoubanShuoMedia extends AbstractModel {
 		this.secretPid = secretPid;
 	}
 
-	public String getOriginalSrc() {
-		return originalSrc;
+	public String getImageUrl() {
+		return imageUrl;
 	}
 
-	public void setOriginalSrc(String originalSrc) {
-		this.originalSrc = originalSrc;
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
-	public String getHref() {
-		return href;
+	public String getWebUrl() {
+		return webUrl;
 	}
 
-	public void setHref(String href) {
-		this.href = href;
+	public void setWebUrl(String webUrl) {
+		this.webUrl = webUrl;
 	}
 
 	public String getType() {
@@ -69,12 +69,12 @@ public class DoubanShuoMedia extends AbstractModel {
 		this.type = type;
 	}
 
-	public String getImgsrc() {
-		return imgsrc;
+	public String getMediaUrl() {
+		return mediaUrl;
 	}
 
-	public void setImgsrc(String imgsrc) {
-		this.imgsrc = imgsrc;
+	public void setMediaUrl(String mediaUrl) {
+		this.mediaUrl = mediaUrl;
 	}
 
 	public String getTitle() {
@@ -99,6 +99,31 @@ public class DoubanShuoMedia extends AbstractModel {
 
 	public void setAlbum(String album) {
 		this.album = album;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanShuoMedia [src=");
+		builder.append(src);
+		builder.append(", secretPid=");
+		builder.append(secretPid);
+		builder.append(", imageUrl=");
+		builder.append(imageUrl);
+		builder.append(", webUrl=");
+		builder.append(webUrl);
+		builder.append(", type=");
+		builder.append(type);
+		builder.append(", mediaUrl=");
+		builder.append(mediaUrl);
+		builder.append(", title=");
+		builder.append(title);
+		builder.append(", artist=");
+		builder.append(artist);
+		builder.append(", album=");
+		builder.append(album);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }

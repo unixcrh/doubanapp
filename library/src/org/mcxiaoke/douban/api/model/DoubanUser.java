@@ -23,6 +23,10 @@ public class DoubanUser extends AbstractModel {
 	private String uid;
 	@JsonProperty("name")
 	private String name;
+	@JsonProperty("type")
+	private String type;
+	@JsonProperty("screen_name")
+	private String sceenName;
 	@JsonProperty("signature")
 	private String signature;
 	@JsonProperty("avatar")
@@ -67,6 +71,22 @@ public class DoubanUser extends AbstractModel {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getSceenName() {
+		return sceenName;
+	}
+
+	public void setSceenName(String sceenName) {
+		this.sceenName = sceenName;
 	}
 
 	public String getSignature() {

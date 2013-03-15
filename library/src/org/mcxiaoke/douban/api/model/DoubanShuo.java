@@ -27,7 +27,7 @@ public class DoubanShuo extends AbstractModel {
 	@JsonProperty("text")
 	private String text;
 	@JsonDeserialize(using = DateDeserializer.class)
-	@JsonProperty("created")
+	@JsonProperty("created_at")
 	private Date createdAt;
 	@JsonProperty("is_follow")
 	private boolean isFollow;
@@ -36,16 +36,15 @@ public class DoubanShuo extends AbstractModel {
 	@JsonProperty("muted")
 	private boolean muted;
 	@JsonProperty("can_reply")
-	private boolean canReply;
+	private int canReply;
 	@JsonProperty("liked")
 	private boolean liked;
 	@JsonProperty("reshared_count")
 	private int resharedCount;
 	@JsonProperty("like_count")
-	private int likeCount;
+	private int likedCount;
 	@JsonProperty("comments_count")
 	private int commentsCount;
-
 	@JsonProperty("attachments")
 	private List<DoubanShuoAttachment> attachments;
 	@JsonProperty("entities")
@@ -129,11 +128,11 @@ public class DoubanShuo extends AbstractModel {
 		this.muted = muted;
 	}
 
-	public boolean isCanReply() {
+	public int getCanReply() {
 		return canReply;
 	}
 
-	public void setCanReply(boolean canReply) {
+	public void setCanReply(int canReply) {
 		this.canReply = canReply;
 	}
 
@@ -153,12 +152,12 @@ public class DoubanShuo extends AbstractModel {
 		this.resharedCount = resharedCount;
 	}
 
-	public int getLikeCount() {
-		return likeCount;
+	public int getLikedCount() {
+		return likedCount;
 	}
 
-	public void setLikeCount(int likeCount) {
-		this.likeCount = likeCount;
+	public void setLikedCount(int likedCount) {
+		this.likedCount = likedCount;
 	}
 
 	public int getCommentsCount() {
@@ -207,6 +206,51 @@ public class DoubanShuo extends AbstractModel {
 
 	public void setSource(DoubanSource source) {
 		this.source = source;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanShuo [id=");
+		builder.append(id);
+		builder.append(", type=");
+		builder.append(type);
+		builder.append(", category=");
+		builder.append(category);
+		builder.append(", title=");
+		builder.append(title);
+		builder.append(", text=");
+		builder.append(text);
+		builder.append(", createdAt=");
+		builder.append(createdAt);
+		builder.append(", isFollow=");
+		builder.append(isFollow);
+		builder.append(", hasPhoto=");
+		builder.append(hasPhoto);
+		builder.append(", muted=");
+		builder.append(muted);
+		builder.append(", canReply=");
+		builder.append(canReply);
+		builder.append(", liked=");
+		builder.append(liked);
+		builder.append(", resharedCount=");
+		builder.append(resharedCount);
+		builder.append(", likedCount=");
+		builder.append(likedCount);
+		builder.append(", commentsCount=");
+		builder.append(commentsCount);
+		builder.append(", attachments=");
+		builder.append(attachments);
+		builder.append(", entities=");
+		builder.append(entities);
+		builder.append(", users=");
+		builder.append(users);
+		// builder.append(", resharedStatus=");
+		// builder.append(resharedStatus);
+		builder.append(", source=");
+		builder.append(source);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }

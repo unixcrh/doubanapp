@@ -12,7 +12,9 @@ public class DoubanShuoAttachment extends AbstractModel {
 	@JsonProperty("media")
 	private List<DoubanShuoMedia> media;
 	@JsonProperty("expanded_href")
-	private String expandedHref;
+	private String webUrl;
+	@JsonProperty("href")
+	private String shortUrl;
 	@JsonProperty("caption")
 	private String caption;
 	@JsonProperty("type")
@@ -44,12 +46,20 @@ public class DoubanShuoAttachment extends AbstractModel {
 		this.media = media;
 	}
 
-	public String getExpandedHref() {
-		return expandedHref;
+	public String getWebUrl() {
+		return webUrl;
 	}
 
-	public void setExpandedHref(String expandedHref) {
-		this.expandedHref = expandedHref;
+	public void setWebUrl(String webUrl) {
+		this.webUrl = webUrl;
+	}
+
+	public String getShortUrl() {
+		return shortUrl;
+	}
+
+	public void setShortUrl(String shortUrl) {
+		this.shortUrl = shortUrl;
 	}
 
 	public String getCaption() {
@@ -74,6 +84,29 @@ public class DoubanShuoAttachment extends AbstractModel {
 
 	public void setProperties(List<DoubanShuoProperty> properties) {
 		this.properties = properties;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanShuoAttachment [description=");
+		builder.append(description);
+		builder.append(", title=");
+		builder.append(title);
+		builder.append(", media=");
+		builder.append(media);
+		builder.append(", webUrl=");
+		builder.append(webUrl);
+		builder.append(", shortUrl=");
+		builder.append(shortUrl);
+		builder.append(", caption=");
+		builder.append(caption);
+		builder.append(", type=");
+		builder.append(type);
+		builder.append(", properties=");
+		builder.append(properties);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }
