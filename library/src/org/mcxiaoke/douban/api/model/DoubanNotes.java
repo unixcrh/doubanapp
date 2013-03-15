@@ -33,4 +33,21 @@ public class DoubanNotes extends AbstractListModel {
 		this.notes = notes;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanNotes [user=");
+		builder.append(user);
+		builder.append(", notes=");
+		builder.append(notes);
+		builder.append(", getCount()=");
+		builder.append(getCount());
+		builder.append(", getStart()=");
+		builder.append(getStart());
+		builder.append(", getTotal()=");
+		builder.append(getTotal());
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

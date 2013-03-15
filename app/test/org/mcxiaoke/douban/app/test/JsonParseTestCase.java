@@ -9,6 +9,8 @@ import org.mcxiaoke.douban.api.model.DoubanAlbumPhotos;
 import org.mcxiaoke.douban.api.model.DoubanComments;
 import org.mcxiaoke.douban.api.model.DoubanEvents;
 import org.mcxiaoke.douban.api.model.DoubanMails;
+import org.mcxiaoke.douban.api.model.DoubanNote;
+import org.mcxiaoke.douban.api.model.DoubanNotes;
 import org.mcxiaoke.douban.api.model.DoubanPhoto;
 import org.mcxiaoke.douban.api.model.DoubanShuo;
 import org.mcxiaoke.douban.api.model.DoubanUser;
@@ -86,11 +88,29 @@ public class JsonParseTestCase extends BaseTestCase {
 		debug(a);
 	}
 
-	public void testMails() throws IOException {
+	public void atestMails() throws IOException {
 		InputStream is = openAssets("json/mails.json");
 		ObjectMapper om = new ObjectMapper();
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		DoubanMails a = om.readValue(is, DoubanMails.class);
+		assertNotNull(a);
+		debug(a);
+	}
+
+	public void atestNote() throws IOException {
+		InputStream is = openAssets("json/note.json");
+		ObjectMapper om = new ObjectMapper();
+		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		DoubanNote a = om.readValue(is, DoubanNote.class);
+		assertNotNull(a);
+		debug(a);
+	}
+
+	public void atestNotes() throws IOException {
+		InputStream is = openAssets("json/notes.json");
+		ObjectMapper om = new ObjectMapper();
+		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		DoubanNotes a = om.readValue(is, DoubanNotes.class);
 		assertNotNull(a);
 		debug(a);
 	}

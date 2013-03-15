@@ -18,7 +18,7 @@ import android.text.TextUtils;
  */
 public final class DateTimeUtils {
 	// douban shuo date string format : created_at: "2013-03-13 10:08:09",
-	private static final String DATE_FORMAT_STRING_DOUBAN = "yyyy-MM-dd HH:mm";
+	private static final String DATE_FORMAT_STRING_DOUBAN = "yyyy-MM-dd HH:mm:ss";
 	public static final SimpleDateFormat DATE_FORMAT_DOUBAN = new SimpleDateFormat(
 			DATE_FORMAT_STRING_DOUBAN, Locale.US);
 	private static final ParsePosition PARSE_POSITION = new ParsePosition(0);

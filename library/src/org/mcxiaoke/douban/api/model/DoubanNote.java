@@ -6,7 +6,11 @@ package org.mcxiaoke.douban.api.model;
 import java.util.Date;
 import java.util.List;
 
+import org.mcxiaoke.douban.api.parser.DoubanDateDeserializer;
+import org.mcxiaoke.douban.api.parser.DoubanNotePhotosDeserializer;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * @author mcxiaoke
@@ -18,25 +22,30 @@ public class DoubanNote extends AbstractModel {
 	@JsonProperty("title")
 	private String title;
 	@JsonProperty("alt")
-	private String alt;
+	private String webUrl;
 	@JsonProperty("privacy")
 	private String privacy;
 	@JsonProperty("summary")
 	private String summary;
 	@JsonProperty("content")
 	private String content;
+	@JsonDeserialize(using = DoubanDateDeserializer.class)
 	@JsonProperty("publish_time")
-	private Date publishTime;
-	@JsonProperty("udpate_time")
-	private Date updateTime;
+	private Date createdAt;
+	@JsonDeserialize(using = DoubanDateDeserializer.class)
+	@JsonProperty("update_time")
+	private Date updatedAt;
 	@JsonProperty("resc_count")
-	private int recsCount;
+	private int recommendedCount;
 	@JsonProperty("comments_count")
 	private int commentsCount;
 	@JsonProperty("liked_count")
 	private int likedCount;
+	@JsonProperty("author")
+	private List<DoubanUser> authors;
+	@JsonDeserialize(using = DoubanNotePhotosDeserializer.class)
 	@JsonProperty("photos")
-	private List<String> photos;
+	private DoubanNotePhotos photos;
 
 	public long getId() {
 		return id;
@@ -54,12 +63,12 @@ public class DoubanNote extends AbstractModel {
 		this.title = title;
 	}
 
-	public String getAlt() {
-		return alt;
+	public String getWebUrl() {
+		return webUrl;
 	}
 
-	public void setAlt(String alt) {
-		this.alt = alt;
+	public void setWebUrl(String webUrl) {
+		this.webUrl = webUrl;
 	}
 
 	public String getPrivacy() {
@@ -86,28 +95,28 @@ public class DoubanNote extends AbstractModel {
 		this.content = content;
 	}
 
-	public Date getPublishTime() {
-		return publishTime;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setPublishTime(Date publishTime) {
-		this.publishTime = publishTime;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
-	public Date getUpdateTime() {
-		return updateTime;
+	public Date getUpdatedAt() {
+		return updatedAt;
 	}
 
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
-	public int getRecsCount() {
-		return recsCount;
+	public int getRecommendedCount() {
+		return recommendedCount;
 	}
 
-	public void setRecsCount(int recsCount) {
-		this.recsCount = recsCount;
+	public void setRecommendedCount(int recommendedCount) {
+		this.recommendedCount = recommendedCount;
 	}
 
 	public int getCommentsCount() {
@@ -126,12 +135,53 @@ public class DoubanNote extends AbstractModel {
 		this.likedCount = likedCount;
 	}
 
-	public List<String> getPhotos() {
+	public List<DoubanUser> getAuthors() {
+		return authors;
+	}
+
+	public void setAuthors(List<DoubanUser> authors) {
+		this.authors = authors;
+	}
+
+	public DoubanNotePhotos getPhotos() {
 		return photos;
 	}
 
-	public void setPhotos(List<String> photos) {
+	public void setPhotos(DoubanNotePhotos photos) {
 		this.photos = photos;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanNote [id=");
+		builder.append(id);
+		builder.append(", title=");
+		builder.append(title);
+		builder.append(", webUrl=");
+		builder.append(webUrl);
+		builder.append(", privacy=");
+		builder.append(privacy);
+		builder.append(", summary=");
+		builder.append(summary);
+		// builder.append(", content=");
+		// builder.append(content);
+		builder.append(", createdAt=");
+		builder.append(createdAt);
+		builder.append(", updatedAt=");
+		builder.append(updatedAt);
+		builder.append(", recommendedCount=");
+		builder.append(recommendedCount);
+		builder.append(", commentsCount=");
+		builder.append(commentsCount);
+		builder.append(", likedCount=");
+		builder.append(likedCount);
+		builder.append(", authors=");
+		builder.append(authors);
+		 builder.append(", photos=");
+		 builder.append(photos);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }
