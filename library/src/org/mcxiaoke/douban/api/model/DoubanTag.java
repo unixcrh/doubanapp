@@ -41,4 +41,17 @@ public class DoubanTag extends AbstractModel {
 		this.title = title;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanTag [count=");
+		builder.append(count);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", title=");
+		builder.append(title);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

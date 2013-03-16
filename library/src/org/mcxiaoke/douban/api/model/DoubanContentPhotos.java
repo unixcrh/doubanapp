@@ -13,7 +13,7 @@ import android.util.Log;
  * @author mcxiaoke
  * 
  */
-public class DoubanNotePhotos extends AbstractModel {
+public class DoubanContentPhotos extends AbstractModel {
 	private ArrayList<Integer> ids = new ArrayList<Integer>();
 	private ArrayList<String> urls = new ArrayList<String>();
 

@@ -24,10 +24,12 @@ public class DoubanBook extends AbstractModel {
 	private String originalTitle;
 	@JsonProperty("alt_title")
 	private String altTitle;
+	@JsonProperty("alt")
+	private String webUrl;
 	@JsonProperty("author_intro")
-	private String authorIntro;
+	private String authorIntroduction;
 	@JsonProperty("pubdate")
-	private String pubDate;
+	private String publishDate;
 	@JsonProperty("isbn10")
 	private String isbn10;
 	@JsonProperty("isbn13")
@@ -41,15 +43,17 @@ public class DoubanBook extends AbstractModel {
 	@JsonProperty("price")
 	private String price;
 	@JsonProperty("pages")
-	private int pages;
+	private String pages;
+	@JsonProperty("summary")
+	private String summary;
 	@JsonProperty("author")
-	private List<String> author;
+	private List<String> authors;
 	@JsonProperty("translator")
-	private List<String> translator;
+	private List<String> translators;
 	@JsonProperty("tags")
 	private List<DoubanTag> tags;
 	@JsonProperty("rating")
-	private DoubanRate rating;
+	private DoubanRate rate;
 	@JsonProperty("images")
 	private DoubanImage images;
 
@@ -101,20 +105,28 @@ public class DoubanBook extends AbstractModel {
 		this.altTitle = altTitle;
 	}
 
-	public String getAuthorIntro() {
-		return authorIntro;
+	public String getWebUrl() {
+		return webUrl;
 	}
 
-	public void setAuthorIntro(String authorIntro) {
-		this.authorIntro = authorIntro;
+	public void setWebUrl(String webUrl) {
+		this.webUrl = webUrl;
 	}
 
-	public String getPubDate() {
-		return pubDate;
+	public String getAuthorIntroduction() {
+		return authorIntroduction;
 	}
 
-	public void setPubDate(String pubDate) {
-		this.pubDate = pubDate;
+	public void setAuthorIntroduction(String authorIntroduction) {
+		this.authorIntroduction = authorIntroduction;
+	}
+
+	public String getPublishDate() {
+		return publishDate;
+	}
+
+	public void setPublishDate(String publishDate) {
+		this.publishDate = publishDate;
 	}
 
 	public String getIsbn10() {
@@ -165,28 +177,36 @@ public class DoubanBook extends AbstractModel {
 		this.price = price;
 	}
 
-	public int getPages() {
+	public String getPages() {
 		return pages;
 	}
 
-	public void setPages(int pages) {
+	public void setPages(String pages) {
 		this.pages = pages;
 	}
 
-	public List<String> getAuthor() {
-		return author;
+	public String getSummary() {
+		return summary;
 	}
 
-	public void setAuthor(List<String> author) {
-		this.author = author;
+	public void setSummary(String summary) {
+		this.summary = summary;
 	}
 
-	public List<String> getTranslator() {
-		return translator;
+	public List<String> getAuthors() {
+		return authors;
 	}
 
-	public void setTranslator(List<String> translator) {
-		this.translator = translator;
+	public void setAuthors(List<String> authors) {
+		this.authors = authors;
+	}
+
+	public List<String> getTranslators() {
+		return translators;
+	}
+
+	public void setTranslators(List<String> translators) {
+		this.translators = translators;
 	}
 
 	public List<DoubanTag> getTags() {
@@ -197,12 +217,12 @@ public class DoubanBook extends AbstractModel {
 		this.tags = tags;
 	}
 
-	public DoubanRate getRating() {
-		return rating;
+	public DoubanRate getRate() {
+		return rate;
 	}
 
-	public void setRating(DoubanRate rating) {
-		this.rating = rating;
+	public void setRate(DoubanRate rate) {
+		this.rate = rate;
 	}
 
 	public DoubanImage getImages() {
@@ -211,6 +231,57 @@ public class DoubanBook extends AbstractModel {
 
 	public void setImages(DoubanImage images) {
 		this.images = images;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanBook [id=");
+		builder.append(id);
+		builder.append(", publisher=");
+		builder.append(publisher);
+		builder.append(", title=");
+		builder.append(title);
+		builder.append(", subTitle=");
+		builder.append(subTitle);
+		builder.append(", originalTitle=");
+		builder.append(originalTitle);
+		builder.append(", altTitle=");
+		builder.append(altTitle);
+		builder.append(", webUrl=");
+		builder.append(webUrl);
+		builder.append(", authorIntroduction=");
+		builder.append(authorIntroduction);
+		builder.append(", publishDate=");
+		builder.append(publishDate);
+		builder.append(", isbn10=");
+		builder.append(isbn10);
+		builder.append(", isbn13=");
+		builder.append(isbn13);
+		builder.append(", binding=");
+		builder.append(binding);
+		builder.append(", url=");
+		builder.append(url);
+		builder.append(", image=");
+		builder.append(image);
+		builder.append(", price=");
+		builder.append(price);
+		builder.append(", pages=");
+		builder.append(pages);
+		builder.append(", summary=");
+		builder.append(summary);
+		builder.append(", authors=");
+		builder.append(authors);
+		builder.append(", translators=");
+		builder.append(translators);
+		builder.append(", tags=");
+		builder.append(tags);
+		builder.append(", rate=");
+		builder.append(rate);
+		builder.append(", images=");
+		builder.append(images);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }

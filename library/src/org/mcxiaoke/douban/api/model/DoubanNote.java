@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.mcxiaoke.douban.api.parser.DoubanDateDeserializer;
-import org.mcxiaoke.douban.api.parser.DoubanNotePhotosDeserializer;
+import org.mcxiaoke.douban.api.parser.DoubanContentPhotosDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -43,9 +43,9 @@ public class DoubanNote extends AbstractModel {
 	private int likedCount;
 	@JsonProperty("author")
 	private List<DoubanUser> authors;
-	@JsonDeserialize(using = DoubanNotePhotosDeserializer.class)
+	@JsonDeserialize(using = DoubanContentPhotosDeserializer.class)
 	@JsonProperty("photos")
-	private DoubanNotePhotos photos;
+	private DoubanContentPhotos photos;
 
 	public long getId() {
 		return id;
@@ -143,11 +143,11 @@ public class DoubanNote extends AbstractModel {
 		this.authors = authors;
 	}
 
-	public DoubanNotePhotos getPhotos() {
+	public DoubanContentPhotos getPhotos() {
 		return photos;
 	}
 
-	public void setPhotos(DoubanNotePhotos photos) {
+	public void setPhotos(DoubanContentPhotos photos) {
 		this.photos = photos;
 	}
 

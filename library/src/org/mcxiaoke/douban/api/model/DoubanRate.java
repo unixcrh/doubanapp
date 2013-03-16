@@ -11,38 +11,48 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class DoubanRate extends AbstractModel {
 	@JsonProperty("max")
-	private int max;
+	private int maxRate;
 	@JsonProperty("min")
-	private int min;
+	private int minRate;
+	@JsonProperty("value")
+	private double value;
 	@JsonProperty("average")
-	private int average;
+	private double averageRate;
 	@JsonProperty("stars")
 	private int stars;
 	@JsonProperty("numRaterss")
-	private int numRaters;
+	private int ratersCount;
 
-	public int getMax() {
-		return max;
+	public int getMaxRate() {
+		return maxRate;
 	}
 
-	public void setMax(int max) {
-		this.max = max;
+	public void setMaxRate(int maxRate) {
+		this.maxRate = maxRate;
 	}
 
-	public int getMin() {
-		return min;
+	public int getMinRate() {
+		return minRate;
 	}
 
-	public void setMin(int min) {
-		this.min = min;
+	public void setMinRate(int minRate) {
+		this.minRate = minRate;
 	}
 
-	public int getAverage() {
-		return average;
+	public double getValue() {
+		return value;
 	}
 
-	public void setAverage(int average) {
-		this.average = average;
+	public void setValue(double value) {
+		this.value = value;
+	}
+
+	public double getAverageRate() {
+		return averageRate;
+	}
+
+	public void setAverageRate(double averageRate) {
+		this.averageRate = averageRate;
 	}
 
 	public int getStars() {
@@ -53,11 +63,30 @@ public class DoubanRate extends AbstractModel {
 		this.stars = stars;
 	}
 
-	public int getNumRaters() {
-		return numRaters;
+	public int getRatersCount() {
+		return ratersCount;
 	}
 
-	public void setNumRaters(int numRaters) {
-		this.numRaters = numRaters;
+	public void setRatersCount(int ratersCount) {
+		this.ratersCount = ratersCount;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanRate [maxRate=");
+		builder.append(maxRate);
+		builder.append(", minRate=");
+		builder.append(minRate);
+		builder.append(", value=");
+		builder.append(value);
+		builder.append(", averageRate=");
+		builder.append(averageRate);
+		builder.append(", stars=");
+		builder.append(stars);
+		builder.append(", ratersCount=");
+		builder.append(ratersCount);
+		builder.append("]");
+		return builder.toString();
 	}
 }

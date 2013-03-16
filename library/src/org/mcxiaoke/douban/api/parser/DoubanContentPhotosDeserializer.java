@@ -6,7 +6,7 @@ package org.mcxiaoke.douban.api.parser;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.mcxiaoke.douban.api.model.DoubanNotePhotos;
+import org.mcxiaoke.douban.api.model.DoubanContentPhotos;
 
 import android.util.Log;
 
@@ -20,18 +20,18 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
  * @author mcxiaoke
  * 
  */
-public class DoubanNotePhotosDeserializer extends
-		JsonDeserializer<DoubanNotePhotos> {
+public class DoubanContentPhotosDeserializer extends
+		JsonDeserializer<DoubanContentPhotos> {
 
 	@Override
-	public DoubanNotePhotos deserialize(JsonParser parser,
+	public DoubanContentPhotos deserialize(JsonParser parser,
 			DeserializationContext context) throws IOException,
 			JsonProcessingException {
 		ArrayList<String> array = new ArrayList<String>();
 		while (parser.nextToken() != JsonToken.END_OBJECT) {
 			array.add(parser.getText());
 		}
-		DoubanNotePhotos photos = new DoubanNotePhotos();
+		DoubanContentPhotos photos = new DoubanContentPhotos();
 		for (int i = 0; i < array.size(); i = i + 2) {
 			int id = Integer.valueOf(array.get(i));
 			String url = array.get(i + 1);
