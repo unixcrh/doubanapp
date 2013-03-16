@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class DoubanMovie extends AbstractModel {
 	@JsonProperty("rating")
-	private DoubanRate rating;
+	private DoubanRate rate;
 	@JsonProperty("reviews_count")
 	private int reviewsCount;
 	@JsonProperty("wish_count")
@@ -31,7 +31,7 @@ public class DoubanMovie extends AbstractModel {
 	@JsonProperty("images")
 	private DoubanImage images;
 	@JsonProperty("alt")
-	private String alt;
+	private String webUrl;
 	@JsonProperty("id")
 	private long id;
 	@JsonProperty("mobie_url")
@@ -43,7 +43,7 @@ public class DoubanMovie extends AbstractModel {
 	@JsonProperty("summay")
 	private String summary;
 	@JsonProperty("subtype")
-	private String subtype;
+	private String subType;
 	@JsonProperty("do_count")
 	private int doCount;
 	@JsonProperty("seasons_count")
@@ -56,8 +56,8 @@ public class DoubanMovie extends AbstractModel {
 	private String scheduleUrl;
 	@JsonProperty("genres")
 	private List<String> genres;
-	@JsonProperty("contries")
-	private List<String> contries;
+	@JsonProperty("countries")
+	private List<String> countries;
 	@JsonProperty("aka")
 	private List<String> aka;
 	@JsonProperty("casts")
@@ -73,18 +73,18 @@ public class DoubanMovie extends AbstractModel {
 	@JsonProperty("durations")
 	private int durations;
 	@JsonProperty("pubdates")
-	private String pubdates;
+	private String publishedAt;
 	@JsonProperty("mainland_pubdates")
-	private String mainlandPubdates;
+	private String mainlandPublishedAt;
 	@JsonProperty("pubdate")
-	private String pubdate;
+	private String publishedDate;
 
-	public DoubanRate getRating() {
-		return rating;
+	public DoubanRate getRate() {
+		return rate;
 	}
 
-	public void setRating(DoubanRate rating) {
-		this.rating = rating;
+	public void setRate(DoubanRate rate) {
+		this.rate = rate;
 	}
 
 	public int getReviewsCount() {
@@ -151,12 +151,12 @@ public class DoubanMovie extends AbstractModel {
 		this.images = images;
 	}
 
-	public String getAlt() {
-		return alt;
+	public String getWebUrl() {
+		return webUrl;
 	}
 
-	public void setAlt(String alt) {
-		this.alt = alt;
+	public void setWebUrl(String webUrl) {
+		this.webUrl = webUrl;
 	}
 
 	public long getId() {
@@ -199,12 +199,12 @@ public class DoubanMovie extends AbstractModel {
 		this.summary = summary;
 	}
 
-	public String getSubtype() {
-		return subtype;
+	public String getSubType() {
+		return subType;
 	}
 
-	public void setSubtype(String subtype) {
-		this.subtype = subtype;
+	public void setSubType(String subType) {
+		this.subType = subType;
 	}
 
 	public int getDoCount() {
@@ -255,12 +255,12 @@ public class DoubanMovie extends AbstractModel {
 		this.genres = genres;
 	}
 
-	public List<String> getContries() {
-		return contries;
+	public List<String> getCountries() {
+		return countries;
 	}
 
-	public void setContries(List<String> contries) {
-		this.contries = contries;
+	public void setCountries(List<String> countries) {
+		this.countries = countries;
 	}
 
 	public List<String> getAka() {
@@ -319,28 +319,95 @@ public class DoubanMovie extends AbstractModel {
 		this.durations = durations;
 	}
 
-	public String getPubdates() {
-		return pubdates;
+	public String getPublishedAt() {
+		return publishedAt;
 	}
 
-	public void setPubdates(String pubdates) {
-		this.pubdates = pubdates;
+	public void setPublishedAt(String publishedAt) {
+		this.publishedAt = publishedAt;
 	}
 
-	public String getMainlandPubdates() {
-		return mainlandPubdates;
+	public String getMainlandPublishedAt() {
+		return mainlandPublishedAt;
 	}
 
-	public void setMainlandPubdates(String mainlandPubdates) {
-		this.mainlandPubdates = mainlandPubdates;
+	public void setMainlandPublishedAt(String mainlandPublishedAt) {
+		this.mainlandPublishedAt = mainlandPublishedAt;
 	}
 
-	public String getPubdate() {
-		return pubdate;
+	public String getPublishedDate() {
+		return publishedDate;
 	}
 
-	public void setPubdate(String pubdate) {
-		this.pubdate = pubdate;
+	public void setPublishedDate(String publishedDate) {
+		this.publishedDate = publishedDate;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanMovie [rate=");
+		builder.append(rate);
+		builder.append(", reviewsCount=");
+		builder.append(reviewsCount);
+		builder.append(", wishCount=");
+		builder.append(wishCount);
+		builder.append(", collectCount=");
+		builder.append(collectCount);
+		builder.append(", commentsCount=");
+		builder.append(commentsCount);
+		builder.append(", ratingsCount=");
+		builder.append(ratingsCount);
+		builder.append(", doubanSite=");
+		builder.append(doubanSite);
+		builder.append(", year=");
+		builder.append(year);
+		builder.append(", images=");
+		builder.append(images);
+		builder.append(", webUrl=");
+		builder.append(webUrl);
+		builder.append(", id=");
+		builder.append(id);
+		builder.append(", mobileUrl=");
+		builder.append(mobileUrl);
+		builder.append(", title=");
+		builder.append(title);
+		builder.append(", originalTitle=");
+		builder.append(originalTitle);
+		builder.append(", summary=");
+		builder.append(summary);
+		builder.append(", subType=");
+		builder.append(subType);
+		builder.append(", doCount=");
+		builder.append(doCount);
+		builder.append(", seasonsCount=");
+		builder.append(seasonsCount);
+		builder.append(", currentSeason=");
+		builder.append(currentSeason);
+		builder.append(", episodesCount=");
+		builder.append(episodesCount);
+		builder.append(", scheduleUrl=");
+		builder.append(scheduleUrl);
+		builder.append(", genres=");
+		builder.append(genres);
+		builder.append(", countries=");
+		builder.append(countries);
+		builder.append(", aka=");
+		builder.append(aka);
+		builder.append(", casts=");
+		builder.append(casts);
+		builder.append(", directors=");
+		builder.append(directors);
+		builder.append(", writers=");
+		builder.append(writers);
+		builder.append(", website=");
+		builder.append(website);
+		builder.append(", languages=");
+		builder.append(languages);
+		builder.append(", durations=");
+		builder.append(durations);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }

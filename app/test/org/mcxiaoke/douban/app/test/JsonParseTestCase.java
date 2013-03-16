@@ -11,6 +11,7 @@ import org.mcxiaoke.douban.api.model.DoubanBookCollection;
 import org.mcxiaoke.douban.api.model.DoubanComments;
 import org.mcxiaoke.douban.api.model.DoubanEvents;
 import org.mcxiaoke.douban.api.model.DoubanMails;
+import org.mcxiaoke.douban.api.model.DoubanMovie;
 import org.mcxiaoke.douban.api.model.DoubanNote;
 import org.mcxiaoke.douban.api.model.DoubanNotes;
 import org.mcxiaoke.douban.api.model.DoubanPhoto;
@@ -131,6 +132,15 @@ public class JsonParseTestCase extends BaseTestCase {
 		ObjectMapper om = new ObjectMapper();
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		DoubanBookCollection a = om.readValue(is, DoubanBookCollection.class);
+		assertNotNull(a);
+		debug(a);
+	}
+
+	public void testMovie() throws IOException {
+		InputStream is = openAssets("json/movie.json");
+		ObjectMapper om = new ObjectMapper();
+		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		DoubanMovie a = om.readValue(is, DoubanMovie.class);
 		assertNotNull(a);
 		debug(a);
 	}
