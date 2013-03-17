@@ -13,13 +13,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class DoubanBookCollection extends AbstractListModel {
 	@JsonProperty("collections")
-	private List<DoubanBookItem> collections;
+	private List<DoubanBookCollectionItem> collections;
 
-	public List<DoubanBookItem> getCollections() {
+	public List<DoubanBookCollectionItem> getCollections() {
 		return collections;
 	}
 
-	public void setCollections(List<DoubanBookItem> collections) {
+	public void setCollections(List<DoubanBookCollectionItem> collections) {
 		this.collections = collections;
 	}
 

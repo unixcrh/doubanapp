@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * @author mcxiaoke
  * 
  */
-public class DoubanBookItem extends AbstractModel {
+public class DoubanBookCollectionItem extends AbstractModel {
 	@JsonProperty("status")
 	private String status;
 	@JsonDeserialize(using = DoubanDateDeserializer.class)

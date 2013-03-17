@@ -13,9 +13,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class DoubanMusic extends AbstractModel {
 	@JsonProperty("rating")
-	private DoubanRate rating;
+	private DoubanRate rate;
 	@JsonProperty("author")
-	private List<String> author;
+	private List<String> authors;
 	@JsonProperty("alt_title")
 	private String altTitle;
 	@JsonProperty("image")
@@ -23,44 +23,32 @@ public class DoubanMusic extends AbstractModel {
 	@JsonProperty("title")
 	private String title;
 	@JsonProperty("mobile_link")
-	private String mobileLink;
+	private String mobileUrl;
 	@JsonProperty("summary")
 	private String summary;
-	@JsonProperty("publisher")
-	private String publisher;
-	@JsonProperty("singer")
-	private String singer;
-	@JsonProperty("version")
-	private String version;
-	@JsonProperty("pubdate")
-	private String pubdate;
-	@JsonProperty("media")
-	private String media;
-	@JsonProperty("tracks")
-	private List<String> tracks;
-	@JsonProperty("discs")
-	private int discs;
+	@JsonProperty("attrs")
+	private DoubanAttribute attrs;
 	@JsonProperty("alt")
-	private String alt;
+	private String webUrl;
 	@JsonProperty("id")
 	private long id;
 	@JsonProperty("tags")
 	private List<DoubanTag> tags;
 
-	public DoubanRate getRating() {
-		return rating;
+	public DoubanRate getRate() {
+		return rate;
 	}
 
-	public void setRating(DoubanRate rating) {
-		this.rating = rating;
+	public void setRate(DoubanRate rate) {
+		this.rate = rate;
 	}
 
-	public List<String> getAuthor() {
-		return author;
+	public List<String> getAuthors() {
+		return authors;
 	}
 
-	public void setAuthor(List<String> author) {
-		this.author = author;
+	public void setAuthors(List<String> authors) {
+		this.authors = authors;
 	}
 
 	public String getAltTitle() {
@@ -87,12 +75,12 @@ public class DoubanMusic extends AbstractModel {
 		this.title = title;
 	}
 
-	public String getMobileLink() {
-		return mobileLink;
+	public String getMobileUrl() {
+		return mobileUrl;
 	}
 
-	public void setMobileLink(String mobileLink) {
-		this.mobileLink = mobileLink;
+	public void setMobileUrl(String mobileUrl) {
+		this.mobileUrl = mobileUrl;
 	}
 
 	public String getSummary() {
@@ -103,68 +91,20 @@ public class DoubanMusic extends AbstractModel {
 		this.summary = summary;
 	}
 
-	public String getPublisher() {
-		return publisher;
+	public DoubanAttribute getAttrs() {
+		return attrs;
 	}
 
-	public void setPublisher(String publisher) {
-		this.publisher = publisher;
+	public void setAttrs(DoubanAttribute attrs) {
+		this.attrs = attrs;
 	}
 
-	public String getSinger() {
-		return singer;
+	public String getWebUrl() {
+		return webUrl;
 	}
 
-	public void setSinger(String singer) {
-		this.singer = singer;
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
-	public String getPubdate() {
-		return pubdate;
-	}
-
-	public void setPubdate(String pubdate) {
-		this.pubdate = pubdate;
-	}
-
-	public String getMedia() {
-		return media;
-	}
-
-	public void setMedia(String media) {
-		this.media = media;
-	}
-
-	public List<String> getTracks() {
-		return tracks;
-	}
-
-	public void setTracks(List<String> tracks) {
-		this.tracks = tracks;
-	}
-
-	public int getDiscs() {
-		return discs;
-	}
-
-	public void setDiscs(int discs) {
-		this.discs = discs;
-	}
-
-	public String getAlt() {
-		return alt;
-	}
-
-	public void setAlt(String alt) {
-		this.alt = alt;
+	public void setWebUrl(String webUrl) {
+		this.webUrl = webUrl;
 	}
 
 	public long getId() {
@@ -181,6 +121,35 @@ public class DoubanMusic extends AbstractModel {
 
 	public void setTags(List<DoubanTag> tags) {
 		this.tags = tags;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanMusic [rate=");
+		builder.append(rate);
+		builder.append(", authors=");
+		builder.append(authors);
+		builder.append(", altTitle=");
+		builder.append(altTitle);
+		builder.append(", image=");
+		builder.append(image);
+		builder.append(", title=");
+		builder.append(title);
+		builder.append(", mobileUrl=");
+		builder.append(mobileUrl);
+		builder.append(", summary=");
+		builder.append(summary);
+		builder.append(", attrs=");
+		builder.append(attrs);
+		builder.append(", webUrl=");
+		builder.append(webUrl);
+		builder.append(", id=");
+		builder.append(id);
+		builder.append(", tags=");
+		builder.append(tags);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }

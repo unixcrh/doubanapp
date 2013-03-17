@@ -55,7 +55,7 @@ import java.util.Map;
  * @author Roy Clarkson
  * @since 1.0
  */
-public abstract class Assert {
+public abstract class AssertUtils {
 
 	/**
 	 * Assert a boolean expression, throwing

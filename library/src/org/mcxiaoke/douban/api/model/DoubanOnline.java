@@ -6,7 +6,10 @@ package org.mcxiaoke.douban.api.model;
 import java.util.Date;
 import java.util.List;
 
+import org.mcxiaoke.douban.api.parser.DoubanDateDeserializer;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * @author mcxiaoke
@@ -20,11 +23,11 @@ public class DoubanOnline extends AbstractModel {
 	@JsonProperty("image")
 	private String image;
 	@JsonProperty("resc_count")
-	private int recsCount;
+	private int recommendedCount;
 	@JsonProperty("owner")
 	private DoubanUser owner;
 	@JsonProperty("alt")
-	private String alt;
+	private String webUrl;
 	@JsonProperty("id")
 	private long id;
 	@JsonProperty("thumb")
@@ -40,25 +43,32 @@ public class DoubanOnline extends AbstractModel {
 	@JsonProperty("cascade_invite")
 	private boolean cascadeInvite;
 	@JsonProperty("desc")
-	private String desc;
+	private String description;
 	@JsonProperty("participated")
 	private boolean participated;
 	@JsonProperty("shuo_topic")
-	private String shuoTopic;
+	private String topic;
+	@JsonDeserialize(using = DoubanDateDeserializer.class)
 	@JsonProperty("begin_time")
-	private Date beginTime;
+	private Date beginAt;
+	@JsonDeserialize(using = DoubanDateDeserializer.class)
 	@JsonProperty("end_time")
-	private Date endTime;
+	private Date endAt;
 	@JsonProperty("icon")
 	private String icon;
 	@JsonProperty("cover")
 	private String cover;
+	@JsonDeserialize(using = DoubanDateDeserializer.class)
 	@JsonProperty("created")
-	private Date created;
+	private Date createdAt;
 	@JsonProperty("group_id")
 	private int groupId;
 	@JsonProperty("photo_count")
-	private int photoCount;
+	private int photosCount;
+	@JsonProperty("participant_count")
+	private int participantsCount;
+	@JsonProperty("joined")
+	private boolean joined;
 
 	public boolean isLiked() {
 		return liked;
@@ -84,12 +94,12 @@ public class DoubanOnline extends AbstractModel {
 		this.image = image;
 	}
 
-	public int getRecsCount() {
-		return recsCount;
+	public int getRecommendedCount() {
+		return recommendedCount;
 	}
 
-	public void setRecsCount(int recsCount) {
-		this.recsCount = recsCount;
+	public void setRecommendedCount(int recommendedCount) {
+		this.recommendedCount = recommendedCount;
 	}
 
 	public DoubanUser getOwner() {
@@ -100,12 +110,12 @@ public class DoubanOnline extends AbstractModel {
 		this.owner = owner;
 	}
 
-	public String getAlt() {
-		return alt;
+	public String getWebUrl() {
+		return webUrl;
 	}
 
-	public void setAlt(String alt) {
-		this.alt = alt;
+	public void setWebUrl(String webUrl) {
+		this.webUrl = webUrl;
 	}
 
 	public long getId() {
@@ -164,12 +174,12 @@ public class DoubanOnline extends AbstractModel {
 		this.cascadeInvite = cascadeInvite;
 	}
 
-	public String getDesc() {
-		return desc;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public boolean isParticipated() {
@@ -180,28 +190,28 @@ public class DoubanOnline extends AbstractModel {
 		this.participated = participated;
 	}
 
-	public String getShuoTopic() {
-		return shuoTopic;
+	public String getTopic() {
+		return topic;
 	}
 
-	public void setShuoTopic(String shuoTopic) {
-		this.shuoTopic = shuoTopic;
+	public void setTopic(String topic) {
+		this.topic = topic;
 	}
 
-	public Date getBeginTime() {
-		return beginTime;
+	public Date getBeginAt() {
+		return beginAt;
 	}
 
-	public void setBeginTime(Date beginTime) {
-		this.beginTime = beginTime;
+	public void setBeginAt(Date beginAt) {
+		this.beginAt = beginAt;
 	}
 
-	public Date getEndTime() {
-		return endTime;
+	public Date getEndAt() {
+		return endAt;
 	}
 
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
+	public void setEndAt(Date endAt) {
+		this.endAt = endAt;
 	}
 
 	public String getIcon() {
@@ -220,12 +230,12 @@ public class DoubanOnline extends AbstractModel {
 		this.cover = cover;
 	}
 
-	public Date getCreated() {
-		return created;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setCreated(Date created) {
-		this.created = created;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public int getGroupId() {
@@ -236,11 +246,84 @@ public class DoubanOnline extends AbstractModel {
 		this.groupId = groupId;
 	}
 
-	public int getPhotoCount() {
-		return photoCount;
+	public int getPhotosCount() {
+		return photosCount;
 	}
 
-	public void setPhotoCount(int photoCount) {
-		this.photoCount = photoCount;
+	public void setPhotosCount(int photosCount) {
+		this.photosCount = photosCount;
+	}
+
+	public int getParticipantsCount() {
+		return participantsCount;
+	}
+
+	public void setParticipantsCount(int participantsCount) {
+		this.participantsCount = participantsCount;
+	}
+
+	public boolean isJoined() {
+		return joined;
+	}
+
+	public void setJoined(boolean joined) {
+		this.joined = joined;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DoubanOnline [liked=");
+		builder.append(liked);
+		builder.append(", albumId=");
+		builder.append(albumId);
+		builder.append(", image=");
+		builder.append(image);
+		builder.append(", recommendedCount=");
+		builder.append(recommendedCount);
+		builder.append(", owner=");
+		builder.append(owner);
+		builder.append(", webUrl=");
+		builder.append(webUrl);
+		builder.append(", id=");
+		builder.append(id);
+		builder.append(", thumb=");
+		builder.append(thumb);
+		builder.append(", title=");
+		builder.append(title);
+		builder.append(", tags=");
+		builder.append(tags);
+		builder.append(", relatedUrl=");
+		builder.append(relatedUrl);
+		builder.append(", likedCount=");
+		builder.append(likedCount);
+		builder.append(", cascadeInvite=");
+		builder.append(cascadeInvite);
+		builder.append(", description=");
+		builder.append(description);
+		builder.append(", participated=");
+		builder.append(participated);
+		builder.append(", topic=");
+		builder.append(topic);
+		builder.append(", beginAt=");
+		builder.append(beginAt);
+		builder.append(", endAt=");
+		builder.append(endAt);
+		builder.append(", icon=");
+		builder.append(icon);
+		builder.append(", cover=");
+		builder.append(cover);
+		builder.append(", createdAt=");
+		builder.append(createdAt);
+		builder.append(", groupId=");
+		builder.append(groupId);
+		builder.append(", photosCount=");
+		builder.append(photosCount);
+		builder.append(", participantsCount=");
+		builder.append(participantsCount);
+		builder.append(", joined=");
+		builder.append(joined);
+		builder.append("]");
+		return builder.toString();
 	}
 }

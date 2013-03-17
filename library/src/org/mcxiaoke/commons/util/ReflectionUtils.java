@@ -76,8 +76,8 @@ public abstract class ReflectionUtils {
 	 * @return the corresponding Field object, or <code>null</code> if not found
 	 */
 	public static Field findField(Class<?> clazz, String name, Class<?> type) {
-		Assert.notNull(clazz, "Class must not be null");
-		Assert.isTrue(name != null || type != null,
+		AssertUtils.notNull(clazz, "Class must not be null");
+		AssertUtils.isTrue(name != null || type != null,
 				"Either name or type of the field must be specified");
 		Class<?> searchType = clazz;
 		while (!Object.class.equals(searchType) && searchType != null) {
@@ -182,8 +182,8 @@ public abstract class ReflectionUtils {
 	 */
 	public static Method findMethod(Class<?> clazz, String name,
 			Class<?>... paramTypes) {
-		Assert.notNull(clazz, "Class must not be null");
-		Assert.notNull(name, "Method name must not be null");
+		AssertUtils.notNull(clazz, "Class must not be null");
+		AssertUtils.notNull(name, "Method name must not be null");
 		Class<?> searchType = clazz;
 		while (searchType != null) {
 			Method[] methods = (searchType.isInterface() ? searchType
@@ -401,7 +401,7 @@ public abstract class ReflectionUtils {
 	 */
 	public static boolean declaresException(Method method,
 			Class<?> exceptionType) {
-		Assert.notNull(method, "Method must not be null");
+		AssertUtils.notNull(method, "Method must not be null");
 		Class<?>[] declaredExceptions = method.getExceptionTypes();
 		for (Class<?> declaredException : declaredExceptions) {
 			if (declaredException.isAssignableFrom(exceptionType)) {
