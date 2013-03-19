@@ -20,15 +20,18 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.nio.channels.FileChannel;
 
 /**
  * Simple utility methods for file and stream copying. All copy methods use a
@@ -259,6 +262,54 @@ public abstract class FileUtils {
 		StringWriter out = new StringWriter();
 		copy(in, out);
 		return out.toString();
+	}
+
+	public static void closeSilently(final Closeable closable) {
+		try {
+			closable.close();
+		} catch (IOException ignore) {
+		}
+	}
+
+	public static void copyAndClose(final InputStream in, final OutputStream out)
+			throws IOException {
+		try {
+			copy(in, out);
+			in.close();
+			out.close();
+		} catch (IOException ex) {
+			closeSilently(in);
+			closeSilently(out);
+			// Propagate the original exception
+			throw ex;
+		}
+	}
+
+	public static void copyFile(final File in, final File out)
+			throws IOException {
+		RandomAccessFile f1 = new RandomAccessFile(in, "r");
+		RandomAccessFile f2 = new RandomAccessFile(out, "rw");
+		try {
+			FileChannel c1 = f1.getChannel();
+			FileChannel c2 = f2.getChannel();
+			try {
+				c1.transferTo(0, f1.length(), c2);
+				c1.close();
+				c2.close();
+			} catch (IOException ex) {
+				closeSilently(c1);
+				closeSilently(c2);
+				// Propagate the original exception
+				throw ex;
+			}
+			f1.close();
+			f2.close();
+		} catch (IOException ex) {
+			closeSilently(f1);
+			closeSilently(f2);
+			// Propagate the original exception
+			throw ex;
+		}
 	}
 
 }

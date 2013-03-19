@@ -16,7 +16,7 @@
     limitations under the License.
 */
 
-package org.mcxiaoke.commons.http;
+package org.mcxiaoke.commons.http.cookie;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -27,7 +27,7 @@ import java.util.Date;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.cookie.BasicClientCookie;
 
-import org.mcxiaoke.commons.http.PersistentCookieStore;
+import org.mcxiaoke.commons.http.cookie.PersistentCookieStore;
 
 /**
  * A wrapper class around {@link Cookie} and/or {@link BasicClientCookie}

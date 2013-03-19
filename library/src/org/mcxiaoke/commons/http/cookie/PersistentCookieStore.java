@@ -16,7 +16,7 @@
     limitations under the License.
 */
 
-package org.mcxiaoke.commons.http;
+package org.mcxiaoke.commons.http.cookie;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

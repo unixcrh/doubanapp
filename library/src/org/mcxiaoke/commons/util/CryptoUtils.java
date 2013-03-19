@@ -266,116 +266,49 @@ public final class CryptoUtils {
 	public static class AESCrypto {
 		private static final int ITERATION_COUNT_DEFAULT = 100;
 		private static final int ITERATION_COUNT_MIN = 10;
-		private static final int ITERATION_COUNT_MAX = 10000;
-		private static final int SALT_SIZE_DEFAULT = 8;
+		private static final int ITERATION_COUNT_MAX = 5000;
 		private static final int KEY_SIZE_DEFAULT = 256;
 		private static final int KEY_SIZE_MIN = 64;
 		private static final int KEY_SIZE_MAX = 1024;
-		private static final int IV_SIZE_DEFAULT = 16;
+		private static final int IV_SIZE = 16;
 		private String password;
 		private byte[] salt;
 		private byte[] iv;
 		private int keySize;
-		private int iterationCount;
+		private int iterCount;
 
 		public AESCrypto(String password) {
-			initialize(password, KEY_SIZE_DEFAULT, null,
+			initialize(password, AES.getSimpleSalt(), AES.getSimpleIV(),
+					KEY_SIZE_DEFAULT, ITERATION_COUNT_DEFAULT);
+		}
+
+		public AESCrypto(String password, byte[] salt) {
+			initialize(password, salt, AES.getSimpleIV(), KEY_SIZE_DEFAULT,
 					ITERATION_COUNT_DEFAULT);
 		}
 
-		public AESCrypto(String password, String salt) {
-			initialize(password, KEY_SIZE_DEFAULT, salt,
-					ITERATION_COUNT_DEFAULT);
+		public AESCrypto(String password, int keySize, byte[] salt, byte[] iv) {
+			initialize(password, salt, iv, keySize, ITERATION_COUNT_DEFAULT);
 		}
 
-		public AESCrypto(String password, int keySize, String salt,
-				int iterationCount) {
-			initialize(password, keySize, salt, iterationCount);
-		}
-
-		private void initialize(String password, int keySize, String salt,
-				int iterationCount) {
-			checkAndSetPassword(password);
-			checkAndSetKeySize(keySize);
-			checkAndSetSalt(salt);
-			checkAndSetIterationCount(iterationCount);
-			checkAndSetIV();
-		}
-
-		public String getPassword() {
-			return password;
-		}
-
-		public void setPassword(String password) {
-			checkAndSetPassword(password);
-		}
-
-		public byte[] getSalt() {
-			return salt;
-		}
-
-		public void setSalt(String salt) {
-			checkAndSetSalt(salt);
-		}
-
-		public byte[] getIv() {
-			return iv;
-		}
-
-		public int getKeySize() {
-			return keySize;
-		}
-
-		public void setKeySize(int keySize) {
-			checkAndSetKeySize(keySize);
-		}
-
-		public int getIterationCount() {
-			return iterationCount;
-		}
-
-		public void setIterationCount(int iterationCount) {
-			checkAndSetIterationCount(iterationCount);
-		}
-
-		private void checkAndSetPassword(String password) {
-			if (TextUtils.isEmpty(password)) {
-				this.password = getRandomString();
-			} else {
-				this.password = password;
-			}
-		}
-
-		private void checkAndSetKeySize(int keySize) {
-			if (keySize < KEY_SIZE_MIN) {
-				this.keySize = KEY_SIZE_MIN;
-			} else if (keySize > KEY_SIZE_MAX) {
-				this.keySize = KEY_SIZE_MAX;
-			} else {
-				this.keySize = keySize;
-			}
-		}
-
-		private void checkAndSetSalt(String salt) {
-			if (TextUtils.isEmpty(salt)) {
-				this.salt = getRandomBytes(SALT_SIZE_DEFAULT);
-			} else {
-				this.salt = getRawBytes(salt);
-			}
-		}
-
-		private void checkAndSetIterationCount(int iterationCount) {
-			if (iterationCount < ITERATION_COUNT_MIN) {
-				this.iterationCount = ITERATION_COUNT_MIN;
-			} else if (iterationCount > ITERATION_COUNT_MAX) {
-				this.iterationCount = ITERATION_COUNT_MAX;
-			} else {
-				this.iterationCount = iterationCount;
-			}
-		}
-
-		private void checkAndSetIV() {
-			this.iv = getRandomBytes(IV_SIZE_DEFAULT);
+		private void initialize(String password, byte[] salt, byte[] iv,
+				int keySize, int iterCount) {
+			AssertUtils
+					.notEmpty(password, "password must not be null or empty");
+			AssertUtils.notNull(salt, "salt must bot be null");
+			AssertUtils.notNull(iv, "iv must not be null");
+			AssertUtils.isTrue(keySize >= KEY_SIZE_MIN
+					&& keySize <= KEY_SIZE_MAX, "keySize must between "
+					+ KEY_SIZE_MIN + " and " + KEY_SIZE_MAX);
+			AssertUtils.isTrue(iterCount >= ITERATION_COUNT_MIN
+					&& iterCount <= ITERATION_COUNT_MAX,
+					"iterCount must between " + ITERATION_COUNT_MIN + " and "
+							+ ITERATION_COUNT_MAX);
+			this.password = password;
+			this.salt = salt;
+			this.iv = iv;
+			this.keySize = keySize;
+			this.iterCount = iterCount;
 		}
 
 		public String encrypt(String text) {
@@ -400,7 +333,7 @@ public final class CryptoUtils {
 
 		private byte[] process(byte[] data, int mode) {
 			return AES.process(data, mode, password, salt, iv, keySize,
-					iterationCount);
+					iterCount);
 		}
 
 	}

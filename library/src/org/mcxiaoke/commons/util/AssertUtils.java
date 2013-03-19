@@ -328,6 +328,17 @@ public abstract class AssertUtils {
 				"[Assertion failed] - this array must not be empty: it must contain at least 1 element");
 	}
 
+	public static void notEmpty(CharSequence text) {
+		notEmpty(text,
+				"[Assertion failed] - this string must not be null or empty.");
+	}
+
+	public static void notEmpty(CharSequence text, String message) {
+		if (!StringUtils.hasLength(text)) {
+			throw new IllegalArgumentException(message);
+		}
+	}
+
 	/**
 	 * Assert that an array has no null elements. Note: Does not complain if the
 	 * array is empty!

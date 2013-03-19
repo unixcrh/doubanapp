@@ -5,8 +5,8 @@ package org.mcxiaoke.commons.http;
 
 /**
  * @author mcxiaoke
- *
+ * 
  */
-public class SimpleHttpResponse {
-
+public enum Method {
+	HEAD, GET, DELETE, POST, PUT;
 }

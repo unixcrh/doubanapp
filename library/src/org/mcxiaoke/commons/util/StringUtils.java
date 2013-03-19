@@ -105,6 +105,26 @@ public abstract class StringUtils {
 		return hasLength((CharSequence) str);
 	}
 
+	public static boolean isNotEmpty(CharSequence text) {
+		return text != null && text.length() > 0;
+	}
+
+	public static boolean isNotEmpty(String str) {
+		return str != null && str.length() > 0;
+	}
+
+	public static boolean isNullOrEmpty(CharSequence text) {
+		return text == null || text.length() == 0;
+	}
+
+	public static boolean isEmpty(CharSequence text) {
+		return text == null || text.length() == 0;
+	}
+
+	public static boolean isNullOrEmpty(String str) {
+		return str == null || str.length() == 0;
+	}
+
 	/**
 	 * Check whether the given CharSequence has actual text. More specifically,
 	 * returns <code>true</code> if the string not <code>null</code>, its length
