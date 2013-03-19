@@ -18,7 +18,6 @@ import java.util.Map;
 
 import org.apache.http.NameValuePair;
 import org.mcxiaoke.commons.http.auth.AuthConfig;
-import org.mcxiaoke.commons.http.impl.Parameter;
 import org.mcxiaoke.commons.http.util.HttpUtils;
 import org.mcxiaoke.commons.util.StringUtils;
 import org.scribe.model.OAuthConstants;

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.mcxiaoke.commons.http.impl;
+package org.mcxiaoke.commons.http;
 
 import org.apache.http.NameValuePair;
 import org.mcxiaoke.commons.http.util.URIUtilsEx;

@@ -14,14 +14,16 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.http.protocol.HTTP;
+import org.mcxiaoke.commons.http.Parameter;
 import org.mcxiaoke.commons.http.SimpleRequest;
 import org.mcxiaoke.commons.http.auth.AuthConstants.OAuthParameterStyle;
-import org.mcxiaoke.commons.http.impl.Parameter;
 import org.mcxiaoke.commons.http.util.URIUtilsEx;
 import org.mcxiaoke.commons.util.Base64;
 import org.mcxiaoke.commons.util.StringUtils;
 
 /**
+ * Authorization Utilities
+ * 
  * @author mcxiaoke
  * 
  */
@@ -54,16 +56,14 @@ public final class AuthService {
 		if (type == AuthConfig.BASIC) {
 			addBasicAuthToHeaders(request);
 		} else if (type == AuthConfig.OAUTH1) {
-			final OAuthParameterStyle style = authorization
-					.getOAuthParameterStyle();
+			final OAuthParameterStyle style = authorization.getParameterStyle();
 			if (style == OAuthParameterStyle.QUERY_STRING) {
 				addOAuthToQueryParamters(request);
 			} else {
 				addOAuthToHeaders(request);
 			}
 		} else if (type == AuthConfig.OAUTH2) {
-			final OAuthParameterStyle style = authorization
-					.getOAuthParameterStyle();
+			final OAuthParameterStyle style = authorization.getParameterStyle();
 			if (style == OAuthParameterStyle.QUERY_STRING) {
 				addOAuth2ToQueryParamters(request);
 			} else {
@@ -78,7 +78,7 @@ public final class AuthService {
 	}
 
 	private static void addOAuth2ToQueryParamters(final SimpleRequest request) {
-		String accessToken = request.getAuthConfig().getAccessToken();
+		String accessToken = request.getAuthConfig().getToken();
 		request.addQueryParameter(AuthConstants.OAUTH2_ACCESS_TOKEN,
 				accessToken);
 	}
@@ -89,7 +89,7 @@ public final class AuthService {
 	}
 
 	private static void addOAuth2ToHeaders(final SimpleRequest request) {
-		String accessToken = request.getAuthConfig().getAccessToken();
+		String accessToken = request.getAuthConfig().getToken();
 		StringBuilder sb = new StringBuilder();
 		sb.append(OAUTH2_SCHEME).append(" ").append(accessToken);
 		request.addHeader(AuthConstants.HEADER, sb.toString());
@@ -101,8 +101,8 @@ public final class AuthService {
 				|| !authorization.isAuthorized()) {
 			return;
 		}
-		String userName = authorization.getAccessToken();
-		String password = authorization.getAccessTokenSecret();
+		String userName = authorization.getToken();
+		String password = authorization.getSecret();
 		StringBuilder sb = new StringBuilder();
 		sb.append(BASIC_SCHEME).append(" ");
 		sb.append(userName).append(NAME_VALUE_SEPARATOR).append(password);
@@ -150,8 +150,7 @@ public final class AuthService {
 		final AuthConfig authorization = request.getAuthConfig();
 		String baseString = getBaseString(request);
 		SecretKeySpec secretKey = getSecretKeySpec(
-				authorization.getApiSecret(),
-				authorization.getAccessTokenSecret());
+				authorization.getApiSecret(), authorization.getSecret());
 		return signature(baseString, secretKey);
 	}
 
@@ -221,9 +220,8 @@ public final class AuthService {
 		if (auth != null) {
 			long timestamp = System.currentTimeMillis() / 1000;
 			long nonce = timestamp + RAND.nextInt();
-			if (StringUtils.isNotEmpty(auth.getAccessToken())) {
-				oauthParamters.put(AuthConstants.OAUTH_TOKEN,
-						auth.getAccessToken());
+			if (StringUtils.isNotEmpty(auth.getToken())) {
+				oauthParamters.put(AuthConstants.OAUTH_TOKEN, auth.getToken());
 			}
 			oauthParamters.put(AuthConstants.OAUTH_CONSUMER_KEY,
 					auth.getApiKey());
@@ -231,8 +229,8 @@ public final class AuthService {
 					AuthConstants.HMAC_SHA1);
 			oauthParamters.put(AuthConstants.OAUTH_TIMESTAMP,
 					String.valueOf(timestamp));
-			oauthParamters.put(AuthConstants.OAUTH_NONCE,
-					String.valueOf(nonce));
+			oauthParamters
+					.put(AuthConstants.OAUTH_NONCE, String.valueOf(nonce));
 			oauthParamters.put(AuthConstants.OAUTH_VERSION,
 					AuthConstants.VERSION_1_0);
 		}

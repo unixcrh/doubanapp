@@ -26,7 +26,6 @@ import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.protocol.HTTP;
 import org.mcxiaoke.commons.http.SimpleRequest.FileHolder;
-import org.mcxiaoke.commons.http.impl.Parameter;
 import org.mcxiaoke.commons.http.util.URIUtilsEx;
 import org.mcxiaoke.commons.util.StringUtils;
 

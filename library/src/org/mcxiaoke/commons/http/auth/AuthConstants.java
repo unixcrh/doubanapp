@@ -1,5 +1,11 @@
 package org.mcxiaoke.commons.http.auth;
 
+/**
+ * Authorization constants
+ * 
+ * @author mcxiaoke
+ * 
+ */
 public class AuthConstants {
 	private AuthConstants() {
 	}
