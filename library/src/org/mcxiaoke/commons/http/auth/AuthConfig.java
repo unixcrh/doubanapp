@@ -1,9 +1,9 @@
 package org.mcxiaoke.commons.http.auth;
 
-import org.mcxiaoke.commons.http.auth.OAuthConstants.OAuthParameterStyle;
+import org.mcxiaoke.commons.http.auth.AuthConstants.OAuthParameterStyle;
 import org.mcxiaoke.commons.util.StringUtils;
 
-public class OAuthConfig implements java.io.Serializable {
+public class AuthConfig implements java.io.Serializable {
 	private static final long serialVersionUID = -413250347293002921L;
 
 	public static final int BASIC = 0;
@@ -17,22 +17,22 @@ public class OAuthConfig implements java.io.Serializable {
 	private String token;
 	private String secret;;
 
-	public OAuthConfig(int type) {
+	public AuthConfig(int type) {
 		this.authType = type;
 	}
 
-	public OAuthConfig(String token) {
+	public AuthConfig(String token) {
 		this.authType = OAUTH2;
 		this.token = token;
 	}
 
-	public OAuthConfig(String userName, String password) {
+	public AuthConfig(String userName, String password) {
 		this.authType = BASIC;
 		this.apiKey = userName;
 		this.apiSecret = password;
 	}
 
-	public OAuthConfig(String apiKey, String apiSecret, String token,
+	public AuthConfig(String apiKey, String apiSecret, String token,
 			String secret) {
 		this.authType = OAUTH1;
 		this.apiKey = apiKey;

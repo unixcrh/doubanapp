@@ -1,7 +1,7 @@
 package org.mcxiaoke.commons.http.auth;
 
-public class OAuthConstants {
-	private OAuthConstants() {
+public class AuthConstants {
+	private AuthConstants() {
 	}
 
 	public enum OAuthVersion {

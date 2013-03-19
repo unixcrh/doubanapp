@@ -14,9 +14,8 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.http.protocol.HTTP;
-import org.mcxiaoke.commons.http.OAuthRequest;
 import org.mcxiaoke.commons.http.SimpleRequest;
-import org.mcxiaoke.commons.http.auth.OAuthConstants.OAuthParameterStyle;
+import org.mcxiaoke.commons.http.auth.AuthConstants.OAuthParameterStyle;
 import org.mcxiaoke.commons.http.impl.Parameter;
 import org.mcxiaoke.commons.http.util.URIUtilsEx;
 import org.mcxiaoke.commons.util.Base64;
@@ -26,7 +25,7 @@ import org.mcxiaoke.commons.util.StringUtils;
  * @author mcxiaoke
  * 
  */
-public final class OAuthService {
+public final class AuthService {
 	private final static Random RAND = new Random();
 	private static final String PARAMETER_SEPARATOR = "&";
 	private static final String NAME_VALUE_SEPARATOR = "=";
@@ -35,26 +34,26 @@ public final class OAuthService {
 	private static final String OAUTH2_SCHEME = "Bear";
 	private static final String BASIC_SCHEME = "Basic";
 
-	private final OAuthConfig mOAuthConfig;
+	private final AuthConfig mOAuthConfig;
 
-	private OAuthService(OAuthConfig config) {
+	private AuthService(AuthConfig config) {
 		this.mOAuthConfig = config;
 	}
 
-	public OAuthConfig getOAuthConfig() {
+	public AuthConfig getOAuthConfig() {
 		return mOAuthConfig;
 	}
 
-	public static void authorize(final OAuthRequest request) {
-		final OAuthConfig authorization = request.getAuthorization();
+	public static void authorize(final SimpleRequest request) {
+		final AuthConfig authorization = request.getAuthConfig();
 		if (request == null || authorization == null
 				|| !authorization.isAuthorized()) {
 			return;
 		}
 		int type = authorization.getAuthType();
-		if (type == OAuthConfig.BASIC) {
+		if (type == AuthConfig.BASIC) {
 			addBasicAuthToHeaders(request);
-		} else if (type == OAuthConfig.OAUTH1) {
+		} else if (type == AuthConfig.OAUTH1) {
 			final OAuthParameterStyle style = authorization
 					.getOAuthParameterStyle();
 			if (style == OAuthParameterStyle.QUERY_STRING) {
@@ -62,7 +61,7 @@ public final class OAuthService {
 			} else {
 				addOAuthToHeaders(request);
 			}
-		} else if (type == OAuthConfig.OAUTH2) {
+		} else if (type == AuthConfig.OAUTH2) {
 			final OAuthParameterStyle style = authorization
 					.getOAuthParameterStyle();
 			if (style == OAuthParameterStyle.QUERY_STRING) {
@@ -73,33 +72,31 @@ public final class OAuthService {
 		}
 	}
 
-	private static void addOAuthToQueryParamters(
-			final OAuthRequest request) {
+	private static void addOAuthToQueryParamters(final SimpleRequest request) {
 		addOAuthParameters(request);
 		appendAuthorizationToQueryParameters(request);
 	}
 
-	private static void addOAuth2ToQueryParamters(
-			final OAuthRequest request) {
-		String accessToken = request.getAuthorization().getAccessToken();
-		request.addQueryParameter(OAuthConstants.OAUTH2_ACCESS_TOKEN,
+	private static void addOAuth2ToQueryParamters(final SimpleRequest request) {
+		String accessToken = request.getAuthConfig().getAccessToken();
+		request.addQueryParameter(AuthConstants.OAUTH2_ACCESS_TOKEN,
 				accessToken);
 	}
 
-	private static void addOAuthToHeaders(final OAuthRequest request) {
+	private static void addOAuthToHeaders(final SimpleRequest request) {
 		addOAuthParameters(request);
 		appendAuthorizationToHeaders(request);
 	}
 
-	private static void addOAuth2ToHeaders(final OAuthRequest request) {
-		String accessToken = request.getAuthorization().getAccessToken();
+	private static void addOAuth2ToHeaders(final SimpleRequest request) {
+		String accessToken = request.getAuthConfig().getAccessToken();
 		StringBuilder sb = new StringBuilder();
 		sb.append(OAUTH2_SCHEME).append(" ").append(accessToken);
-		request.addHeader(OAuthConstants.HEADER, sb.toString());
+		request.addHeader(AuthConstants.HEADER, sb.toString());
 	}
 
 	private static void addBasicAuthToHeaders(final SimpleRequest request) {
-		final OAuthConfig authorization = request.getAuthorization();
+		final AuthConfig authorization = request.getAuthConfig();
 		if (request == null || authorization == null
 				|| !authorization.isAuthorized()) {
 			return;
@@ -110,18 +107,17 @@ public final class OAuthService {
 		sb.append(BASIC_SCHEME).append(" ");
 		sb.append(userName).append(NAME_VALUE_SEPARATOR).append(password);
 		String basicHeader = Base64.encodeBytes(getBytes(sb.toString()));
-		request.addHeader(OAuthConstants.HEADER, basicHeader);
+		request.addHeader(AuthConstants.HEADER, basicHeader);
 
 	}
 
 	private static void appendAuthorizationToQueryParameters(
-			final OAuthRequest request) {
+			final SimpleRequest request) {
 		request.addQueryParameters(request.getOAuthParameters());
 	}
 
-	private static void appendAuthorizationToHeaders(
-			final OAuthRequest request) {
-		request.addHeader(OAuthConstants.HEADER,
+	private static void appendAuthorizationToHeaders(final SimpleRequest request) {
+		request.addHeader(AuthConstants.HEADER,
 				getAuthorizationHeader(request.getOAuthParametersMap()));
 	}
 
@@ -142,16 +138,16 @@ public final class OAuthService {
 		return sb.toString();
 	}
 
-	private static void addOAuthParameters(final OAuthRequest request) {
+	private static void addOAuthParameters(final SimpleRequest request) {
 		// 这两者有先后顺序，签名生成依赖于添加的OAuthParameters
 		request.addOAuthParameters(createOAuthParameters(request
-				.getAuthorization()));
-		request.addOAuthParameter(OAuthConstants.OAUTH_SIGNATURE,
+				.getAuthConfig()));
+		request.addOAuthParameter(AuthConstants.OAUTH_SIGNATURE,
 				getSignature(request));
 	}
 
-	private static String getSignature(final OAuthRequest request) {
-		final OAuthConfig authorization = request.getAuthorization();
+	private static String getSignature(final SimpleRequest request) {
+		final AuthConfig authorization = request.getAuthConfig();
 		String baseString = getBaseString(request);
 		SecretKeySpec secretKey = getSecretKeySpec(
 				authorization.getApiSecret(),
@@ -162,7 +158,7 @@ public final class OAuthService {
 	private static String signature(final String data, final SecretKeySpec spec) {
 		byte[] byteHMAC = null;
 		try {
-			Mac mac = Mac.getInstance(OAuthConstants.HMAC_SHA1);
+			Mac mac = Mac.getInstance(AuthConstants.HMAC_SHA1);
 			mac.init(spec);
 			byteHMAC = mac.doFinal(data.getBytes());
 		} catch (InvalidKeyException ike) {
@@ -178,16 +174,16 @@ public final class OAuthService {
 		if (StringUtils.isEmpty(accessTokenSecret)) {
 			String oauthSignature = percentEncode(consumerSecret) + "&";
 			return new SecretKeySpec(oauthSignature.getBytes(),
-					OAuthConstants.HMAC_SHA1);
+					AuthConstants.HMAC_SHA1);
 		} else {
 			String oauthSignature = percentEncode(consumerSecret) + "&"
 					+ percentEncode(accessTokenSecret);
 			return new SecretKeySpec(oauthSignature.getBytes(),
-					OAuthConstants.HMAC_SHA1);
+					AuthConstants.HMAC_SHA1);
 		}
 	}
 
-	private static String getBaseString(final OAuthRequest request) {
+	private static String getBaseString(final SimpleRequest request) {
 		StringBuilder sb = new StringBuilder();
 		final String url = request.getUrl();
 		String encodedUrl = percentEncode(url);
@@ -219,26 +215,26 @@ public final class OAuthService {
 	}
 
 	private static Map<String, String> createOAuthParameters(
-			final OAuthConfig authorization) {
-		OAuthConfig auth = authorization;
+			final AuthConfig authorization) {
+		AuthConfig auth = authorization;
 		final Map<String, String> oauthParamters = new HashMap<String, String>();
 		if (auth != null) {
 			long timestamp = System.currentTimeMillis() / 1000;
 			long nonce = timestamp + RAND.nextInt();
 			if (StringUtils.isNotEmpty(auth.getAccessToken())) {
-				oauthParamters.put(OAuthConstants.OAUTH_TOKEN,
+				oauthParamters.put(AuthConstants.OAUTH_TOKEN,
 						auth.getAccessToken());
 			}
-			oauthParamters.put(OAuthConstants.OAUTH_CONSUMER_KEY,
+			oauthParamters.put(AuthConstants.OAUTH_CONSUMER_KEY,
 					auth.getApiKey());
-			oauthParamters.put(OAuthConstants.OAUTH_SIGNATURE_METHOD,
-					OAuthConstants.HMAC_SHA1);
-			oauthParamters.put(OAuthConstants.OAUTH_TIMESTAMP,
+			oauthParamters.put(AuthConstants.OAUTH_SIGNATURE_METHOD,
+					AuthConstants.HMAC_SHA1);
+			oauthParamters.put(AuthConstants.OAUTH_TIMESTAMP,
 					String.valueOf(timestamp));
-			oauthParamters.put(OAuthConstants.OAUTH_NONCE,
+			oauthParamters.put(AuthConstants.OAUTH_NONCE,
 					String.valueOf(nonce));
-			oauthParamters.put(OAuthConstants.OAUTH_VERSION,
-					OAuthConstants.VERSION_1_0);
+			oauthParamters.put(AuthConstants.OAUTH_VERSION,
+					AuthConstants.VERSION_1_0);
 		}
 		return oauthParamters;
 	}
