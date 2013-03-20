@@ -34,6 +34,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.protocol.SyncBasicHttpContext;
 import org.mcxiaoke.commons.http.util.HttpUtils;
+import org.mcxiaoke.commons.util.NetworkUtils;
 
 import android.content.Context;
 import android.util.Log;
@@ -47,7 +48,7 @@ public class SimpleClient {
 	private final Context mAppContext;
 	private final DefaultHttpClient mHttpClient;
 	private final HttpContext mHttpContext;
-	private final Map<String, String> mClientHeaders;
+	private final Map<String, String> mHeaders;
 
 	private CookieStore mCookieStore;
 
@@ -56,7 +57,7 @@ public class SimpleClient {
 
 	public SimpleClient(Context context) {
 		mAppContext = context.getApplicationContext();
-		mClientHeaders = new HashMap<String, String>();
+		mHeaders = new HashMap<String, String>();
 		mHttpContext = new SyncBasicHttpContext(new BasicHttpContext());
 		mHttpClient = createHttpClient(mAppContext);
 		mCookieStore = new BasicCookieStore();
@@ -69,7 +70,9 @@ public class SimpleClient {
 		client.addRequestInterceptor(new HttpRequestInterceptor() {
 			@Override
 			public void process(HttpRequest request, HttpContext context) {
-				addClientHeaders(request);
+				for (Map.Entry<String, String> entry : mHeaders.entrySet()) {
+					request.addHeader(entry.getKey(), entry.getValue());
+				}
 			}
 		});
 		return client;
@@ -110,7 +113,7 @@ public class SimpleClient {
 	}
 
 	public void addHeader(String header, String value) {
-		mClientHeaders.put(header, value);
+		mHeaders.put(header, value);
 	}
 
 	public void setBasicAuth(String userName, String password) {
@@ -124,45 +127,73 @@ public class SimpleClient {
 				credentials);
 	}
 
-	private HttpResponse sendRequest(final SimpleRequest simpleRequest)
-			throws ClientProtocolException, IOException {
-		final HttpClient client = mHttpClient;
-		final HttpContext context = mHttpContext;
-		final HttpUriRequest request = SimpleHelper
-				.createHttpRequest(simpleRequest);
-		return sendRequest(mHttpClient, mHttpContext, request);
+	public SimpleResponse execute(final SimpleRequest simpleRequest)
+			throws IOException {
+		final HttpResponse response = sendRequest(simpleRequest);
+		return new SimpleResponse(response);
 	}
 
-	/********** DO REAL THINGS *************/
+	public HttpResponse sendRequest(final SimpleRequest simpleRequest)
+			throws IOException {
+		final DefaultHttpClient client = mHttpClient;
+		final HttpContext httpContext = mHttpContext;
+		final HttpUriRequest request = SimpleHelper
+				.createHttpRequest(simpleRequest);
+		return sendRequest(client, httpContext, request);
+	}
 
-	private HttpResponse sendRequest(DefaultHttpClient client,
-			HttpContext context, HttpUriRequest request)
-			throws ClientProtocolException, IOException {
+	public HttpResponse sendRequest(HttpUriRequest request) throws IOException {
+		final DefaultHttpClient client = mHttpClient;
+		final HttpContext context = mHttpContext;
 		return client.execute(request, context);
 	}
 
-	private <T> T sendRequest(DefaultHttpClient client, HttpContext context,
-			HttpUriRequest request, ResponseHandler<? extends T> responseHandler)
-			throws IOException {
-		return client.execute(request, responseHandler, context);
+	public <T> T sendRequest(HttpUriRequest request,
+			ResponseHandler<? extends T> responseHandler) throws IOException {
+		final DefaultHttpClient client = mHttpClient;
+		final HttpContext httpContext = mHttpContext;
+		return sendRequest(client, httpContext, request, responseHandler);
 	}
 
-	private void addClientHeaders(HttpRequest request) {
-		for (String header : mClientHeaders.keySet()) {
-			request.addHeader(header, mClientHeaders.get(header));
-		}
+	private HttpResponse sendRequest(DefaultHttpClient client,
+			HttpContext httpContext, HttpUriRequest request)
+			throws ClientProtocolException, IOException {
+		final Context context = mAppContext;
+		setProxyForChina(context, client.getParams());
+		return client.execute(request, httpContext);
+	}
+
+	private <T> T sendRequest(DefaultHttpClient client,
+			HttpContext httpContext, HttpUriRequest request,
+			ResponseHandler<? extends T> responseHandler) throws IOException {
+		final Context context = mAppContext;
+		setProxyForChina(context, client.getParams());
+		return client.execute(request, responseHandler, httpContext);
 	}
 
 	public void setHttpProxy(final String proxyHost, int proxyPort) {
 		if (proxyHost != null && proxyPort > 0) {
+			final HttpParams params = mHttpClient.getParams();
 			HttpHost proxy = new HttpHost(proxyHost, proxyPort);
-			mHttpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
-					proxy);
+			params.setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+		}
+	}
+
+	public void setHttpProxy(final HttpHost proxy) {
+		if (proxy != null) {
+			final HttpParams params = mHttpClient.getParams();
+			params.setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
 		}
 	}
 
 	public void removeHttpProxy() {
-		mHttpClient.getParams().removeParameter(ConnRoutePNames.DEFAULT_PROXY);
+		final HttpParams params = mHttpClient.getParams();
+		params.removeParameter(ConnRoutePNames.DEFAULT_PROXY);
+	}
+
+	private void setProxyForChina(final Context context,
+			final HttpParams httpParams) {
+		NetworkUtils.setProxyForChina(context, httpParams);
 	}
 
 	/**

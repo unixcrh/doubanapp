@@ -33,24 +33,38 @@ public class SimpleResponse {
 	private final StatusLine statusLine;
 	private final int statusCode;
 	private final String statusMessage;
-
-	private final Header[] requestHeaders;
-	private final Header[] responseHeaders;
-
-	private final HttpRequest request;
+	private final Header[] headers;
 	private final HttpResponse response;
 	private final BufferedHttpEntity entity;
 
-	public SimpleResponse(final HttpRequest request, final HttpResponse response) {
-		this.request = request;
+	private boolean empty;
+	private Exception exception;
+
+	public SimpleResponse() {
+		this.response = null;
+		this.statusLine = null;
+		this.statusCode = 0;
+		this.statusMessage = null;
+		this.headers = null;
+		this.entity = null;
+	}
+
+	public SimpleResponse(final HttpResponse response) throws IOException {
 		this.response = response;
-		this.response.getEntity();
 		this.statusLine = this.response.getStatusLine();
 		this.statusCode = this.statusLine.getStatusCode();
 		this.statusMessage = this.statusLine.getReasonPhrase();
-		this.requestHeaders = request.getAllHeaders();
-		this.responseHeaders = response.getAllHeaders();
-		this.entity = wrapEntity(this.response);
+		this.headers = response.getAllHeaders();
+		this.entity=wrapEntity(response);
+//		this.entity = new BufferedHttpEntity(response.getEntity());
+	}
+
+	public Exception getException() {
+		return exception;
+	}
+
+	public void setException(Exception exception) {
+		this.exception = exception;
 	}
 
 	public int getStatusCode() {
@@ -63,6 +77,10 @@ public class SimpleResponse {
 
 	public String getStatusMessage() {
 		return this.statusMessage;
+	}
+
+	public Header[] getHeaders() {
+		return headers;
 	}
 
 	public long getContentLength() {

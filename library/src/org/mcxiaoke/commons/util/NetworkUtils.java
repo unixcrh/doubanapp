@@ -34,6 +34,9 @@ public final class NetworkUtils {
 	 */
 	public static final void setProxyForChina(final Context context,
 			final HttpParams httpParams) {
+		if (context == null || httpParams == null) {
+			return;
+		}
 		boolean needCheckProxy = true;
 
 		ConnectivityManager cm = (ConnectivityManager) context
