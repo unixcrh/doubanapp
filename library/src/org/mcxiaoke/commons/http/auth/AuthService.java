@@ -1,6 +1,7 @@
 package org.mcxiaoke.commons.http.auth;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -73,8 +74,11 @@ public final class AuthService {
 	}
 
 	private static void addOAuthToQueryParamters(final SimpleRequest request) {
-		addOAuthParameters(request);
-		appendAuthorizationToQueryParameters(request);
+		final List<Parameter> oauthParameters = generateOAuthParameters(request
+				.getAuthConfig());
+		oauthParameters.add(new Parameter(AuthConstants.OAUTH_SIGNATURE,
+				getSignature(request, oauthParameters)));
+		appendAuthorizationToQueryParameters(request, oauthParameters);
 	}
 
 	private static void addOAuth2ToQueryParamters(final SimpleRequest request) {
@@ -84,8 +88,11 @@ public final class AuthService {
 	}
 
 	private static void addOAuthToHeaders(final SimpleRequest request) {
-		addOAuthParameters(request);
-		appendAuthorizationToHeaders(request);
+		final List<Parameter> oauthParameters = generateOAuthParameters(request
+				.getAuthConfig());
+		oauthParameters.add(new Parameter(AuthConstants.OAUTH_SIGNATURE,
+				getSignature(request, oauthParameters)));
+		appendAuthorizationToHeaders(request, oauthParameters);
 	}
 
 	private static void addOAuth2ToHeaders(final SimpleRequest request) {
@@ -112,25 +119,25 @@ public final class AuthService {
 	}
 
 	private static void appendAuthorizationToQueryParameters(
-			final SimpleRequest request) {
-		request.addQueryParameters(request.getOAuthParameters());
+			final SimpleRequest request, final List<Parameter> oauthParameters) {
+		request.addQueryParameters(oauthParameters);
 	}
 
-	private static void appendAuthorizationToHeaders(final SimpleRequest request) {
+	private static void appendAuthorizationToHeaders(
+			final SimpleRequest request, final List<Parameter> oauthParameters) {
 		request.addHeader(AuthConstants.HEADER,
-				getAuthorizationHeader(request.getOAuthParametersMap()));
+				getAuthorizationHeader(oauthParameters));
 	}
 
 	private static String getAuthorizationHeader(
-			final Map<String, String> authParameters) {
+			final List<Parameter> authParameters) {
 		StringBuilder sb = new StringBuilder();
 		if (authParameters != null) {
-			for (Map.Entry<String, String> parameter : authParameters
-					.entrySet()) {
+			for (Parameter parameter : authParameters) {
 				if (sb.length() > 0)
 					sb.append(",");
 				sb.append(" ");
-				sb.append(percentEncode(parameter.getKey())).append("=\"");
+				sb.append(percentEncode(parameter.getName())).append("=\"");
 				sb.append(percentEncode(parameter.getValue())).append('"');
 			}
 		}
@@ -138,17 +145,10 @@ public final class AuthService {
 		return sb.toString();
 	}
 
-	private static void addOAuthParameters(final SimpleRequest request) {
-		// 这两者有先后顺序，签名生成依赖于添加的OAuthParameters
-		request.addOAuthParameters(createOAuthParameters(request
-				.getAuthConfig()));
-		request.addOAuthParameter(AuthConstants.OAUTH_SIGNATURE,
-				getSignature(request));
-	}
-
-	private static String getSignature(final SimpleRequest request) {
+	private static String getSignature(final SimpleRequest request,
+			final List<Parameter> oauthParameters) {
 		final AuthConfig authorization = request.getAuthConfig();
-		String baseString = getBaseString(request);
+		String baseString = getBaseString(request, oauthParameters);
 		SecretKeySpec secretKey = getSecretKeySpec(
 				authorization.getApiSecret(), authorization.getSecret());
 		return signature(baseString, secretKey);
@@ -171,18 +171,19 @@ public final class AuthService {
 	private static SecretKeySpec getSecretKeySpec(final String consumerSecret,
 			final String accessTokenSecret) {
 		if (StringUtils.isEmpty(accessTokenSecret)) {
-			String oauthSignature = percentEncode(consumerSecret) + "&";
+			String oauthSignature = encode(consumerSecret);
 			return new SecretKeySpec(oauthSignature.getBytes(),
 					AuthConstants.HMAC_SHA1);
 		} else {
-			String oauthSignature = percentEncode(consumerSecret) + "&"
-					+ percentEncode(accessTokenSecret);
+			String oauthSignature = encode(consumerSecret + "&"
+					+ accessTokenSecret);
 			return new SecretKeySpec(oauthSignature.getBytes(),
 					AuthConstants.HMAC_SHA1);
 		}
 	}
 
-	private static String getBaseString(final SimpleRequest request) {
+	private static String getBaseString(final SimpleRequest request,
+			final List<Parameter> oauthParameters) {
 		StringBuilder sb = new StringBuilder();
 		final String url = request.getUrl();
 		String encodedUrl = percentEncode(url);
@@ -191,7 +192,7 @@ public final class AuthService {
 		List<Parameter> allParameters = new ArrayList<Parameter>();
 		allParameters.addAll(request.getParameters());
 		allParameters.addAll(request.getQueryParameters());
-		allParameters.addAll(request.getOAuthParameters());
+		allParameters.addAll(oauthParameters);
 		final String encodedParameters = getSortedAndEncodedParametersAsString(allParameters);
 		sb.append(encodedUrl).append("&").append(encodedMethod).append("&")
 				.append(encodedParameters);
@@ -213,26 +214,28 @@ public final class AuthService {
 		return sb.substring(1).toString();
 	}
 
-	private static Map<String, String> createOAuthParameters(
+	private static List<Parameter> generateOAuthParameters(
 			final AuthConfig authorization) {
-		AuthConfig auth = authorization;
-		final Map<String, String> oauthParamters = new HashMap<String, String>();
+		final AuthConfig auth = authorization;
+		final List<Parameter> oauthParamters = new ArrayList<Parameter>();
 		if (auth != null) {
 			long timestamp = System.currentTimeMillis() / 1000;
 			long nonce = timestamp + RAND.nextInt();
 			if (StringUtils.isNotEmpty(auth.getToken())) {
-				oauthParamters.put(AuthConstants.OAUTH_TOKEN, auth.getToken());
+				oauthParamters.add(new Parameter(AuthConstants.OAUTH_TOKEN,
+						auth.getToken()));
 			}
-			oauthParamters.put(AuthConstants.OAUTH_CONSUMER_KEY,
-					auth.getApiKey());
-			oauthParamters.put(AuthConstants.OAUTH_SIGNATURE_METHOD,
-					AuthConstants.HMAC_SHA1);
-			oauthParamters.put(AuthConstants.OAUTH_TIMESTAMP,
-					String.valueOf(timestamp));
-			oauthParamters
-					.put(AuthConstants.OAUTH_NONCE, String.valueOf(nonce));
-			oauthParamters.put(AuthConstants.OAUTH_VERSION,
-					AuthConstants.VERSION_1_0);
+			oauthParamters.add(new Parameter(AuthConstants.OAUTH_CONSUMER_KEY,
+					auth.getApiKey()));
+			oauthParamters.add(new Parameter(
+					AuthConstants.OAUTH_SIGNATURE_METHOD,
+					AuthConstants.HMAC_SHA1));
+			oauthParamters.add(new Parameter(AuthConstants.OAUTH_TIMESTAMP,
+					String.valueOf(timestamp)));
+			oauthParamters.add(new Parameter(AuthConstants.OAUTH_NONCE, String
+					.valueOf(nonce)));
+			oauthParamters.add(new Parameter(AuthConstants.OAUTH_VERSION,
+					AuthConstants.VERSION_1_0));
 		}
 		return oauthParamters;
 	}
@@ -253,6 +256,17 @@ public final class AuthService {
 			return EMPTY_STRING;
 		}
 		return URIUtilsEx.percentEncode(text);
+	}
+
+	private static String encode(String text) {
+		if (text == null) {
+			return EMPTY_STRING;
+		}
+		try {
+			return URLEncoder.encode(text, HTTP.UTF_8);
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

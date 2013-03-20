@@ -19,8 +19,8 @@ import java.util.Map;
 import org.apache.http.NameValuePair;
 import org.mcxiaoke.commons.http.auth.AuthConfig;
 import org.mcxiaoke.commons.http.util.HttpUtils;
+import org.mcxiaoke.commons.util.LogUtils;
 import org.mcxiaoke.commons.util.StringUtils;
-import org.scribe.model.OAuthConstants;
 
 /**
  * @author mcxiaoke
@@ -28,8 +28,12 @@ import org.scribe.model.OAuthConstants;
  */
 public class SimpleRequest {
 
+	private static final boolean DEBUG = true;
 	private static final String TAG = SimpleRequest.class.getSimpleName();
-	private static final String OAUTH_PREFIX = "oauth_";
+
+	private static void debug(String message) {
+		LogUtils.v(TAG, message);
+	}
 
 	private final String mOriginalUrl;
 	private final String mUrl;
@@ -39,7 +43,6 @@ public class SimpleRequest {
 	private final ArrayList<Parameter> mParameters;
 	private final ArrayList<Parameter> mQueryParameters;
 	private final HashMap<String, FileHolder> mFileParameters;
-	private HashMap<String, String> mOAuthParameters;
 	private boolean mGzipEnalbed;
 
 	public SimpleRequest(final SimpleRequest.RequestBuilder builder) {
@@ -50,7 +53,6 @@ public class SimpleRequest {
 		this.mParameters = new ArrayList<Parameter>();
 		this.mQueryParameters = new ArrayList<Parameter>();
 		this.mFileParameters = new HashMap<String, SimpleRequest.FileHolder>();
-		this.mOAuthParameters = new HashMap<String, String>();
 
 		if (builder.getParameters() != null) {
 			mParameters.addAll(builder.getParameters());
@@ -187,37 +189,6 @@ public class SimpleRequest {
 		}
 	}
 
-	public void addOAuthParameter(String key, String value) {
-		if (isValidOAuthKey(key)) {
-			mOAuthParameters.put(key, value);
-
-		}
-	}
-
-	public void addOAuthParameters(Map<String, String> parameters) {
-		if (parameters != null && parameters.size() > 0) {
-			for (Map.Entry<String, String> entry : parameters.entrySet()) {
-				String key = entry.getKey();
-				if (isValidOAuthKey(key)) {
-				}
-				String value = entry.getValue();
-				mOAuthParameters.put(key, value);
-			}
-		}
-	}
-
-	public List<Parameter> getOAuthParameters() {
-		List<Parameter> parameters = new ArrayList<Parameter>();
-		for (Map.Entry<String, String> entry : mOAuthParameters.entrySet()) {
-			parameters.add(new Parameter(entry.getKey(), entry.getValue()));
-		}
-		return parameters;
-	}
-
-	public Map<String, String> getOAuthParametersMap() {
-		return this.mOAuthParameters;
-	}
-
 	public List<Parameter> getParameters() {
 		return this.mParameters;
 	}
@@ -242,9 +213,9 @@ public class SimpleRequest {
 		return mFileParameters.size() > 0;
 	}
 
-	public boolean hasOAuthParameters() {
-		return mOAuthParameters.size() > 0;
-	}
+	// public boolean hasOAuthParameters() {
+	// return mOAuthParameters.size() > 0;
+	// }
 
 	public void removeAllParameters() {
 		mParameters.clear();
@@ -252,13 +223,6 @@ public class SimpleRequest {
 		mFileParameters.clear();
 	}
 
-	private boolean isValidOAuthKey(String key) {
-		return key != null
-				&& (key.startsWith(OAUTH_PREFIX) || key
-						.equals(OAuthConstants.SCOPE));
-	}
-
-	/**************** REQUEST BUILDER ****************************/
 	public final static class RequestBuilder {
 		private String url;
 		private Method method;

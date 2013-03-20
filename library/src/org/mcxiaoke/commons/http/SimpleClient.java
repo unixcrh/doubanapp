@@ -125,6 +125,15 @@ public class SimpleClient {
 				credentials);
 	}
 
+	private HttpResponse sendRequest(final SimpleRequest simpleRequest)
+			throws ClientProtocolException, IOException {
+		final HttpClient client = mHttpClient;
+		final HttpContext context = mHttpContext;
+		final HttpUriRequest request = SimpleHelper
+				.createHttpRequest(simpleRequest);
+		return sendRequest(mHttpClient, mHttpContext, request);
+	}
+
 	/********** DO REAL THINGS *************/
 
 	private HttpResponse sendRequest(DefaultHttpClient client,

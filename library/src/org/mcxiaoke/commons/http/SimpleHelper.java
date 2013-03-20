@@ -13,14 +13,14 @@ import java.util.Map;
 
 import org.apache.commons.codec.Charsets;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpEntityEnclosingRequest;
-import org.apache.http.HttpRequest;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.entity.mime.content.StringBody;
@@ -55,8 +55,7 @@ final class SimpleHelper {
 		return entity;
 	}
 
-	public static HttpEntity encodeMultiPartEntity(
-			final SimpleRequest request) {
+	public static HttpEntity encodeMultiPartEntity(final SimpleRequest request) {
 		MultipartEntity entity = new MultipartEntity();
 		encodeTextParams(entity, request.getParameters());
 		encodeBinaryParams(entity, request.getFileParameters());
@@ -89,8 +88,8 @@ final class SimpleHelper {
 		}
 	}
 
-	public static HttpRequest createHttpRequest(final SimpleRequest request) {
-		HttpRequest httpRequest = null;
+	public static HttpUriRequest createHttpRequest(final SimpleRequest request) {
+		HttpUriRequest httpRequest = null;
 		String baseUrl = request.getUrl();
 		Method method = request.getMethod();
 		Map<String, String> headers = new HashMap<String, String>(
@@ -110,7 +109,7 @@ final class SimpleHelper {
 
 		} else if (Method.POST == method || Method.PUT == method) {
 
-			HttpEntityEnclosingRequest httpEntityEnclosingRequest = null;
+			HttpEntityEnclosingRequestBase httpEntityEnclosingRequest = null;
 			httpEntityEnclosingRequest = (method == Method.POST) ? new HttpPost(
 					requestUrl) : new HttpPut(requestUrl);
 			HttpEntity entity = createHttpEntity(request);
