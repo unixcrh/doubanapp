@@ -91,7 +91,7 @@ final class SimpleHelper {
 	public static HttpUriRequest createHttpRequest(final SimpleRequest request) {
 		HttpUriRequest httpRequest = null;
 		String baseUrl = request.getUrl();
-		Method method = request.getMethod();
+		HttpMethod method = request.getMethod();
 		Map<String, String> headers = new HashMap<String, String>(
 				request.getHeaders());
 		ArrayList<Parameter> queryParameters = new ArrayList<Parameter>(
@@ -100,17 +100,17 @@ final class SimpleHelper {
 				request.getParameters());
 		String requestUrl = URIUtilsEx.appendQueryParameters(baseUrl,
 				queryParameters);
-		if (Method.GET == method || Method.DELETE == method) {
+		if (HttpMethod.GET == method || HttpMethod.DELETE == method) {
 
 			requestUrl = URIUtilsEx.appendQueryParameters(requestUrl,
 					parameters);
-			httpRequest = (Method.GET == method) ? new HttpGet(requestUrl)
+			httpRequest = (HttpMethod.GET == method) ? new HttpGet(requestUrl)
 					: new HttpDelete(requestUrl);
 
-		} else if (Method.POST == method || Method.PUT == method) {
+		} else if (HttpMethod.POST == method || HttpMethod.PUT == method) {
 
 			HttpEntityEnclosingRequestBase httpEntityEnclosingRequest = null;
-			httpEntityEnclosingRequest = (method == Method.POST) ? new HttpPost(
+			httpEntityEnclosingRequest = (method == HttpMethod.POST) ? new HttpPost(
 					requestUrl) : new HttpPut(requestUrl);
 			HttpEntity entity = createHttpEntity(request);
 			if (entity != null) {
@@ -119,14 +119,14 @@ final class SimpleHelper {
 			httpRequest = httpEntityEnclosingRequest;
 		}
 
+		if (request.isEnableGZipContent()) {
+			request.addHeader(HEADER_ACCEPT_ENCODING, ENCODING_GZIP);
+		}
+
 		if (headers != null && headers.size() > 0) {
 			for (Map.Entry<String, String> entry : headers.entrySet()) {
 				httpRequest.addHeader(entry.getKey(), entry.getValue());
 			}
-		}
-
-		if (request.isGzipEnabled()) {
-			httpRequest.addHeader(HEADER_ACCEPT_ENCODING, ENCODING_GZIP);
 		}
 
 		return httpRequest;

@@ -16,7 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.mcxiaoke.commons.http.auth.AuthConfig;
 import org.mcxiaoke.commons.http.util.HttpUtils;
 import org.mcxiaoke.commons.util.LogUtils;
@@ -37,18 +39,18 @@ public class SimpleRequest {
 
 	private final String mOriginalUrl;
 	private final String mUrl;
-	private final Method mMethod;
+	private final HttpMethod mMethod;
 	private final AuthConfig mAuthConfig;
 	private final HashMap<String, String> mHeaders;
 	private final ArrayList<Parameter> mParameters;
 	private final ArrayList<Parameter> mQueryParameters;
 	private final HashMap<String, FileHolder> mFileParameters;
-	private boolean mGzipEnalbed;
+	private boolean mEnableGZipContent;
 
 	public SimpleRequest(final SimpleRequest.RequestBuilder builder) {
 		this.mOriginalUrl = builder.getUrl();
 		this.mMethod = builder.getMethod();
-		this.mAuthConfig = builder.getAuthorization();
+		this.mAuthConfig = builder.getAuthConfig();
 		this.mHeaders = new HashMap<String, String>();
 		this.mParameters = new ArrayList<Parameter>();
 		this.mQueryParameters = new ArrayList<Parameter>();
@@ -63,28 +65,28 @@ public class SimpleRequest {
 		if (builder.getFileParameters() != null) {
 			mFileParameters.putAll(builder.getFileParameters());
 		}
-		this.mGzipEnalbed = builder.isGzipEnalbed();
+		this.mEnableGZipContent = builder.isEnableGZipContent();
 		this.mUrl = SimpleHelper.extractUrlQueryParameters(mOriginalUrl,
 				mQueryParameters);
 	}
 
-	public boolean isGzipEnabled() {
-		return this.mGzipEnalbed;
+	public boolean isEnableGZipContent() {
+		return this.mEnableGZipContent;
 	}
 
-	public void enableGzip() {
-		this.mGzipEnalbed = true;
+	public void setEnableGZipContent(boolean enableGZipContent) {
+		this.mEnableGZipContent = enableGZipContent;
 	}
 
 	public void disableGzip() {
-		this.mGzipEnalbed = false;
+		this.mEnableGZipContent = false;
 	}
 
 	public String getUrl() {
 		return mUrl;
 	}
 
-	public Method getMethod() {
+	public HttpMethod getMethod() {
 		return mMethod;
 	}
 
@@ -225,13 +227,13 @@ public class SimpleRequest {
 
 	public final static class RequestBuilder {
 		private String url;
-		private Method method;
+		private HttpMethod method;
 		private AuthConfig oauthConfig;
 		private HashMap<String, String> headers;
 		private ArrayList<Parameter> parameters;
 		private ArrayList<Parameter> queryParameters;
 		private HashMap<String, FileHolder> fileParameters;
-		private boolean gzipEnalbed;
+		private boolean enableGZipContent;
 
 		public static RequestBuilder create() {
 			return new RequestBuilder();
@@ -252,11 +254,11 @@ public class SimpleRequest {
 			return url;
 		}
 
-		public Method getMethod() {
+		public HttpMethod getMethod() {
 			return method;
 		}
 
-		public AuthConfig getAuthorization() {
+		public AuthConfig getAuthConfig() {
 			return oauthConfig;
 		}
 
@@ -276,42 +278,42 @@ public class SimpleRequest {
 			return fileParameters;
 		}
 
-		public boolean isGzipEnalbed() {
-			return gzipEnalbed;
+		public boolean isEnableGZipContent() {
+			return enableGZipContent;
 		}
 
-		public RequestBuilder url(String url) {
+		public RequestBuilder setUrl(String url) {
 			this.url = url;
 			return this;
 		}
 
-		public RequestBuilder url(URL url) {
+		public RequestBuilder setUrl(URL url) {
 			this.url = url.toString();
 			return this;
 		}
 
-		public RequestBuilder url(URI uri) {
+		public RequestBuilder setUrl(URI uri) {
 			this.url = uri.toString();
 			return this;
 		}
 
-		public RequestBuilder method(Method method) {
+		public RequestBuilder setMethod(HttpMethod method) {
 			this.method = method;
 			return this;
 		}
 
-		public RequestBuilder authorization(final AuthConfig authorization) {
+		public RequestBuilder setMethod(final AuthConfig authorization) {
 			this.oauthConfig = authorization;
 			return this;
 		}
 
-		public RequestBuilder basicAuth(final String userName,
+		public RequestBuilder setBasicAuth(final String userName,
 				final String password) {
 			this.oauthConfig = new AuthConfig(userName, password);
 			return this;
 		}
 
-		public RequestBuilder oauth(final String apiKey,
+		public RequestBuilder setOAuth(final String apiKey,
 				final String apiSecret, final String accessToken,
 				final String accessTokenSecret) {
 			this.oauthConfig = new AuthConfig(apiKey, apiSecret, accessToken,
@@ -319,44 +321,44 @@ public class SimpleRequest {
 			return this;
 		}
 
-		public RequestBuilder oauth2(final String accessToken) {
+		public RequestBuilder setOAuth2(final String accessToken) {
 			this.oauthConfig = new AuthConfig(accessToken);
 			return this;
 		}
 
-		public RequestBuilder header(String name, String value) {
+		public RequestBuilder addHeader(String name, String value) {
 			this.headers.put(name, value);
 			return this;
 		}
 
-		public RequestBuilder headers(Map<String, String> headers) {
+		public RequestBuilder addHeaders(Map<String, String> headers) {
 			if (headers != null) {
 				this.headers.putAll(headers);
 			}
 			return this;
 		}
 
-		public RequestBuilder param(String key, String value) {
+		public RequestBuilder addParameter(String key, String value) {
 			if (StringUtils.isNotEmpty(key)) {
 				parameters.add(new Parameter(key, value));
 			}
 			return this;
 		}
 
-		public RequestBuilder param(NameValuePair pair) {
+		public RequestBuilder addParameter(NameValuePair pair) {
 			if (pair != null) {
 				parameters.add(new Parameter(pair));
 			}
 			return this;
 		}
 
-		public void params(Collection<? extends Parameter> params) {
+		public void addParameters(Collection<? extends Parameter> params) {
 			if (params != null) {
 				parameters.addAll(params);
 			}
 		}
 
-		public RequestBuilder param(Map<String, String> params) {
+		public RequestBuilder addParameters(Map<String, String> params) {
 			if (params != null) {
 				for (Map.Entry<String, String> entry : params.entrySet()) {
 					Parameter p = new Parameter(entry.getKey(),
@@ -367,27 +369,27 @@ public class SimpleRequest {
 			return this;
 		}
 
-		public RequestBuilder query(String key, String value) {
+		public RequestBuilder addQuery(String key, String value) {
 			if (StringUtils.isNotEmpty(key)) {
 				parameters.add(new Parameter(key, value));
 			}
 			return this;
 		}
 
-		public RequestBuilder query(NameValuePair pair) {
+		public RequestBuilder addQuery(NameValuePair pair) {
 			if (pair != null) {
 				parameters.add(new Parameter(pair));
 			}
 			return this;
 		}
 
-		public void querys(Collection<? extends Parameter> params) {
+		public void addQuerys(Collection<? extends Parameter> params) {
 			if (params != null) {
 				parameters.addAll(params);
 			}
 		}
 
-		public RequestBuilder querys(Map<String, String> params) {
+		public RequestBuilder addQuery(Map<String, String> params) {
 			if (params != null) {
 				for (Map.Entry<String, String> entry : params.entrySet()) {
 					Parameter p = new Parameter(entry.getKey(),
@@ -398,32 +400,32 @@ public class SimpleRequest {
 			return this;
 		}
 
-		public RequestBuilder param(String key, File file) {
+		public RequestBuilder addParameter(String key, File file) {
 			try {
-				param(key, new FileInputStream(file), file.getName());
+				addParameter(key, new FileInputStream(file), file.getName());
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
 			return this;
 		}
 
-		public RequestBuilder param(String key, byte[] bytes) {
-			param(key, new ByteArrayInputStream(bytes));
+		public RequestBuilder addParameter(String key, byte[] bytes) {
+			addParameter(key, new ByteArrayInputStream(bytes));
 			return this;
 		}
 
-		public RequestBuilder param(String name, InputStream stream) {
-			param(name, stream, null);
+		public RequestBuilder addParameter(String name, InputStream stream) {
+			addParameter(name, stream, null);
 			return this;
 		}
 
-		public RequestBuilder param(String key, InputStream stream,
+		public RequestBuilder addParameter(String key, InputStream stream,
 				String fileName) {
-			param(key, stream, fileName, null);
+			addParameter(key, stream, fileName, null);
 			return this;
 		}
 
-		public RequestBuilder param(String key, InputStream stream,
+		public RequestBuilder addParameter(String key, InputStream stream,
 				String fileName, String contentType) {
 			if (StringUtils.isNotEmpty(key) && stream != null) {
 				fileParameters.put(key, new FileHolder(stream, fileName,
@@ -432,8 +434,9 @@ public class SimpleRequest {
 			return this;
 		}
 
-		public void gzip(boolean enable) {
-			this.gzipEnalbed = enable;
+		public RequestBuilder setEnableGZipContent(boolean enableGZipContent) {
+			this.enableGZipContent = enableGZipContent;
+			return this;
 		}
 
 	}

@@ -59,7 +59,6 @@ public class SimpleClient {
 		mClientHeaders = new HashMap<String, String>();
 		mHttpContext = new SyncBasicHttpContext(new BasicHttpContext());
 		mHttpClient = createHttpClient(mAppContext);
-
 		mCookieStore = new BasicCookieStore();
 		mHttpContext.setAttribute(ClientContext.COOKIE_STORE, mCookieStore);
 	}
@@ -257,7 +256,7 @@ public class SimpleClient {
 					&& request instanceof HttpUriRequest) {
 				// Never print auth token -- we used to check ro.secure=0 to
 				// enable that, but can't do that in unbundled code.
-				configuration.println(toCurl((HttpUriRequest) request, false));
+				configuration.println(toCurl((HttpUriRequest) request, true));
 			}
 		}
 	}

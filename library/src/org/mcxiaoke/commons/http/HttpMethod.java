@@ -7,6 +7,6 @@ package org.mcxiaoke.commons.http;
  * @author mcxiaoke
  * 
  */
-public enum Method {
-	HEAD, GET, DELETE, POST, PUT;
+public enum HttpMethod {
+	  DELETE, GET, HEAD, PATCH, PUT, POST
 }

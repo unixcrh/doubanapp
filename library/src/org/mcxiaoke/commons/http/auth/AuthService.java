@@ -6,9 +6,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import javax.crypto.Mac;
@@ -231,13 +229,21 @@ public final class AuthService {
 					AuthConstants.OAUTH_SIGNATURE_METHOD,
 					AuthConstants.HMAC_SHA1));
 			oauthParamters.add(new Parameter(AuthConstants.OAUTH_TIMESTAMP,
-					String.valueOf(timestamp)));
-			oauthParamters.add(new Parameter(AuthConstants.OAUTH_NONCE, String
-					.valueOf(nonce)));
+					computeTimestamp()));
+			oauthParamters.add(new Parameter(AuthConstants.OAUTH_NONCE,
+					computeNonce()));
 			oauthParamters.add(new Parameter(AuthConstants.OAUTH_VERSION,
 					AuthConstants.VERSION_1_0));
 		}
 		return oauthParamters;
+	}
+
+	public static String computeNonce() {
+		return Long.toHexString(Math.abs(RAND.nextLong()));
+	}
+
+	public static String computeTimestamp() {
+		return Long.toString(System.currentTimeMillis() / 1000);
 	}
 
 	private static byte[] getBytes(String text) {

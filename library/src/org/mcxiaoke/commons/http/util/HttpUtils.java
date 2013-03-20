@@ -17,12 +17,13 @@ import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
-import org.mcxiaoke.commons.http.Method;
+import org.mcxiaoke.commons.http.HttpMethod;
 import org.mcxiaoke.commons.http.impl.GzipRequestInterceptor;
 import org.mcxiaoke.commons.http.impl.GzipResponseInterceptor;
 import org.mcxiaoke.commons.http.impl.RequestRetryHandler;
@@ -36,9 +37,10 @@ import android.net.SSLSessionCache;
  * 
  */
 public final class HttpUtils {
+	private static final int DEFAULT_MAX_ALL_CONNECTIONS = 100;
 	private static final int DEFAULT_MAX_CONNECTIONS = 20;
 	private static final int DEFAULT_SOCKET_TIMEOUT = 30 * 1000;
-	private static final int DEFAULT_MAX_RETRIES = 5;
+	private static final int DEFAULT_MAX_RETRIES = 3;
 	private static final int DEFAULT_SOCKET_BUFFER_SIZE = 8192;
 	public final static String HEADER_CONTENT_TYPE = "content-type";
 	public final static String HEADER_CONTENT_ENCODING = "content-encoding";
@@ -62,6 +64,30 @@ public final class HttpUtils {
 					DEFAULT_MAX_RETRIES));
 		}
 		return client;
+	}
+
+	public static DefaultHttpClient createSingleHttpClient(Context context) {
+		BasicHttpParams httpParams = createHttpParams();
+		SingleClientConnManager cm = createSingleClientConnManager(httpParams);
+		DefaultHttpClient client = new DefaultHttpClient(cm, httpParams);
+		client.addResponseInterceptor(new GzipResponseInterceptor());
+		client.addRequestInterceptor(new GzipRequestInterceptor());
+		client.setHttpRequestRetryHandler(new RequestRetryHandler(
+				DEFAULT_MAX_RETRIES));
+		return client;
+	}
+
+	public static SingleClientConnManager createSingleClientConnManager(
+			BasicHttpParams httpParams) {
+
+		SchemeRegistry schemeRegistry = new SchemeRegistry();
+		schemeRegistry.register(new Scheme("http", PlainSocketFactory
+				.getSocketFactory(), 80));
+		schemeRegistry.register(new Scheme("https", SSLSocketFactory
+				.getSocketFactory(), 443));
+		SingleClientConnManager cm = new SingleClientConnManager(httpParams,
+				schemeRegistry);
+		return cm;
 	}
 
 	public static ThreadSafeClientConnManager createThreadSafeClientConnManager(
@@ -107,7 +133,8 @@ public final class HttpUtils {
 		ConnManagerParams.setTimeout(httpParams, socketTimeout);
 		ConnManagerParams.setMaxConnectionsPerRoute(httpParams,
 				new ConnPerRouteBean(maxConnections));
-		ConnManagerParams.setMaxTotalConnections(httpParams, maxConnections);
+		ConnManagerParams.setMaxTotalConnections(httpParams,
+				DEFAULT_MAX_ALL_CONNECTIONS);
 
 		HttpProtocolParams.setUseExpectContinue(httpParams, false);
 		HttpProtocolParams.setContentCharset(null, HTTP.UTF_8);
@@ -125,7 +152,7 @@ public final class HttpUtils {
 		return httpParams;
 	}
 
-	public static String getMethodName(final Method method) {
+	public static String getMethodName(final HttpMethod method) {
 		String methodName = null;
 		switch (method) {
 		case HEAD:
@@ -144,8 +171,8 @@ public final class HttpUtils {
 			methodName = HttpPut.METHOD_NAME;
 			break;
 		default:
-//			throw new NullPointerException("http method must not be null.");
-			 break;
+			// throw new NullPointerException("http method must not be null.");
+			break;
 		}
 		return methodName;
 	}
