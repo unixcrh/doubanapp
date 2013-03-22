@@ -11,6 +11,10 @@ public final class DoubanConfig {
 
 	public static final String API_HOST = "https://api.douban.com";
 
+	public static final String getApiUrl(String format, Object... args) {
+		return String.format(format, args);
+	}
+
 	public static final class OAuth {
 		public static final String KEY = "05307422ce6d70180f915c686b485048";
 		public static final String SECRET = "767dfeba2658f8ba";
@@ -38,16 +42,8 @@ public final class DoubanConfig {
 			sb.append(Scope.SCOPE_COMMUNITY_BASIC_NOTE).append(",");
 			sb.append(Scope.SCOPE_COMMUNITY_BASIC_USER).append(",");
 			sb.append(Scope.SCOPE_COMMUNITY_BASIC_PHOTO).append(",");
-			sb.append(Scope.SCOPE_COMMUNITY_BASIC_ONLINE).append(",");
-			sb.append(Scope.SCOPE_EVENT_BASIC_READ).append(",");
-			sb.append(Scope.SCOPE_EVENT_BASIC_WRITE).append(",");
 			sb.append(Scope.SCOPE_MOVIE_BASIC).append(",");
-			sb.append(Scope.SCOPE_MOVIE_BASIC_READ).append(",");
-			sb.append(Scope.SCOPE_MOVIE_BASIC_WRITE).append(",");
-			sb.append(Scope.SCOPE_BOOK_BASIC_READ).append(",");
-			sb.append(Scope.SCOPE_BOOK_BASIC_WRITE).append(",");
-			sb.append(Scope.SCOPE_MUSIC_BASIC_READ).append(",");
-			sb.append(Scope.SCOPE_MUSIC_BASIC_WRITE);
+			sb.append(Scope.SCOPE_BOOK_BASIC_READ);
 			return sb.toString();
 		}
 	}

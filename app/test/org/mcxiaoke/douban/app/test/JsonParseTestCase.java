@@ -7,7 +7,7 @@ import java.util.List;
 import org.mcxiaoke.douban.api.model.DoubanAlbum;
 import org.mcxiaoke.douban.api.model.DoubanAlbumPhotos;
 import org.mcxiaoke.douban.api.model.DoubanBook;
-import org.mcxiaoke.douban.api.model.DoubanBookCollection;
+import org.mcxiaoke.douban.api.model.DoubanBookCollections;
 import org.mcxiaoke.douban.api.model.DoubanComments;
 import org.mcxiaoke.douban.api.model.DoubanEvents;
 import org.mcxiaoke.douban.api.model.DoubanMails;
@@ -141,7 +141,7 @@ public class JsonParseTestCase extends BaseTestCase {
 		InputStream is = openAssets("json/books.json");
 		ObjectMapper om = new ObjectMapper();
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		DoubanBookCollection a = om.readValue(is, DoubanBookCollection.class);
+		DoubanBookCollections a = om.readValue(is, DoubanBookCollections.class);
 		assertNotNull(a);
 		debug(a);
 	}

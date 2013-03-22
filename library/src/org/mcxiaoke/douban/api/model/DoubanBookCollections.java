@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author mcxiaoke
  * 
  */
-public class DoubanBookCollection extends AbstractListModel {
+public class DoubanBookCollections extends AbstractListModel {
 	@JsonProperty("collections")
 	private List<DoubanBookCollectionItem> collections;
 
