@@ -24,7 +24,7 @@ import android.content.Context;
 public final class DoubanSession {
 	private static final OAuthToken NULL_TOKEN = null;
 	private Context context;
-	private OAuthToken token = OAuthToken.EMPTY();
+	private OAuthToken oauthToken = OAuthToken.EMPTY();
 
 	private final String apiKey;
 	private final String apiSecret;
@@ -52,7 +52,7 @@ public final class DoubanSession {
 			OAuthToken token) {
 		this(context, apiKey, apiSecret, null, null);
 		AssertUtils.notNull(token, "token cannot be null.");
-		this.token = token;
+		this.oauthToken = token;
 	}
 
 	public DoubanSession(Context context, String apiKey, String apiSecret,
@@ -89,7 +89,7 @@ public final class DoubanSession {
 		service.setProxy(NetworkUtils.getProxyForChina(context));
 		OAuthToken token = service.getAccessToken(NULL_TOKEN,
 				new Verifier(code));
-		this.token.update(token);
+		this.oauthToken.update(token);
 		return token;
 	}
 
@@ -107,12 +107,12 @@ public final class DoubanSession {
 		service.setProxy(NetworkUtils.getProxyForChina(context));
 		OAuthToken token = service.getAccessToken(NULL_TOKEN, new Verifier(
 				verifier));
-		this.token.update(token);
+		this.oauthToken.update(token);
 		return token;
 	}
 
 	public OAuthToken getAccessTokenByRefreshToken() {
-		return getAccessTokenByRefreshToken(token.getSecret());
+		return getAccessTokenByRefreshToken(oauthToken.getSecret());
 	}
 
 	public OAuthToken getAccessTokenByRefreshToken(String refreshToken) {
@@ -123,7 +123,7 @@ public final class DoubanSession {
 		service.setProxy(NetworkUtils.getProxyForChina(context));
 		OAuthToken token = service.getAccessToken(NULL_TOKEN, new Verifier(
 				refreshToken));
-		this.token.update(token);
+		this.oauthToken.update(token);
 		return token;
 	}
 
@@ -133,15 +133,28 @@ public final class DoubanSession {
 	}
 
 	public boolean isSessionValid() {
-		if (token == null || token.isEmpty()) {
-			return false;
-		}
-		return StringUtils.isNotEmpty(token.getToken())
-				&& token.getExpiresAt() >= System.currentTimeMillis();
+		return !isSessionInvalid();
 	}
 
-	public String getAccessToken() {
-		return token == null ? null : token.getToken();
+	public boolean isSessionInvalid() {
+		return isSessionEmpty() || isSessionExpired();
+	}
+
+	public boolean isSessionEmpty() {
+		return oauthToken == null || oauthToken.isEmpty();
+	}
+
+	public boolean isSessionExpired() {
+		return !isSessionEmpty()
+				&& oauthToken.getExpiresAt() <= System.currentTimeMillis();
+	}
+
+	public String getToken() {
+		return oauthToken == null ? null : oauthToken.getToken();
+	}
+
+	public String getSecret() {
+		return oauthToken == null ? null : oauthToken.getSecret();
 	}
 
 	public Context getContext() {
@@ -152,12 +165,12 @@ public final class DoubanSession {
 		this.context = context;
 	}
 
-	public OAuthToken getToken() {
-		return token;
+	public OAuthToken getOAuthToken() {
+		return oauthToken;
 	}
 
-	public void setToken(OAuthToken token) {
-		this.token = token;
+	public void setOAuthToken(OAuthToken token) {
+		this.oauthToken = token;
 	}
 
 	public String getCallbackUrl() {
@@ -214,7 +227,7 @@ public final class DoubanSession {
 		builder.append("DoubanSession [context=");
 		builder.append(context);
 		builder.append(", token=");
-		builder.append(token);
+		builder.append(oauthToken);
 		builder.append(", apiKey=");
 		builder.append(apiKey);
 		builder.append(", apiSecret=");

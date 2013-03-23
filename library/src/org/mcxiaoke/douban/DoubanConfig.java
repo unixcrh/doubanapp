@@ -8,6 +8,9 @@ package org.mcxiaoke.douban;
  * 
  */
 public final class DoubanConfig {
+	public static final String EXTRA_ERROR_CODE = "EXTRA_ERROR_CODE";
+	public static final String EXTRA_ERROR_MESSAGE = "EXTRA_ERROR_MESSAGE";
+	public static final String EXTRA_ERROR_REQUEST = "EXTRA_ERROR_REQUEST";
 
 	public static final String API_HOST = "https://api.douban.com";
 
@@ -18,6 +21,8 @@ public final class DoubanConfig {
 	public static final class OAuth {
 		public static final String KEY = "05307422ce6d70180f915c686b485048";
 		public static final String SECRET = "767dfeba2658f8ba";
+		
+		public static final String KEY_APPKEY="appkey";
 
 		public static final String AUTHORIZE_URL = "https://www.douban.com/service/auth2/auth";
 		public static final String TOKEN_URL = "https://www.douban.com/service/auth2/token";
