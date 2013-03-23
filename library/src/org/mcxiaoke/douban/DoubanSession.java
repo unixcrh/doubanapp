@@ -4,6 +4,7 @@
 package org.mcxiaoke.douban;
 
 import org.mcxiaoke.commons.util.AssertUtils;
+import org.mcxiaoke.commons.util.NetworkUtils;
 import org.mcxiaoke.commons.util.StringUtils;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.DoubanApi20;
@@ -12,6 +13,7 @@ import org.scribe.model.OAuthToken;
 import org.scribe.model.ResponseType;
 import org.scribe.model.SignatureType;
 import org.scribe.model.Verifier;
+import org.scribe.oauth.OAuthService;
 
 import android.content.Context;
 
@@ -82,9 +84,11 @@ public final class DoubanSession {
 
 	public OAuthToken getAccessTokenByCode(String code) {
 		AssertUtils.notEmpty(code, "authorizeCode cannot be null or empty.");
-		OAuthToken token = serviceBuilder
-				.grantType(GrantType.AUTHORIZATION_CODE).build()
-				.getAccessToken(NULL_TOKEN, new Verifier(code));
+		OAuthService service = serviceBuilder.grantType(
+				GrantType.AUTHORIZATION_CODE).build();
+		service.setProxy(NetworkUtils.getProxyForChina(context));
+		OAuthToken token = service.getAccessToken(NULL_TOKEN,
+				new Verifier(code));
 		this.token.update(token);
 		return token;
 	}
@@ -98,9 +102,11 @@ public final class DoubanSession {
 		AssertUtils.notEmpty(userName, "userName cannot be null or empty.");
 		AssertUtils.notEmpty(password, "password cannot be null or empty.");
 		String verifier = userName + ":" + password;
-		OAuthToken token = serviceBuilder
-				.grantType(GrantType.RESOURCE_OWNER_PASSWORD_CREDENTIALS)
-				.build().getAccessToken(NULL_TOKEN, new Verifier(verifier));
+		OAuthService service = serviceBuilder.grantType(
+				GrantType.RESOURCE_OWNER_PASSWORD_CREDENTIALS).build();
+		service.setProxy(NetworkUtils.getProxyForChina(context));
+		OAuthToken token = service.getAccessToken(NULL_TOKEN, new Verifier(
+				verifier));
 		this.token.update(token);
 		return token;
 	}
@@ -112,8 +118,11 @@ public final class DoubanSession {
 	public OAuthToken getAccessTokenByRefreshToken(String refreshToken) {
 		AssertUtils.notEmpty(refreshToken,
 				"refreshToken cannot be null or empty.");
-		OAuthToken token = serviceBuilder.grantType(GrantType.REFRESH_TOKEN)
-				.build().getAccessToken(NULL_TOKEN, new Verifier(refreshToken));
+		OAuthService service = serviceBuilder
+				.grantType(GrantType.REFRESH_TOKEN).build();
+		service.setProxy(NetworkUtils.getProxyForChina(context));
+		OAuthToken token = service.getAccessToken(NULL_TOKEN, new Verifier(
+				refreshToken));
 		this.token.update(token);
 		return token;
 	}
