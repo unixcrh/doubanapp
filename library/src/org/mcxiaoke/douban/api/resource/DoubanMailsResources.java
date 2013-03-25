@@ -3,6 +3,7 @@
  */
 package org.mcxiaoke.douban.api.resource;
 
+import org.mcxiaoke.douban.DoubanResponse;
 import org.mcxiaoke.douban.api.model.DoubanMail;
 import org.mcxiaoke.douban.api.model.DoubanMails;
 
@@ -12,25 +13,26 @@ import org.mcxiaoke.douban.api.model.DoubanMails;
  */
 public interface DoubanMailsResources {
 
-	DoubanMail getMail(long mailId, boolean keepUnRead);
+	DoubanResponse<DoubanMail> getMail(long mailId, boolean keepUnRead);
 
-	boolean deleteMail(long mailId);
+	DoubanResponse<Boolean> deleteMail(long mailId);
 
-	boolean deleteMails(String mailIds);
+	DoubanResponse<Boolean> deleteMails(String mailIds);
 
-	DoubanMail markMail(long mailId);
+	DoubanResponse<Boolean> markMail(long mailId);
 
-	DoubanMails markMails(String mailIds);
+	DoubanResponse<Boolean> markMails(String mailIds);
 
-	DoubanMails getMailsInbox();
+	DoubanResponse<DoubanMails> getMailsInbox();
 
-	DoubanMails getMailsOutbox();
+	DoubanResponse<DoubanMails> getMailsOutbox();
 
-	DoubanMails getMailsUnRead();
+	DoubanResponse<DoubanMails> getMailsUnRead();
 
-	boolean sendMail(String title, String content, long receiverId);
+	DoubanResponse<DoubanMail> sendMail(String title, String content,
+			long receiverId);
 
-	boolean sendMail(String title, String content, long receiverId,
-			String captchaToken, String captcha);
+	DoubanResponse<DoubanMail> sendMail(String title, String content,
+			long receiverId, String captchaToken, String captcha);
 
 }

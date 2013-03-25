@@ -3,6 +3,7 @@
  */
 package org.mcxiaoke.douban.api.resource;
 
+import org.mcxiaoke.douban.DoubanResponse;
 import org.mcxiaoke.douban.api.model.DoubanEvent;
 import org.mcxiaoke.douban.api.model.DoubanEvents;
 import org.mcxiaoke.douban.api.model.DoubanUsers;
@@ -12,21 +13,21 @@ import org.mcxiaoke.douban.api.model.DoubanUsers;
  * 
  */
 public interface DoubanEventsResources {
-	DoubanEvent getEvent(long eventId);
+	DoubanResponse<DoubanEvent> getEvent(long eventId);
 
-	DoubanUsers getEventParticipants(long eventId);
+	DoubanResponse<DoubanUsers> getEventParticipants(long eventId);
 
-	DoubanEvents getEventsByCity(int locId);
+	DoubanResponse<DoubanEvents> getEventsByCity(int locId);
 
-	DoubanEvents getEventsUserParticipanted(long userId);
+	DoubanResponse<DoubanEvents> getEventsUserParticipanted(long userId);
 
-	DoubanEvents getEventsUserParticipanted(String userName);
+	DoubanResponse<DoubanEvents> getEventsUserParticipanted(String userName);
 
-	DoubanEvents getEventsUserWishes(long userId);
+	DoubanResponse<DoubanEvents> getEventsUserWishes(long userId);
 
-	DoubanEvents getEventsUserWishes(String userName);
+	DoubanResponse<DoubanEvents> getEventsUserWishes(String userName);
 
-	DoubanEvents getEventsUserCreated(long userId);
+	DoubanResponse<DoubanEvents> getEventsUserCreated(long userId);
 
-	DoubanEvents getEventsUserCreated(String userName);
+	DoubanResponse<DoubanEvents> getEventsUserCreated(String userName);
 }

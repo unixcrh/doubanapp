@@ -21,7 +21,7 @@ import android.content.Context;
  * @author mcxiaoke
  * 
  */
-public final class DoubanSession {
+public class DoubanSession {
 	private static final OAuthToken NULL_TOKEN = null;
 	private Context context;
 	private OAuthToken oauthToken = OAuthToken.EMPTY();
@@ -45,14 +45,12 @@ public final class DoubanSession {
 	}
 
 	public DoubanSession(Context context, String apiKey, String apiSecret) {
-		this(context, apiKey, apiSecret, null, null);
+		this(context, apiKey, apiSecret, null);
 	}
 
 	public DoubanSession(Context context, String apiKey, String apiSecret,
-			OAuthToken token) {
-		this(context, apiKey, apiSecret, null, null);
-		AssertUtils.notNull(token, "token cannot be null.");
-		this.oauthToken = token;
+			String callbackUrl) {
+		this(context, apiKey, apiSecret, callbackUrl, null);
 	}
 
 	public DoubanSession(Context context, String apiKey, String apiSecret,

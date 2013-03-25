@@ -5,6 +5,7 @@ package org.mcxiaoke.douban.api.resource;
 
 import java.util.Date;
 
+import org.mcxiaoke.douban.DoubanResponse;
 import org.mcxiaoke.douban.api.model.DoubanBook;
 import org.mcxiaoke.douban.api.model.DoubanBookAnnotation;
 import org.mcxiaoke.douban.api.model.DoubanBookAnnotations;
@@ -21,131 +22,142 @@ public interface DoubanBooksResources {
 
 	// 图书
 
-	DoubanBook getBook(long bookId);
+	DoubanResponse<DoubanBook> getBook(long bookId);
 
-	DoubanBook getBookByISBN(String isbn);
+	DoubanResponse<DoubanBook> getBookByISBN(String isbn);
 
-	DoubanBooks searchBook(String query);
+	DoubanResponse<DoubanBooks> searchBook(String query);
 
-	DoubanBooks searchBook(String query, String tag);
+	DoubanResponse<DoubanBooks> searchBook(String query, String tag);
 
-	DoubanBooks searchBook(String query, String tag, int count);
+	DoubanResponse<DoubanBooks> searchBook(String query, String tag, int count);
 
-	DoubanBooks searchBook(String query, String tag, int count, int start);
+	DoubanResponse<DoubanBooks> searchBook(String query, String tag, int count,
+			int start);
 
 	// 书评
 
-	DoubanBookReview addBookReview(long bookId, String title, String content);
-
-	DoubanBookReview addBookReview(long bookId, String title, String content,
-			int rating);
-
-	DoubanBookReview updateBookReview(long reviewId, String title,
+	DoubanResponse<DoubanBookReview> addBookReview(long bookId, String title,
 			String content);
 
-	DoubanBookReview updateBookReview(long reviewId, String title,
+	DoubanResponse<DoubanBookReview> addBookReview(long bookId, String title,
 			String content, int rating);
 
-	DoubanBookReview deleteBookReview(long reviewId);
+	DoubanResponse<DoubanBookReview> updateBookReview(long reviewId,
+			String title, String content);
+
+	DoubanResponse<DoubanBookReview> updateBookReview(long reviewId,
+			String title, String content, int rating);
+
+	DoubanResponse<DoubanBookReview> deleteBookReview(long reviewId);
 
 	// 收藏
-	DoubanBookCollectionItem getBookCollection(long collectionId);
+	DoubanResponse<DoubanBookCollectionItem> getBookCollection(long collectionId);
 
-	DoubanBookCollectionItem addBookCollection(long bookId, String status);
-
-	DoubanBookCollectionItem addBookCollection(long bookId, String status,
-			String tags);
-
-	DoubanBookCollectionItem addBookCollection(long bookId, String status,
-			String tags, String comment);
-
-	DoubanBookCollectionItem addBookCollection(long bookId, String status,
-			String tags, String comment, String privacy, int rating);
-
-	DoubanBookCollectionItem updateBookCollection(long collectionId,
+	DoubanResponse<DoubanBookCollectionItem> addBookCollection(long bookId,
 			String status);
 
-	DoubanBookCollectionItem updateBookCollection(long collectionId,
+	DoubanResponse<DoubanBookCollectionItem> addBookCollection(long bookId,
 			String status, String tags);
 
-	DoubanBookCollectionItem updateBookCollection(long collectionId,
+	DoubanResponse<DoubanBookCollectionItem> addBookCollection(long bookId,
 			String status, String tags, String comment);
 
-	DoubanBookCollectionItem updateBookCollection(long collectionId,
+	DoubanResponse<DoubanBookCollectionItem> addBookCollection(long bookId,
 			String status, String tags, String comment, String privacy,
 			int rating);
 
-	DoubanBookCollectionItem deleteBookCollection(long collectionId);
+	DoubanResponse<DoubanBookCollectionItem> updateBookCollection(
+			long collectionId, String status);
 
-	DoubanBookCollections getUserBookCollections(long userId);
+	DoubanResponse<DoubanBookCollectionItem> updateBookCollection(
+			long collectionId, String status, String tags);
 
-	DoubanBookCollections getUserBookCollections(long userId, String status);
+	DoubanResponse<DoubanBookCollectionItem> updateBookCollection(
+			long collectionId, String status, String tags, String comment);
 
-	DoubanBookCollections getUserBookCollections(long userId, String status,
-			Date from, Date to);
+	DoubanResponse<DoubanBookCollectionItem> updateBookCollection(
+			long collectionId, String status, String tags, String comment,
+			String privacy, int rating);
 
-	DoubanBookCollections getUserBookCollections(long userId, String status,
-			Date from, Date to, int rating);
+	DoubanResponse<DoubanBookCollectionItem> deleteBookCollection(
+			long collectionId);
 
-	DoubanBookCollections getUserBookCollections(String userName);
+	DoubanResponse<DoubanBookCollections> getUserBookCollections(long userId);
 
-	DoubanBookCollections getUserBookCollections(String userName, String status);
+	DoubanResponse<DoubanBookCollections> getUserBookCollections(long userId,
+			String status);
 
-	DoubanBookCollections getUserBookCollections(String userName,
+	DoubanResponse<DoubanBookCollections> getUserBookCollections(long userId,
 			String status, Date from, Date to);
 
-	DoubanBookCollections getUserBookCollections(String userName,
+	DoubanResponse<DoubanBookCollections> getUserBookCollections(long userId,
 			String status, Date from, Date to, int rating);
+
+	DoubanResponse<DoubanBookCollections> getUserBookCollections(String userName);
+
+	DoubanResponse<DoubanBookCollections> getUserBookCollections(
+			String userName, String status);
+
+	DoubanResponse<DoubanBookCollections> getUserBookCollections(
+			String userName, String status, Date from, Date to);
+
+	DoubanResponse<DoubanBookCollections> getUserBookCollections(
+			String userName, String status, Date from, Date to, int rating);
 
 	// 笔记
 
-	DoubanBookAnnotations getUserBookAnnotations(long userId);
+	DoubanResponse<DoubanBookAnnotations> getUserBookAnnotations(long userId);
 
-	DoubanBookAnnotations getUserBookAnnotations(long userId, String status);
+	DoubanResponse<DoubanBookAnnotations> getUserBookAnnotations(long userId,
+			String status);
 
-	DoubanBookAnnotations getUserBookAnnotations(long userId, String status,
-			Date from, Date to);
-
-	DoubanBookAnnotations getUserBookAnnotations(long userId, String status,
-			Date from, Date to, int rating);
-
-	DoubanBookAnnotations getUserBookAnnotations(String userName);
-
-	DoubanBookAnnotations getUserBookAnnotations(String userName, String status);
-
-	DoubanBookAnnotations getUserBookAnnotations(String userName,
+	DoubanResponse<DoubanBookAnnotations> getUserBookAnnotations(long userId,
 			String status, Date from, Date to);
 
-	DoubanBookAnnotations getUserBookAnnotations(String userName,
+	DoubanResponse<DoubanBookAnnotations> getUserBookAnnotations(long userId,
 			String status, Date from, Date to, int rating);
 
-	DoubanBookAnnotation getBookAnnotation(long annotationId);
+	DoubanResponse<DoubanBookAnnotations> getUserBookAnnotations(String userName);
 
-	DoubanBookAnnotation getBookAnnotation(long annotationId, String format);
+	DoubanResponse<DoubanBookAnnotations> getUserBookAnnotations(
+			String userName, String status);
 
-	DoubanBookAnnotation addBookAnnotation(long bookId, String content, int page);
+	DoubanResponse<DoubanBookAnnotations> getUserBookAnnotations(
+			String userName, String status, Date from, Date to);
 
-	DoubanBookAnnotation addBookAnnotation(long bookId, String content,
-			String chapter);
+	DoubanResponse<DoubanBookAnnotations> getUserBookAnnotations(
+			String userName, String status, Date from, Date to, int rating);
 
-	DoubanBookAnnotation addBookAnnotation(long bookId, String content,
-			int page, String chapter);
+	DoubanResponse<DoubanBookAnnotation> getBookAnnotation(long annotationId);
 
-	DoubanBookAnnotation addBookAnnotation(long bookId, String content,
-			int page, String chapter, String privacy);
+	DoubanResponse<DoubanBookAnnotation> getBookAnnotation(long annotationId,
+			String format);
 
-	DoubanBookAnnotation updateBookAnnotation(long annoationId, String content,
-			int page);
+	DoubanResponse<DoubanBookAnnotation> addBookAnnotation(long bookId,
+			String content, int page);
 
-	DoubanBookAnnotation updateBookAnnotation(long annoationId, String content,
-			String chapter);
+	DoubanResponse<DoubanBookAnnotation> addBookAnnotation(long bookId,
+			String content, String chapter);
 
-	DoubanBookAnnotation updateBookAnnotation(long annoationId, String content,
-			int page, String chapter);
+	DoubanResponse<DoubanBookAnnotation> addBookAnnotation(long bookId,
+			String content, int page, String chapter);
 
-	DoubanBookAnnotation updateBookAnnotation(long annoationId, String content,
-			int page, String chapter, String privacy);
+	DoubanResponse<DoubanBookAnnotation> addBookAnnotation(long bookId,
+			String content, int page, String chapter, String privacy);
 
-	boolean deleteBookAnnotation(long annotationId);
+	DoubanResponse<DoubanBookAnnotation> updateBookAnnotation(long annoationId,
+			String content, int page);
+
+	DoubanResponse<DoubanBookAnnotation> updateBookAnnotation(long annoationId,
+			String content, String chapter);
+
+	DoubanResponse<DoubanBookAnnotation> updateBookAnnotation(long annoationId,
+			String content, int page, String chapter);
+
+	DoubanResponse<DoubanBookAnnotation> updateBookAnnotation(long annoationId,
+			String content, int page, String chapter, String privacy);
+
+	DoubanResponse<DoubanBookAnnotation> deleteBookAnnotation(long annotationId);
 
 }

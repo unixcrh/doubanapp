@@ -11,7 +11,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author mcxiaoke
  * 
  */
-public class DoubanUsers extends AbstractListModel {
+public class DoubanUsers extends AbstractListModel<DoubanUser> {
+
 	@JsonProperty("users")
 	private List<DoubanUser> users;
 
@@ -36,6 +37,16 @@ public class DoubanUsers extends AbstractListModel {
 		builder.append(getTotal());
 		builder.append("]");
 		return builder.toString();
+	}
+
+	@Override
+	public List<DoubanUser> getData() {
+		return users;
+	}
+
+	@Override
+	public int size() {
+		return users == null ? NULL_SIZE : users.size();
 	}
 
 }

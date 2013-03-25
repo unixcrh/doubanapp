@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author mcxiaoke
  * 
  */
-public class DoubanAlbumPhotos extends AbstractListModel {
+public class DoubanAlbumPhotos extends AbstractListModel<DoubanPhoto> {
 	@JsonProperty("order")
 	private String order;
 	@JsonProperty("sortby")
@@ -66,6 +66,16 @@ public class DoubanAlbumPhotos extends AbstractListModel {
 		builder.append(photos);
 		builder.append("]");
 		return builder.toString();
+	}
+
+	@Override
+	public List<DoubanPhoto> getData() {
+		return photos;
+	}
+
+	@Override
+	public int size() {
+		return photos == null ? NULL_SIZE : photos.size();
 	}
 
 }

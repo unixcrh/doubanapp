@@ -5,7 +5,7 @@ package org.mcxiaoke.douban.api.parser;
 
 import java.io.IOException;
 
-import org.mcxiaoke.douban.api.model.DoubanEventType;
+import org.mcxiaoke.douban.api.DoubanEventType;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

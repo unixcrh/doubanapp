@@ -3,13 +3,15 @@
  */
 package org.mcxiaoke.douban.api.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author mcxiaoke
  * 
  */
-public class DoubanBookAnnotations extends AbstractListModel {
+public class DoubanBookAnnotations extends
+		AbstractListModel<DoubanBookAnnotation> {
 	private List<DoubanBookAnnotation> annotations;
 
 	public List<DoubanBookAnnotation> getAnnotations() {
@@ -33,6 +35,16 @@ public class DoubanBookAnnotations extends AbstractListModel {
 		builder.append(getTotal());
 		builder.append("]");
 		return builder.toString();
+	}
+
+	@Override
+	public List<DoubanBookAnnotation> getData() {
+		return annotations;
+	}
+
+	@Override
+	public int size() {
+		return annotations == null ? NULL_SIZE : annotations.size();
 	}
 
 }

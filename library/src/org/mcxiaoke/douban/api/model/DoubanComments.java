@@ -3,6 +3,7 @@
  */
 package org.mcxiaoke.douban.api.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author mcxiaoke
  * 
  */
-public class DoubanComments extends AbstractListModel {
+public class DoubanComments extends AbstractListModel<DoubanComment> {
 	@JsonProperty("comments")
 	private List<DoubanComment> comments;
 
@@ -36,6 +37,16 @@ public class DoubanComments extends AbstractListModel {
 		builder.append(getTotal());
 		builder.append("]");
 		return builder.toString();
+	}
+
+	@Override
+	public List<DoubanComment> getData() {
+		return comments;
+	}
+
+	@Override
+	public int size() {
+		return comments == null ? NULL_SIZE : comments.size();
 	}
 
 }

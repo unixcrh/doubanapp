@@ -3,6 +3,7 @@
  */
 package org.mcxiaoke.douban.api.resource;
 
+import org.mcxiaoke.douban.DoubanResponse;
 import org.mcxiaoke.douban.api.model.DoubanMusic;
 import org.mcxiaoke.douban.api.model.DoubanMusics;
 
@@ -12,14 +13,15 @@ import org.mcxiaoke.douban.api.model.DoubanMusics;
  */
 public interface DoubanMusicResources {
 
-	DoubanMusic getMusic(long musicId);
+	DoubanResponse<DoubanMusic> getMusic(long musicId);
 
-	DoubanMusics searchMusic(String query);
+	DoubanResponse<DoubanMusics> searchMusic(String query);
 
-	DoubanMusics searchMusic(String query, String tag);
+	DoubanResponse<DoubanMusics> searchMusic(String query, String tag);
 
-	DoubanMusics searchMusic(String query, String tag, int count);
+	DoubanResponse<DoubanMusics> searchMusic(String query, String tag, int count);
 
-	DoubanMusics searchMusic(String query, String tag, int count, int start);
+	DoubanResponse<DoubanMusics> searchMusic(String query, String tag,
+			int count, int start);
 
 }

@@ -11,23 +11,19 @@ public final class DoubanConfig {
 	public static final String EXTRA_ERROR_CODE = "EXTRA_ERROR_CODE";
 	public static final String EXTRA_ERROR_MESSAGE = "EXTRA_ERROR_MESSAGE";
 	public static final String EXTRA_ERROR_REQUEST = "EXTRA_ERROR_REQUEST";
+	
 
 	public static final String API_HOST = "https://api.douban.com";
-
-	public static final String getApiUrl(String format, Object... args) {
-		return String.format(format, args);
-	}
+	
+	public static final int DEFAULT_COUNT=20;
+	public static final int DEFAULT_START=0;
 
 	public static final class OAuth {
-		public static final String KEY = "05307422ce6d70180f915c686b485048";
-		public static final String SECRET = "767dfeba2658f8ba";
-		
-		public static final String KEY_APPKEY="appkey";
 
 		public static final String AUTHORIZE_URL = "https://www.douban.com/service/auth2/auth";
 		public static final String TOKEN_URL = "https://www.douban.com/service/auth2/token";
 
-		public static final String CALLBACK_URL = "http://www.baidu.com/";
+		public static final String CALLBACK_URL = "http://www.baidu.com";
 		public static final String KEY_CLIENT_ID = "client_id";
 		public static final String KEY_CLIENT_SECRET = "client_secret";
 		public static final String KEY_REDIRECT_URI = "redirect_uri";
@@ -53,6 +49,19 @@ public final class DoubanConfig {
 		}
 	}
 
+	public static final class Key {
+		public static final String TOTAL = "total";
+		public static final String COUNT = "count";
+		public static final String START = "start";
+		public static final String QUERY = "q";
+		public static final String TAG = "tag";
+		public static final String USER_ID = "user_id";
+		public static final String SOURCE = "source";
+		public static final String SOURCE_ID = "source_id";
+		public static final String TARGET_ID = "target_id";
+		public static final String APPKEY = "appkey";
+	}
+
 	static final class Scope {
 		public static final String SCOPE_BASIC_COMMON = "douban_basic_common";
 		public static final String SCOPE_SHUO_BASIC_READ = "shuo_basic_r";
@@ -72,15 +81,17 @@ public final class DoubanConfig {
 		public static final String SCOPE_MUSIC_BASIC_WRITE = "music_basic_w";
 	}
 
-	public static final class Comment {
+	public static final class Path {
 		public static final String COMMENTS = "/v2/%s/%s/comments";
 		public static final String COMMENT = "/v2/%a/%s/comment/%s";
-	}
 
-	public static final class User {
-		public static final String USER = "/v2/user/%s";
-		public static final String USER_ME = "/v2/user/~me";
+		// public static final String USER = "/v2/user/%s";
+
 		public static final String USERS = "/v2/user";
+		public static final String USER_ME = "/v2/user/~me";
+		public static final String USER = "/shuo/v2/users/%s";
+		// public static final String USER_ME = "/shuo/v2/users/~me";
+
 		// below from douban shuo
 		public static final String USERS_FOLLOWING = "/shuo/v2/users/%s/following";
 		public static final String USERS_FOLLOWERS = "/shuo/v2/users/%s/followers";
@@ -91,9 +102,7 @@ public final class DoubanConfig {
 		public static final String USER_FOLLOW = "/shuo/v2/friendships/create";
 		public static final String USER_UNFOLLOW = "/shuo/v2/friendships/destroy";
 		public static final String USER_FRIENDSHIP = "/shuo/v2/friendships/show";
-	}
 
-	public static final class Note {
 		public static final String NOTES = "/v2/notes";
 		public static final String NOTES_USER = "/v2/note/user_created/%s";
 		public static final String NOTES_LIKED = "/v2/note/user_liked/%s";
@@ -101,15 +110,10 @@ public final class DoubanConfig {
 		public static final String NOTE_COMMENTS = "/v2/note/%s/comments";
 		public static final String NOTE_LIKE = "/v2/note/%s/like";
 
-	}
-
-	public static final class Photo {
 		public static final String ALBUM = "/v2/album/%s";
 		public static final String PHTOTS = "/v2/album/%s/photos";
 		public static final String PHOTO = "/v2/photo/%s";
-	}
 
-	public static final class Status {
 		public static final String STATUSES = "/shuo/v2/statuses/";
 		public static final String STATUSES_HOME = "/shuo/v2/statuses/home_timeline";
 		public static final String STATUSES_USER = "/shuo/v2/statuses/user_timeline/%s";
@@ -118,9 +122,7 @@ public final class DoubanConfig {
 		public static final String STATUS_COMMENT = "/shuo/v2/statuses/comment/%s";
 		public static final String STATUS_RESHARE = "/shuo/v2/statuses/%s/reshare";
 		public static final String STATUS_LIKE = "/shuo/v2/statuses/%s/like";
-	}
 
-	public static final class Book {
 		public static final String BOOK = "/v2/book/%s";
 		public static final String BOOK_ISBN = "/v2/book/isbn/%s";
 		public static final String BOOKS_SEARCH = "/v2/book/search";
@@ -130,9 +132,7 @@ public final class DoubanConfig {
 		public static final String BOOK_ANNOTATION = "/v2/book/annotation/%s";
 		public static final String BOOK_REVIEWS = "/v2/book/reviews";
 		public static final String BOOK_REVIEW = "/v2/book/review/%s";
-	}
 
-	public static final class Movie {
 		public static final String MOVIE = "/v2/movie/subject/%s";
 		public static final String MOVIE_PHOTOS = "/v2/movie/subject/%s/photos";
 		public static final String MOVIE_REVIEWS = "/v2/movie/subject/%s/reviews";
@@ -145,16 +145,11 @@ public final class DoubanConfig {
 		public static final String CELEBRITY_WORKS = "/v2/movie/celebrity/%s/works";
 		public static final String CELEBRITY_PHOTOS = "/v2/movie/celebrity/%s/photos";
 
-	}
-
-	public static final class Music {
 		public static final String MUSIC = "/v2/music/%s";
 		public static final String MUSICS_SEARCH = "/v2/music/search";
 		public static final String MUSIC_REVIEWS_NEW = "/v2/music/reviews";
 		public static final String MUSIC_REVIEWS = "/v2/music/review/%s";
-	}
 
-	public static final class Event {
 		public static final String EVENT = "/v2/event/%s";
 		public static final String EVENTS_CREATED = "/v2/event/user_created/%s";
 		public static final String EVENTS_PARTICIPATED = "/v2/event/user_participated/%s";
@@ -163,9 +158,6 @@ public final class DoubanConfig {
 		public static final String EVENT_CITIES = "/v2/loc/list";
 		public static final String EVENT_PARTICIPATS = "/v2/event/%s/participants";
 
-	}
-
-	public static final class Online {
 		public static final String ONLINE = "/v2/online/%s";
 		public static final String ONLINES = "/v2/onlines";
 		public static final String ONLINE_PARTICIPATES = "/v2/online/%s/participants";

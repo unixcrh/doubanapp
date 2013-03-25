@@ -3,6 +3,7 @@
  */
 package org.mcxiaoke.douban.api.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,9 +12,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author mcxiaoke
  * 
  */
-public class DoubanBookCollections extends AbstractListModel {
+public class DoubanBookCollections extends
+		AbstractListModel<DoubanBookCollectionItem> {
 	@JsonProperty("collections")
 	private List<DoubanBookCollectionItem> collections;
+
+	public DoubanBookCollections() {
+		this(null);
+	}
+
+	public DoubanBookCollections(List<DoubanBookCollectionItem> data) {
+		this.collections = new ArrayList<DoubanBookCollectionItem>();
+		if (data != null) {
+			this.collections.addAll(data);
+		}
+	}
 
 	public List<DoubanBookCollectionItem> getCollections() {
 		return collections;
@@ -36,6 +49,16 @@ public class DoubanBookCollections extends AbstractListModel {
 		builder.append(getTotal());
 		builder.append("]");
 		return builder.toString();
+	}
+
+	@Override
+	public List<DoubanBookCollectionItem> getData() {
+		return collections;
+	}
+
+	@Override
+	public int size() {
+		return collections == null ? NULL_SIZE : collections.size();
 	}
 
 }

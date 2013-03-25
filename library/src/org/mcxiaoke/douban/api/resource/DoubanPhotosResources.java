@@ -3,6 +3,7 @@
  */
 package org.mcxiaoke.douban.api.resource;
 
+import org.mcxiaoke.douban.DoubanResponse;
 import org.mcxiaoke.douban.api.model.DoubanAlbum;
 import org.mcxiaoke.douban.api.model.DoubanAlbumPhotos;
 import org.mcxiaoke.douban.api.model.DoubanComment;
@@ -15,18 +16,19 @@ import org.mcxiaoke.douban.api.model.DoubanPhoto;
  */
 public interface DoubanPhotosResources {
 
-	DoubanAlbum getAlbum(long albumId);
+	DoubanResponse<DoubanAlbum> getAlbum(long albumId);
 
-	DoubanAlbumPhotos getAlbumPhotos(long albumId);
+	DoubanResponse<DoubanAlbumPhotos> getAlbumPhotos(long albumId);
 
-	DoubanPhoto getPhoto(long photoId);
+	DoubanResponse<DoubanPhoto> getPhoto(long photoId);
 
-	DoubanComments getPhotoComments(long photoId);
+	DoubanResponse<DoubanComments> getPhotoComments(long photoId);
 
-	DoubanComment getPhotoComment(long photoId, long commentId);
+	DoubanResponse<DoubanComment> getPhotoComment(long photoId, long commentId);
 
-	DoubanComment deletePhotoComment(long photoId, long commentId);
+	DoubanResponse<DoubanComment> deletePhotoComment(long photoId,
+			long commentId);
 
-	DoubanComment addPhotoComment(long id, String text);
+	DoubanResponse<DoubanComment> addPhotoComment(long id, String text);
 
 }

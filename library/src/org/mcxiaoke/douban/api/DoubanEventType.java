@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.mcxiaoke.douban.api.model;
+package org.mcxiaoke.douban.api;
 
 /**
  * @author mcxiaoke

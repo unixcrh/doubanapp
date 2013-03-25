@@ -5,6 +5,7 @@ package org.mcxiaoke.douban.api.resource;
 
 import java.util.List;
 
+import org.mcxiaoke.douban.DoubanResponse;
 import org.mcxiaoke.douban.api.model.DoubanRelation;
 import org.mcxiaoke.douban.api.model.DoubanUser;
 import org.mcxiaoke.douban.api.model.DoubanUsers;
@@ -17,56 +18,81 @@ public interface DoubanUsersResources {
 
 	// 用户信息
 
-	DoubanUser getUserInfo(long userId);
+	DoubanResponse<DoubanUser> getUserInfo(long userId);
 
-	DoubanUser getUserInfo(String userName);
+	DoubanResponse<DoubanUser> getUserInfo(String userName);
 
-	DoubanUser getAuthorizedUserInfo();
+	DoubanResponse<DoubanUser> getAuthorizedUserInfo();
 
 	// 用户操作
-	boolean followUser(long userId);// need appkey
+	DoubanResponse<DoubanUser> followUser(long userId);// need appkey
 
-	boolean followUser(String userName);// need appkey
+	DoubanResponse<DoubanUser> followUser(String userName);// need appkey
 
-	boolean unfollowUser(long userId);// need appkey
+	DoubanResponse<DoubanUser> unfollowUser(long userId);// need appkey
 
-	boolean unfollowUser(String userName);// need appkey
+	DoubanResponse<DoubanUser> unfollowUser(String userName);// need appkey
 
-	boolean blockUser(long userId);
+	DoubanResponse<DoubanUser> blockUser(long userId);
 
-	boolean blockUser(String userName);
+	DoubanResponse<DoubanUser> blockUser(String userName);
 
-	boolean unblockUser(long userId);
+	DoubanResponse<DoubanUser> unblockUser(long userId);
 
-	boolean unblockUser(String userName);
+	DoubanResponse<DoubanUser> unblockUser(String userName);
 
-	DoubanRelation getUsersRelation(long sourceId, long targetId); // need
-																	// appkey
+	DoubanResponse<DoubanRelation> getUsersRelation(long sourceId, long targetId); // need
+
+	DoubanResponse<DoubanRelation> getUsersRelation(String sourceName,
+			String targetName);
+
+	// appkey
 
 	// 用户列表信息
 
-	DoubanUsers searchUser(String query);
+	DoubanResponse<List<DoubanUser>> searchUser(String query);
 
-	DoubanUsers searchUser(String query, int count, int start);
+	DoubanResponse<List<DoubanUser>> searchUser(String query, int count,
+			int start);
 
-	List<DoubanUser> getFollowingUsers(long userId);
+	DoubanResponse<List<DoubanUser>> getFollowingUsers(long userId);
 
-	List<DoubanUser> getFollowingUsers(String userName);
+	DoubanResponse<List<DoubanUser>> getFollowingUsers(String userName);
 
-	List<DoubanUser> getFollowingUsers(long userId, int tag);
+	DoubanResponse<List<DoubanUser>> getFollowingUsers(long userId, int count,
+			int start);
 
-	List<DoubanUser> getFollowingUsers(String userName, int tag);
+	DoubanResponse<List<DoubanUser>> getFollowingUsers(String userName,
+			int count, int start);
 
-	List<DoubanUser> getFollowersUsers(long userId);
+	DoubanResponse<List<DoubanUser>> getFollowersUsers(long userId);
 
-	List<DoubanUser> getFollowersUsers(String userName);
+	DoubanResponse<List<DoubanUser>> getFollowersUsers(String userName);
 
-	List<DoubanUser> getFollowInCommonUsers(long userId);
+	DoubanResponse<List<DoubanUser>> getFollowersUsers(long userId, int count,
+			int start);
 
-	List<DoubanUser> getFollowInCommonUsers(String userName);
+	DoubanResponse<List<DoubanUser>> getFollowersUsers(String userName,
+			int count, int start);
 
-	List<DoubanUser> getFollowingOfUsers(long userId);
+	DoubanResponse<List<DoubanUser>> getFollowInCommonUsers(long userId);
 
-	List<DoubanUser> getFollowingOfUsers(String userName);
+	DoubanResponse<List<DoubanUser>> getFollowInCommonUsers(String userName);
+
+	DoubanResponse<List<DoubanUser>> getFollowInCommonUsers(long userId,
+			int count, int start);
+
+	DoubanResponse<List<DoubanUser>> getFollowInCommonUsers(String userName,
+			int count, int start);
+
+	DoubanResponse<List<DoubanUser>> getFollowingOfUsers(long userId);
+
+	DoubanResponse<List<DoubanUser>> getFollowingOfUsers(String userName);
+
+	DoubanResponse<List<DoubanUser>> getFollowingOfUsers(long userId,
+			int count, int start);
+
+	DoubanResponse<List<DoubanUser>> getFollowingOfUsers(String userName,
+			int count, int start);
 
 }

@@ -9,7 +9,7 @@ import java.util.List;
  * @author mcxiaoke
  * 
  */
-public class DoubanMusics extends AbstractListModel {
+public class DoubanMusics extends AbstractListModel<DoubanMusic> {
 	private List<DoubanMusic> musics;
 
 	public List<DoubanMusic> getMusics() {
@@ -33,6 +33,16 @@ public class DoubanMusics extends AbstractListModel {
 		builder.append(getTotal());
 		builder.append("]");
 		return builder.toString();
+	}
+
+	@Override
+	public List<DoubanMusic> getData() {
+		return musics;
+	}
+
+	@Override
+	public int size() {
+		return musics == null ? NULL_SIZE : musics.size();
 	}
 
 }

@@ -10,7 +10,7 @@ import android.content.Context;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
-public class BaseTestCase extends AndroidTestCase {
+public abstract class BaseTestCase extends AndroidTestCase {
 	private static final String TAG = "AndroidTestCase";
 
 	protected final void debug(Object obj) {

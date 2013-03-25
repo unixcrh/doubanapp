@@ -3,13 +3,19 @@
  */
 package org.mcxiaoke.douban.api.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author mcxiaoke
+ * @param <T>
  * 
  */
-public class AbstractListModel extends AbstractModel {
+public abstract class AbstractListModel<T> extends AbstractModel {
+	public static final int NULL_SIZE = -1;
+	public static final int EMPTY_SIZE = 0;
+	
 	@JsonProperty("count")
 	private int count;
 	@JsonProperty("start")
@@ -40,4 +46,8 @@ public class AbstractListModel extends AbstractModel {
 	public void setTotal(int total) {
 		this.total = total;
 	}
+
+	public abstract List<T> getData();
+
+	public abstract int size();
 }

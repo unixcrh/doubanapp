@@ -3,6 +3,7 @@
  */
 package org.mcxiaoke.douban.api.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author mcxiaoke
  * 
  */
-public class DoubanEvents extends AbstractListModel {
+public class DoubanEvents extends AbstractListModel<DoubanEvent> {
 	@JsonProperty("events")
 	private List<DoubanEvent> events;
 
@@ -36,6 +37,16 @@ public class DoubanEvents extends AbstractListModel {
 		builder.append(getTotal());
 		builder.append("]");
 		return builder.toString();
+	}
+
+	@Override
+	public List<DoubanEvent> getData() {
+		return events;
+	}
+
+	@Override
+	public int size() {
+		return events == null ? NULL_SIZE : events.size();
 	}
 
 }
