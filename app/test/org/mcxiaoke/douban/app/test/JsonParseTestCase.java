@@ -19,13 +19,37 @@ import org.mcxiaoke.douban.api.model.DoubanPhoto;
 import org.mcxiaoke.douban.api.model.DoubanShuo;
 import org.mcxiaoke.douban.api.model.DoubanUser;
 
+import android.test.MoreAsserts;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonParseTestCase extends BaseTestCase {
 
-	public void testUserParse() throws IOException {
+	public void testEmptyParse() throws IOException {
+		// TODO
+		// parse {} empty string, why fail?
+		InputStream is = openAssets("json/empty.json");
+		ObjectMapper om = new ObjectMapper();
+		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		DoubanUser obj = om.readValue(is, DoubanUser.class);
+		debug(obj);
+		assertNull(obj);
+	}
+
+	public void testEmptyListParse() throws IOException {
+		InputStream is = openAssets("json/empty_list.json");
+		ObjectMapper om = new ObjectMapper();
+		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		List<DoubanUser> list = om.readValue(is,
+				new TypeReference<List<DoubanUser>>() {
+				});
+		debug(list);
+		MoreAsserts.assertEmpty(list);
+	}
+
+	public void IGNOREtestUserParse() throws IOException {
 		InputStream is = openAssets("json/user.json");
 		ObjectMapper om = new ObjectMapper();
 		DoubanUser u = om.readValue(is, DoubanUser.class);
@@ -33,7 +57,7 @@ public class JsonParseTestCase extends BaseTestCase {
 		debug(u);
 	}
 
-	public void testAlbumParse() throws IOException {
+	public void IGNOREtestAlbumParse() throws IOException {
 		InputStream is = openAssets("json/album.json");
 		ObjectMapper om = new ObjectMapper();
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -42,7 +66,7 @@ public class JsonParseTestCase extends BaseTestCase {
 		debug(a);
 	}
 
-	public void testPhotoParse() throws IOException {
+	public void IGNOREtestPhotoParse() throws IOException {
 		InputStream is = openAssets("json/photo.json");
 		ObjectMapper om = new ObjectMapper();
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -51,7 +75,7 @@ public class JsonParseTestCase extends BaseTestCase {
 		debug(a);
 	}
 
-	public void testAlbumPhotosParse() throws IOException {
+	public void IGNOREtestAlbumPhotosParse() throws IOException {
 		InputStream is = openAssets("json/photos.json");
 		ObjectMapper om = new ObjectMapper();
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -60,7 +84,7 @@ public class JsonParseTestCase extends BaseTestCase {
 		debug(a);
 	}
 
-	public void testShuoParse() throws IOException {
+	public void IGNOREtestShuoParse() throws IOException {
 		InputStream is = openAssets("json/shuo.json");
 		ObjectMapper om = new ObjectMapper();
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -74,7 +98,7 @@ public class JsonParseTestCase extends BaseTestCase {
 		}
 	}
 
-	public void testCommentsParse() throws IOException {
+	public void IGNOREtestCommentsParse() throws IOException {
 		InputStream is = openAssets("json/comments.json");
 		ObjectMapper om = new ObjectMapper();
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -83,7 +107,7 @@ public class JsonParseTestCase extends BaseTestCase {
 		debug(a);
 	}
 
-	public void testEventsParse() throws IOException {
+	public void IGNOREtestEventsParse() throws IOException {
 		InputStream is = openAssets("json/events.json");
 		ObjectMapper om = new ObjectMapper();
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -92,7 +116,7 @@ public class JsonParseTestCase extends BaseTestCase {
 		debug(a);
 	}
 
-	public void testOnlineParse() throws IOException {
+	public void IGNOREtestOnlineParse() throws IOException {
 		InputStream is = openAssets("json/onlines.json");
 		ObjectMapper om = new ObjectMapper();
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -101,7 +125,7 @@ public class JsonParseTestCase extends BaseTestCase {
 		debug(a);
 	}
 
-	public void testMailsParse() throws IOException {
+	public void IGNOREtestMailsParse() throws IOException {
 		InputStream is = openAssets("json/mails.json");
 		ObjectMapper om = new ObjectMapper();
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -110,7 +134,7 @@ public class JsonParseTestCase extends BaseTestCase {
 		debug(a);
 	}
 
-	public void testNoteParse() throws IOException {
+	public void IGNOREtestNoteParse() throws IOException {
 		InputStream is = openAssets("json/note.json");
 		ObjectMapper om = new ObjectMapper();
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -119,7 +143,7 @@ public class JsonParseTestCase extends BaseTestCase {
 		debug(a);
 	}
 
-	public void testNotesParse() throws IOException {
+	public void IGNOREtestNotesParse() throws IOException {
 		InputStream is = openAssets("json/notes.json");
 		ObjectMapper om = new ObjectMapper();
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -128,7 +152,7 @@ public class JsonParseTestCase extends BaseTestCase {
 		debug(a);
 	}
 
-	public void testBookParse() throws IOException {
+	public void IGNOREtestBookParse() throws IOException {
 		InputStream is = openAssets("json/book.json");
 		ObjectMapper om = new ObjectMapper();
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -137,7 +161,7 @@ public class JsonParseTestCase extends BaseTestCase {
 		debug(a);
 	}
 
-	public void testBooksParse() throws IOException {
+	public void IGNOREtestBooksParse() throws IOException {
 		InputStream is = openAssets("json/books.json");
 		ObjectMapper om = new ObjectMapper();
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -146,7 +170,7 @@ public class JsonParseTestCase extends BaseTestCase {
 		debug(a);
 	}
 
-	public void testMovieParse() throws IOException {
+	public void IGNOREtestMovieParse() throws IOException {
 		InputStream is = openAssets("json/movie.json");
 		ObjectMapper om = new ObjectMapper();
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
