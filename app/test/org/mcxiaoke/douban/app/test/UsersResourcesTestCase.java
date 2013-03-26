@@ -1,17 +1,19 @@
 package org.mcxiaoke.douban.app.test;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.http.HttpStatus;
+import org.mcxiaoke.douban.DoubanException;
 import org.mcxiaoke.douban.DoubanResponse;
 import org.mcxiaoke.douban.api.model.DoubanRelation;
 import org.mcxiaoke.douban.api.model.DoubanUser;
-import org.mcxiaoke.douban.api.model.DoubanUsers;
 
 public class UsersResourcesTestCase extends BaseApiTestCase {
 
-	public void atestGetUserInfoById() {
-		DoubanResponse<DoubanUser> res = api.getUserInfo(1376127);
+	public void IGNOREtestGetUserInfoById() throws IOException, DoubanException {
+		DoubanResponse<DoubanUser> res = api.getUserInfo(String
+				.valueOf(1376127));
 		debug(res);
 		assertNotNull(res);
 		assertNotNull(res.getData());
@@ -20,7 +22,8 @@ public class UsersResourcesTestCase extends BaseApiTestCase {
 		assertEquals(user.getId(), 1376127);
 	}
 
-	public void atestGetUserInfoByName() {
+	public void IGNOREtestGetUserInfoByName() throws IOException,
+			DoubanException {
 		DoubanResponse<DoubanUser> res = api.getUserInfo("mcxiaoke");
 		debug(res);
 		assertNotNull(res);
@@ -30,7 +33,8 @@ public class UsersResourcesTestCase extends BaseApiTestCase {
 		assertEquals(user.getId(), 1376127);
 	}
 
-	public void atestGetAuthorizedUserInfo() {
+	public void IGNOREtestGetAuthorizedUserInfo() throws IOException,
+			DoubanException {
 		DoubanResponse<DoubanUser> res = api.getAuthorizedUserInfo();
 		debug(res);
 		assertNotNull(res);
@@ -40,15 +44,17 @@ public class UsersResourcesTestCase extends BaseApiTestCase {
 		assertEquals(user.getId(), 1376127);
 	}
 
-	public void atestFollowUserById() {
+	public void IGNOREtestFollowUserById() throws IOException, DoubanException {
 		// 48737437
-		DoubanResponse<DoubanUser> res = api.followUser(48737437);
+		DoubanResponse<DoubanUser> res = api.followUser(String
+				.valueOf(48737437));
 		debug(res);
 		assertNotNull(res);
 		assertNotNull(res.getData());
 	}
 
-	public void atestFollowUserByName() {
+	public void IGNOREtestFollowUserByName() throws IOException,
+			DoubanException {
 		// 48737437
 		DoubanResponse<DoubanUser> res = api.followUser("duxiaoming");
 		debug(res);
@@ -56,88 +62,103 @@ public class UsersResourcesTestCase extends BaseApiTestCase {
 		assertNotNull(res.getData());
 	}
 
-	public void atestUnfollowUserById() {
-		DoubanResponse<DoubanUser> res = api.unfollowUser(48737437);
+	public void IGNOREtestUnfollowUserById() throws IOException,
+			DoubanException {
+		DoubanResponse<DoubanUser> res = api.unfollowUser(String
+				.valueOf(48737437));
 		debug(res);
 		assertNotNull(res);
 		assertNotNull(res.getData());
 	}
 
-	public void atestUnfollowUserByName() {
+	public void IGNOREtestUnfollowUserByName() throws IOException,
+			DoubanException {
 		DoubanResponse<DoubanUser> res = api.unfollowUser("duxiaoming");
 		debug(res);
 		assertNotNull(res);
 		assertNotNull(res.getData());
 	}
 
-	public void atestFollowUserNotExistsById() {
-		DoubanResponse<DoubanUser> res = api.followUser(487374373);
+	public void IGNOREtestFollowUserNotExistsById() throws IOException,
+			DoubanException {
+		DoubanResponse<DoubanUser> res = api.followUser(String
+				.valueOf(487374373));
 		debug(res);
 		assertNotNull(res);
 		assertNull(res.getData());
 
 	}
 
-	public void atestFollowUserNotExistsByName() {
+	public void IGNOREtestFollowUserNotExistsByName() throws IOException,
+			DoubanException {
 		DoubanResponse<DoubanUser> res = api.followUser("mcxiaoke123");
 		debug(res);
 		assertNotNull(res);
 		assertNull(res.getData());
 	}
 
-	public void atestUnfollowUserNotExistsById() {
-		DoubanResponse<DoubanUser> res = api.unfollowUser(487374373);
+	public void IGNOREtestUnfollowUserNotExistsById() throws IOException,
+			DoubanException {
+		DoubanResponse<DoubanUser> res = api.unfollowUser(String
+				.valueOf(487374373));
 		debug(res);
 		assertNotNull(res);
 		assertNull(res.getData());
 
 	}
 
-	public void atestUnfollowUserNotExistsByName() {
+	public void IGNOREtestUnfollowUserNotExistsByName() throws IOException,
+			DoubanException {
 		DoubanResponse<DoubanUser> res = api.unfollowUser("mcxiaoke123");
 		debug(res);
 		assertNotNull(res);
 		assertNull(res.getData());
 	}
 
-	public void atestBlockUserById() {
+	public void IGNOREtestBlockUserById() throws IOException, DoubanException {
 		// always return http 400, error 107 invalid_request_uri
-		DoubanResponse<DoubanUser> res = api.blockUser(Mock.TEST_USER_ID);
+		DoubanResponse<DoubanUser> res = api.blockUser(String
+				.valueOf(Mock.TEST_USER_ID));
 		debug(res);
 		assertNotNull(res);
 	}
 
-	public void atestBlockUserByName() {
+	public void IGNOREtestBlockUserByName() throws IOException, DoubanException {
 		// always return http 400, error 107 invalid_request_uri
 		DoubanResponse<DoubanUser> res = api.blockUser(Mock.TEST_USER_NAME);
 		debug(res);
 		assertNotNull(res);
 	}
 
-	public void atestBlockUserNotExistsById() {
-		DoubanResponse<DoubanUser> res = api
-				.blockUser(Mock.TEST_USER_ID_NOT_EXISTS);
+	public void IGNOREtestBlockUserNotExistsById() throws IOException,
+			DoubanException {
+		DoubanResponse<DoubanUser> res = api.blockUser(String
+				.valueOf(Mock.TEST_USER_ID_NOT_EXISTS));
 		debug(res);
 		assertNotNull(res);
 	}
 
-	public void atestBlockUserNotExitstByName() {
+	public void IGNOREtestBlockUserNotExitstByName() throws IOException,
+			DoubanException {
 		DoubanResponse<DoubanUser> res = api
 				.blockUser(Mock.TEST_USER_NAME_NOT_EXISTS);
 		debug(res);
 		assertNotNull(res);
 	}
 
-	public void atestGetUsersRelationById() {
+	public void IGNOREtestGetUsersRelationById() throws IOException,
+			DoubanException {
 		DoubanResponse<DoubanRelation> res = api.getUsersRelation(
-				Mock.TEST_USER_ID_ME, Mock.TEST_USER_ID);
+				String.valueOf(Mock.TEST_USER_ID_ME),
+				String.valueOf(Mock.TEST_USER_ID));
 		debug(res);
 		assertNotNull(res);
 		assertEquals(HttpStatus.SC_OK, res.getStatusCode());
 		assertNotNull(res.getData());
 	}
 
-	public void atestGetUsersRelationByName() {
+	public void IGNOREtestGetUsersRelationByName() throws IOException,
+			DoubanException {
 		DoubanResponse<DoubanRelation> res = api.getUsersRelation(
 				Mock.TEST_USER_NAME_ME, Mock.TEST_USER_NAME);
 		debug(res);
@@ -146,7 +167,8 @@ public class UsersResourcesTestCase extends BaseApiTestCase {
 		assertNotNull(res.getData());
 	}
 
-	public void atestGetUsersRelationNoSourceIdByName() {
+	public void IGNOREtestGetUsersRelationNoSourceIdByName()
+			throws IOException, DoubanException {
 		DoubanResponse<DoubanRelation> res = api.getUsersRelation("",
 				Mock.TEST_USER_NAME);
 		debug(res);
@@ -155,7 +177,8 @@ public class UsersResourcesTestCase extends BaseApiTestCase {
 		assertNotNull(res.getData());
 	}
 
-	public void atestGetUsersRelationNotExistsNameByName() {
+	public void IGNOREtestGetUsersRelationNotExistsNameByName()
+			throws IOException, DoubanException {
 		// always return http 500, error -1002
 		DoubanResponse<DoubanRelation> res = api.getUsersRelation(
 				Mock.TEST_USER_NAME_ME, Mock.TEST_USER_NAME_NOT_EXISTS);
@@ -163,14 +186,15 @@ public class UsersResourcesTestCase extends BaseApiTestCase {
 		assertNotNull(res);
 	}
 
-	public void atestSearchUser() {
+	public void IGNOREtestSearchUser() throws IOException, DoubanException {
 		DoubanResponse<List<DoubanUser>> res = api.searchUser("ahbei");
 		debug(res);
 		assertNotNull(res);
 		assertTrue(res.getData().size() == 1);
 	}
 
-	public void atestSearchUserByCount() {
+	public void IGNOREtestSearchUserByCount() throws IOException,
+			DoubanException {
 		DoubanResponse<List<DoubanUser>> res = api.searchUser("smile", 40, 0);
 		debug(res);
 		assertNotNull(res);
@@ -182,7 +206,8 @@ public class UsersResourcesTestCase extends BaseApiTestCase {
 	 * 
 	 */
 
-	public void atestGetFollowingUsersByNameSmallCount() {
+	public void IGNOREtestGetFollowingUsersByNameSmallCount()
+			throws IOException, DoubanException {
 		DoubanResponse<List<DoubanUser>> res = api.getFollowingUsers(
 				Mock.TEST_USER_NAME, 5, 0);
 		debug(res);
@@ -191,7 +216,8 @@ public class UsersResourcesTestCase extends BaseApiTestCase {
 		assertEquals(5, res.getData().size());
 	}
 
-	public void atestGetFollowingUsersByNameLargeCount() {
+	public void IGNOREtestGetFollowingUsersByNameLargeCount()
+			throws IOException, DoubanException {
 		DoubanResponse<List<DoubanUser>> res = api.getFollowingUsers(
 				Mock.TEST_USER_NAME, 30, 0);
 		debug(res);
@@ -200,7 +226,8 @@ public class UsersResourcesTestCase extends BaseApiTestCase {
 		assertEquals(30, res.getData().size());
 	}
 
-	public void atestGetFollowingUsersByNotExistsName() {
+	public void IGNOREtestGetFollowingUsersByNotExistsName()
+			throws IOException, DoubanException {
 		DoubanResponse<List<DoubanUser>> res = api
 				.getFollowingUsers(Mock.TEST_USER_NAME_NOT_EXISTS);
 		debug(res);
@@ -213,7 +240,8 @@ public class UsersResourcesTestCase extends BaseApiTestCase {
 	 * 
 	 * 
 	 */
-	public void atestGetFollowersUsersByNameSmallCount() {
+	public void IGNOREtestGetFollowersUsersByNameSmallCount()
+			throws IOException, DoubanException {
 		DoubanResponse<List<DoubanUser>> res = api.getFollowersUsers(
 				Mock.TEST_USER_NAME, 5, 0);
 		debug(res);
@@ -222,7 +250,8 @@ public class UsersResourcesTestCase extends BaseApiTestCase {
 		assertEquals(5, res.getData().size());
 	}
 
-	public void atestGetFollowersUsersByNameLargeCount() {
+	public void IGNOREtestGetFollowersUsersByNameLargeCount()
+			throws IOException, DoubanException {
 		DoubanResponse<List<DoubanUser>> res = api.getFollowersUsers(
 				Mock.TEST_USER_NAME, 30, 0);
 		debug(res);
@@ -231,7 +260,8 @@ public class UsersResourcesTestCase extends BaseApiTestCase {
 		assertEquals(30, res.getData().size());
 	}
 
-	public void atestGetFollowersUsersByNotExistsName() {
+	public void IGNOREtestGetFollowersUsersByNotExistsName()
+			throws IOException, DoubanException {
 		DoubanResponse<List<DoubanUser>> res = api
 				.getFollowersUsers(Mock.TEST_USER_NAME_NOT_EXISTS);
 		debug(res);
@@ -246,7 +276,8 @@ public class UsersResourcesTestCase extends BaseApiTestCase {
 	 * 
 	 * 
 	 */
-	public void atestGetFollowInCommonUsersByNameCount() {
+	public void IGNOREtestGetFollowInCommonUsersByNameCount()
+			throws IOException, DoubanException {
 		DoubanResponse<List<DoubanUser>> res = api.getFollowInCommonUsers(
 				Mock.TEST_USER_NAME, 5, 0);
 		debug(res);
@@ -255,7 +286,8 @@ public class UsersResourcesTestCase extends BaseApiTestCase {
 		assertEquals(5, res.getData().size());
 	}
 
-	public void atestGetFollowInCommonUsersByNotExistsName() {
+	public void IGNOREtestGetFollowInCommonUsersByNotExistsName()
+			throws IOException, DoubanException {
 		DoubanResponse<List<DoubanUser>> res = api
 				.getFollowInCommonUsers(Mock.TEST_USER_NAME_NOT_EXISTS);
 		debug(res);
@@ -269,7 +301,8 @@ public class UsersResourcesTestCase extends BaseApiTestCase {
 	 * 
 	 * 
 	 */
-	public void testGetFollowOfUsersByNameCount() {
+	public void IGNOREtestGetFollowOfUsersByNameCount() throws IOException,
+			DoubanException {
 		DoubanResponse<List<DoubanUser>> res = api.getFollowingOfUsers(
 				Mock.TEST_USER_NAME, 5, 0);
 		debug(res);
@@ -278,7 +311,8 @@ public class UsersResourcesTestCase extends BaseApiTestCase {
 		assertEquals(5, res.getData().size());
 	}
 
-	public void testGetFollowOfUsersByNotExistsName() {
+	public void IGNOREtestGetFollowOfUsersByNotExistsName() throws IOException,
+			DoubanException {
 		DoubanResponse<List<DoubanUser>> res = api
 				.getFollowingOfUsers(Mock.TEST_USER_NAME_NOT_EXISTS);
 		debug(res);

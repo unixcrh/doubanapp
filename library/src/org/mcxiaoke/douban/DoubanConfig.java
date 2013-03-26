@@ -8,15 +8,17 @@ package org.mcxiaoke.douban;
  * 
  */
 public final class DoubanConfig {
+	public static final boolean DEBUG = true;
+
 	public static final String EXTRA_ERROR_CODE = "EXTRA_ERROR_CODE";
 	public static final String EXTRA_ERROR_MESSAGE = "EXTRA_ERROR_MESSAGE";
 	public static final String EXTRA_ERROR_REQUEST = "EXTRA_ERROR_REQUEST";
-	
 
 	public static final String API_HOST = "https://api.douban.com";
-	
-	public static final int DEFAULT_COUNT=20;
-	public static final int DEFAULT_START=0;
+
+	public static final int DEFAULT_COUNT = 20;
+	public static final int DEFAULT_START = 0;
+	public static final int INVALID_ID=0;
 
 	public static final class OAuth {
 
@@ -57,9 +59,17 @@ public final class DoubanConfig {
 		public static final String TAG = "tag";
 		public static final String USER_ID = "user_id";
 		public static final String SOURCE = "source";
+		public static final String TEXT = "text";
+		public static final String PACK = "pack";
+		public static final String IMAGE = "image";
+		public static final String REC_TITLE = "rec_title";
+		public static final String REC_URL = "rec_url";
+		public static final String REC_DESC = "rec_desc";
+		public static final String REC_IMAGE = "rec_image";
 		public static final String SOURCE_ID = "source_id";
 		public static final String TARGET_ID = "target_id";
-		public static final String APPKEY = "appkey";
+		public static final String SINCE_ID = "since_id";
+		public static final String MAX_ID = "until_id";
 	}
 
 	static final class Scope {

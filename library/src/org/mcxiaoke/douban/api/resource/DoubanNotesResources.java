@@ -3,6 +3,9 @@
  */
 package org.mcxiaoke.douban.api.resource;
 
+import java.io.IOException;
+
+import org.mcxiaoke.douban.DoubanException;
 import org.mcxiaoke.douban.DoubanResponse;
 import org.mcxiaoke.douban.api.model.DoubanComment;
 import org.mcxiaoke.douban.api.model.DoubanComments;
@@ -17,69 +20,93 @@ public interface DoubanNotesResources {
 
 	// 日记列表
 
-	DoubanResponse<DoubanNotes> getNotesUserCreated(String userName);
+	DoubanResponse<DoubanNotes> getNotesUserCreated(String userName)
+			throws DoubanException, IOException;
 
 	DoubanResponse<DoubanNotes> getNotesUserCreated(String userName,
-			String format);
+			String format) throws DoubanException, IOException;
 
-	DoubanResponse<DoubanNotes> getNotesUserCreated(long userId);
+	DoubanResponse<DoubanNotes> getNotesUserCreated(long userId)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanNotes> getNotesUserCreated(long userId, String format);
+	DoubanResponse<DoubanNotes> getNotesUserCreated(long userId, String format)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanNotes> getNotesUserLiked(String userName);
+	DoubanResponse<DoubanNotes> getNotesUserLiked(String userName)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanNotes> getNotesUserLiked(String userName, String format);
+	DoubanResponse<DoubanNotes> getNotesUserLiked(String userName, String format)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanNotes> getNotesUserLiked(long userId);
+	DoubanResponse<DoubanNotes> getNotesUserLiked(long userId)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanNotes> getNotesUserLiked(long userId, String format);
+	DoubanResponse<DoubanNotes> getNotesUserLiked(long userId, String format)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanNotes> getNotesGuesses(String userName);
+	DoubanResponse<DoubanNotes> getNotesGuesses(String userName)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanNotes> getNotesGuesses(String userName, String format);
+	DoubanResponse<DoubanNotes> getNotesGuesses(String userName, String format)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanNotes> getNotesGuesses(long userId);
+	DoubanResponse<DoubanNotes> getNotesGuesses(long userId)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanNotes> getNotesGuesses(long userId, String format);
+	DoubanResponse<DoubanNotes> getNotesGuesses(long userId, String format)
+			throws DoubanException, IOException;
 
 	// 日记
 
-	DoubanResponse<DoubanNote> getNote(long noteId);
+	DoubanResponse<DoubanNote> getNote(long noteId) throws DoubanException,
+			IOException;
 
-	DoubanResponse<DoubanNote> getNote(long noteId, String format);
+	DoubanResponse<DoubanNote> getNote(long noteId, String format)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanNote> delete(long noteId);
+	DoubanResponse<DoubanNote> delete(long noteId) throws DoubanException,
+			IOException;
 
-	DoubanResponse<DoubanNote> likeNote(long noteId);
+	DoubanResponse<DoubanNote> likeNote(long noteId) throws DoubanException,
+			IOException;
 
-	DoubanResponse<DoubanNote> unlikeNote(long noteId);
+	DoubanResponse<DoubanNote> unlikeNote(long noteId) throws DoubanException,
+			IOException;
 
 	// 写日记
 
-	DoubanResponse<DoubanNote> writeNote(String title, String content);
+	DoubanResponse<DoubanNote> writeNote(String title, String content)
+			throws DoubanException, IOException;
 
 	DoubanResponse<DoubanNote> writeNote(String title, String content,
-			boolean canReply);
+			boolean canReply) throws DoubanException, IOException;
 
 	DoubanResponse<DoubanNote> writeNote(String title, String content,
-			boolean canReply, String privacy);
+			boolean canReply, String privacy) throws DoubanException,
+			IOException;
 
 	DoubanResponse<DoubanNote> updateNote(long noteId, String title,
-			String content);
+			String content) throws DoubanException, IOException;
 
 	DoubanResponse<DoubanNote> updateNote(long noteId, String title,
-			String content, boolean canReply);
+			String content, boolean canReply) throws DoubanException,
+			IOException;
 
 	DoubanResponse<DoubanNote> updateNote(long noteId, String title,
-			String content, boolean canReply, String privacy);
+			String content, boolean canReply, String privacy)
+			throws DoubanException, IOException;
 
 	// 日记回复
-	DoubanResponse<DoubanComments> getNoteComments(long noteId);
+	DoubanResponse<DoubanComments> getNoteComments(long noteId)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanComment> addNoteComment(long noteId, String text);
+	DoubanResponse<DoubanComment> addNoteComment(long noteId, String text)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanComment> getNoteComment(long noteId, long commentId);
+	DoubanResponse<DoubanComment> getNoteComment(long noteId, long commentId)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanComment> deleteNoteComment(long noteId, long commentId);
+	DoubanResponse<DoubanComment> deleteNoteComment(long noteId, long commentId)
+			throws DoubanException, IOException;
 
 }

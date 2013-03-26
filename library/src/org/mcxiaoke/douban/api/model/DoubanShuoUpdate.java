@@ -3,27 +3,35 @@
  */
 package org.mcxiaoke.douban.api.model;
 
-import java.util.Arrays;
+import java.io.File;
 
 /**
  * @author mcxiaoke
  * 
  */
 public final class DoubanShuoUpdate extends AbstractModel {
-	private String source; // true apikey
 	private String text; // true
-	private byte[] image;
+	private File image;
 	private String recTitle;
 	private String recUrl;
 	private String recDesc;
 	private String recImageUrl;
 
-	public String getSource() {
-		return source;
+	public DoubanShuoUpdate() {
+
 	}
 
-	public void setSource(String source) {
-		this.source = source;
+	public DoubanShuoUpdate(String text) {
+		this.text = text;
+	}
+
+	public DoubanShuoUpdate(String text, File image) {
+		this.text = text;
+		this.image = image;
+	}
+
+	public boolean hasImage() {
+		return image != null;
 	}
 
 	public String getText() {
@@ -34,11 +42,11 @@ public final class DoubanShuoUpdate extends AbstractModel {
 		this.text = text;
 	}
 
-	public byte[] getImage() {
+	public File getImage() {
 		return image;
 	}
 
-	public void setImage(byte[] image) {
+	public void setImage(File image) {
 		this.image = image;
 	}
 
@@ -77,12 +85,11 @@ public final class DoubanShuoUpdate extends AbstractModel {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("StatusUpdate [source=");
-		builder.append(source);
+		builder.append("StatusUpdate ");
 		builder.append(", text=");
 		builder.append(text);
 		builder.append(", image=");
-		builder.append(Arrays.toString(image));
+		builder.append(image);
 		builder.append(", recTitle=");
 		builder.append(recTitle);
 		builder.append(", recUrl=");

@@ -3,8 +3,10 @@
  */
 package org.mcxiaoke.douban.api.resource;
 
+import java.io.IOException;
 import java.util.Date;
 
+import org.mcxiaoke.douban.DoubanException;
 import org.mcxiaoke.douban.DoubanResponse;
 import org.mcxiaoke.douban.api.model.DoubanBook;
 import org.mcxiaoke.douban.api.model.DoubanBookAnnotation;
@@ -22,142 +24,172 @@ public interface DoubanBooksResources {
 
 	// 图书
 
-	DoubanResponse<DoubanBook> getBook(long bookId);
+	DoubanResponse<DoubanBook> getBook(long bookId) throws DoubanException,
+			IOException;
 
-	DoubanResponse<DoubanBook> getBookByISBN(String isbn);
+	DoubanResponse<DoubanBook> getBookByISBN(String isbn)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanBooks> searchBook(String query);
+	DoubanResponse<DoubanBooks> searchBook(String query)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanBooks> searchBook(String query, String tag);
+	DoubanResponse<DoubanBooks> searchBook(String query, String tag)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanBooks> searchBook(String query, String tag, int count);
+	DoubanResponse<DoubanBooks> searchBook(String query, String tag, int count)
+			throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBooks> searchBook(String query, String tag, int count,
-			int start);
+			int start) throws DoubanException, IOException;
 
 	// 书评
 
 	DoubanResponse<DoubanBookReview> addBookReview(long bookId, String title,
-			String content);
+			String content) throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookReview> addBookReview(long bookId, String title,
-			String content, int rating);
+			String content, int rating) throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookReview> updateBookReview(long reviewId,
-			String title, String content);
+			String title, String content) throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookReview> updateBookReview(long reviewId,
-			String title, String content, int rating);
+			String title, String content, int rating) throws DoubanException,
+			IOException;
 
-	DoubanResponse<DoubanBookReview> deleteBookReview(long reviewId);
+	DoubanResponse<DoubanBookReview> deleteBookReview(long reviewId)
+			throws DoubanException, IOException;
 
 	// 收藏
-	DoubanResponse<DoubanBookCollectionItem> getBookCollection(long collectionId);
+	DoubanResponse<DoubanBookCollectionItem> getBookCollection(long collectionId)
+			throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookCollectionItem> addBookCollection(long bookId,
-			String status);
+			String status) throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookCollectionItem> addBookCollection(long bookId,
-			String status, String tags);
+			String status, String tags) throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookCollectionItem> addBookCollection(long bookId,
-			String status, String tags, String comment);
+			String status, String tags, String comment) throws DoubanException,
+			IOException;
 
 	DoubanResponse<DoubanBookCollectionItem> addBookCollection(long bookId,
 			String status, String tags, String comment, String privacy,
-			int rating);
+			int rating) throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookCollectionItem> updateBookCollection(
-			long collectionId, String status);
+			long collectionId, String status) throws DoubanException,
+			IOException;
 
 	DoubanResponse<DoubanBookCollectionItem> updateBookCollection(
-			long collectionId, String status, String tags);
+			long collectionId, String status, String tags)
+			throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookCollectionItem> updateBookCollection(
-			long collectionId, String status, String tags, String comment);
+			long collectionId, String status, String tags, String comment)
+			throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookCollectionItem> updateBookCollection(
 			long collectionId, String status, String tags, String comment,
-			String privacy, int rating);
+			String privacy, int rating) throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookCollectionItem> deleteBookCollection(
-			long collectionId);
+			long collectionId) throws DoubanException, IOException;
 
-	DoubanResponse<DoubanBookCollections> getUserBookCollections(long userId);
-
-	DoubanResponse<DoubanBookCollections> getUserBookCollections(long userId,
-			String status);
+	DoubanResponse<DoubanBookCollections> getUserBookCollections(long userId)
+			throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookCollections> getUserBookCollections(long userId,
-			String status, Date from, Date to);
+			String status) throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookCollections> getUserBookCollections(long userId,
-			String status, Date from, Date to, int rating);
+			String status, Date from, Date to) throws DoubanException,
+			IOException;
 
-	DoubanResponse<DoubanBookCollections> getUserBookCollections(String userName);
+	DoubanResponse<DoubanBookCollections> getUserBookCollections(long userId,
+			String status, Date from, Date to, int rating)
+			throws DoubanException, IOException;
+
+	DoubanResponse<DoubanBookCollections> getUserBookCollections(String userName)
+			throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookCollections> getUserBookCollections(
-			String userName, String status);
+			String userName, String status) throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookCollections> getUserBookCollections(
-			String userName, String status, Date from, Date to);
+			String userName, String status, Date from, Date to)
+			throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookCollections> getUserBookCollections(
-			String userName, String status, Date from, Date to, int rating);
+			String userName, String status, Date from, Date to, int rating)
+			throws DoubanException, IOException;
 
 	// 笔记
 
-	DoubanResponse<DoubanBookAnnotations> getUserBookAnnotations(long userId);
+	DoubanResponse<DoubanBookAnnotations> getUserBookAnnotations(long userId)
+			throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookAnnotations> getUserBookAnnotations(long userId,
-			String status);
+			String status) throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookAnnotations> getUserBookAnnotations(long userId,
-			String status, Date from, Date to);
+			String status, Date from, Date to) throws DoubanException,
+			IOException;
 
 	DoubanResponse<DoubanBookAnnotations> getUserBookAnnotations(long userId,
-			String status, Date from, Date to, int rating);
+			String status, Date from, Date to, int rating)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanBookAnnotations> getUserBookAnnotations(String userName);
-
-	DoubanResponse<DoubanBookAnnotations> getUserBookAnnotations(
-			String userName, String status);
-
-	DoubanResponse<DoubanBookAnnotations> getUserBookAnnotations(
-			String userName, String status, Date from, Date to);
+	DoubanResponse<DoubanBookAnnotations> getUserBookAnnotations(String userName)
+			throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookAnnotations> getUserBookAnnotations(
-			String userName, String status, Date from, Date to, int rating);
+			String userName, String status) throws DoubanException, IOException;
 
-	DoubanResponse<DoubanBookAnnotation> getBookAnnotation(long annotationId);
+	DoubanResponse<DoubanBookAnnotations> getUserBookAnnotations(
+			String userName, String status, Date from, Date to)
+			throws DoubanException, IOException;
+
+	DoubanResponse<DoubanBookAnnotations> getUserBookAnnotations(
+			String userName, String status, Date from, Date to, int rating)
+			throws DoubanException, IOException;
+
+	DoubanResponse<DoubanBookAnnotation> getBookAnnotation(long annotationId)
+			throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookAnnotation> getBookAnnotation(long annotationId,
-			String format);
+			String format) throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookAnnotation> addBookAnnotation(long bookId,
-			String content, int page);
+			String content, int page) throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookAnnotation> addBookAnnotation(long bookId,
-			String content, String chapter);
+			String content, String chapter) throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookAnnotation> addBookAnnotation(long bookId,
-			String content, int page, String chapter);
+			String content, int page, String chapter) throws DoubanException,
+			IOException;
 
 	DoubanResponse<DoubanBookAnnotation> addBookAnnotation(long bookId,
-			String content, int page, String chapter, String privacy);
+			String content, int page, String chapter, String privacy)
+			throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookAnnotation> updateBookAnnotation(long annoationId,
-			String content, int page);
+			String content, int page) throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookAnnotation> updateBookAnnotation(long annoationId,
-			String content, String chapter);
+			String content, String chapter) throws DoubanException, IOException;
 
 	DoubanResponse<DoubanBookAnnotation> updateBookAnnotation(long annoationId,
-			String content, int page, String chapter);
+			String content, int page, String chapter) throws DoubanException,
+			IOException;
 
 	DoubanResponse<DoubanBookAnnotation> updateBookAnnotation(long annoationId,
-			String content, int page, String chapter, String privacy);
+			String content, int page, String chapter, String privacy)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanBookAnnotation> deleteBookAnnotation(long annotationId);
+	DoubanResponse<DoubanBookAnnotation> deleteBookAnnotation(long annotationId)
+			throws DoubanException, IOException;
 
 }

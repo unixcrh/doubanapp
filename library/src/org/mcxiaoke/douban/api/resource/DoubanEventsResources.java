@@ -3,6 +3,9 @@
  */
 package org.mcxiaoke.douban.api.resource;
 
+import java.io.IOException;
+
+import org.mcxiaoke.douban.DoubanException;
 import org.mcxiaoke.douban.DoubanResponse;
 import org.mcxiaoke.douban.api.model.DoubanEvent;
 import org.mcxiaoke.douban.api.model.DoubanEvents;
@@ -13,21 +16,30 @@ import org.mcxiaoke.douban.api.model.DoubanUsers;
  * 
  */
 public interface DoubanEventsResources {
-	DoubanResponse<DoubanEvent> getEvent(long eventId);
+	DoubanResponse<DoubanEvent> getEvent(long eventId) throws DoubanException,
+			IOException;
 
-	DoubanResponse<DoubanUsers> getEventParticipants(long eventId);
+	DoubanResponse<DoubanUsers> getEventParticipants(long eventId)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanEvents> getEventsByCity(int locId);
+	DoubanResponse<DoubanEvents> getEventsByCity(int locId)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanEvents> getEventsUserParticipanted(long userId);
+	DoubanResponse<DoubanEvents> getEventsUserParticipanted(long userId)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanEvents> getEventsUserParticipanted(String userName);
+	DoubanResponse<DoubanEvents> getEventsUserParticipanted(String userName)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanEvents> getEventsUserWishes(long userId);
+	DoubanResponse<DoubanEvents> getEventsUserWishes(long userId)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanEvents> getEventsUserWishes(String userName);
+	DoubanResponse<DoubanEvents> getEventsUserWishes(String userName)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanEvents> getEventsUserCreated(long userId);
+	DoubanResponse<DoubanEvents> getEventsUserCreated(long userId)
+			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanEvents> getEventsUserCreated(String userName);
+	DoubanResponse<DoubanEvents> getEventsUserCreated(String userName)
+			throws DoubanException, IOException;
 }

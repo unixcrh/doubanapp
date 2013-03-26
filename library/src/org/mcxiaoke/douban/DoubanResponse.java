@@ -12,6 +12,8 @@ import org.mcxiaoke.douban.api.model.DoubanError;
 import android.os.Bundle;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author mcxiaoke
@@ -33,18 +35,10 @@ public class DoubanResponse<T> implements IDoubanResponse<T> {
 		this(DoubanErrorCode.CODE_OK);
 	}
 
-	public DoubanResponse(final SimpleResponse response,
-			final TypeReference<T> type) {
-		from(response, type);
-	}
-
-	public DoubanResponse(final SimpleResponse response, final Class<T> clazz) {
-		from(response, clazz);
-	}
-
-	public void from(final SimpleResponse response, final TypeReference<T> type) {
-		statusCode = response.getStatusCode();
-		statusMessage = response.getStatusMessage();
+	public <K> DoubanResponse(final SimpleResponse response, final Object type)
+			throws DoubanException, IOException {
+		this.statusCode = response.getStatusCode();
+		this.statusMessage = response.getStatusMessage();
 		if (response.isSuccess()) {
 			handleResponse(response, type);
 		} else {
@@ -52,35 +46,14 @@ public class DoubanResponse<T> implements IDoubanResponse<T> {
 		}
 	}
 
-	public void from(final SimpleResponse response, final Class<T> clazz) {
-		statusCode = response.getStatusCode();
-		statusMessage = response.getStatusMessage();
-		if (response.isSuccess()) {
-			handleResponse(response, clazz);
-		} else {
-			handleError(response);
-		}
-	}
-
-	private void handleResponse(SimpleResponse response, TypeReference<T> type) {
+	private void handleResponse(SimpleResponse response, final Object type)
+			throws IOException {
 		this.errorCode = DoubanErrorCode.CODE_OK;
-		try {
-			data = DoubanHelper.parseArrayResponse(response, type);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		data = jsonParse(response, type);
 	}
 
-	private void handleResponse(SimpleResponse response, Class<T> clazz) {
-		this.errorCode = DoubanErrorCode.CODE_OK;
-		try {
-			data = DoubanHelper.parseSingleResponse(response, clazz);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void handleError(final SimpleResponse response) {
+	private void handleError(final SimpleResponse response)
+			throws DoubanException {
 		DoubanError error = parseError(response);
 		if (error != null) {
 			this.errorCode = error.getCode();
@@ -92,15 +65,8 @@ public class DoubanResponse<T> implements IDoubanResponse<T> {
 				this.errorCode = DoubanErrorCode.CODE_UNKOWN_ERROR;
 			}
 		}
-	}
-
-	private DoubanError parseError(SimpleResponse response) {
-		try {
-			return DoubanHelper.parseError(response);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
+		// TODO 
+//		throw new DoubanException(this.errorCode, this.errorMessage);
 	}
 
 	public int getStatusCode() {
@@ -172,6 +138,35 @@ public class DoubanResponse<T> implements IDoubanResponse<T> {
 		builder.append(extras);
 		builder.append("]");
 		return builder.toString();
+	}
+
+	private static DoubanError parseError(SimpleResponse response) {
+		try {
+			return jsonParse(response, DoubanError.class);
+		} catch (IOException e) {
+			return null;
+		}
+	}
+
+	// T data type
+	@SuppressWarnings("unchecked")
+	private static <T> T jsonParse(SimpleResponse response, final Object type)
+			throws IOException {
+		ObjectMapper om = getObjectMapper();
+		if (type instanceof Class) {
+			final Class<T> clazz = (Class<T>) type;
+			return om.readValue(response.getContent(), clazz);
+		} else {
+			final TypeReference<T> typeRef = (TypeReference<T>) type;
+			return om.readValue(response.getContent(), typeRef);
+		}
+	}
+
+	private static ObjectMapper getObjectMapper() {
+		ObjectMapper om = new ObjectMapper();
+		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		om.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+		return om;
 	}
 
 }
