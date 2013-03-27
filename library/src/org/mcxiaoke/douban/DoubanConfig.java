@@ -127,7 +127,7 @@ public final class DoubanConfig {
 		public static final String STATUSES = "/shuo/v2/statuses/";
 		public static final String STATUSES_HOME = "/shuo/v2/statuses/home_timeline";
 		public static final String STATUSES_USER = "/shuo/v2/statuses/user_timeline/%s";
-		public static final String STATUS = "shuo/v2/statuses/%s";
+		public static final String STATUS = "/shuo/v2/statuses/%s";
 		public static final String STATUS_COMMENTS = "/shuo/v2/statuses/%s/comments";
 		public static final String STATUS_COMMENT = "/shuo/v2/statuses/comment/%s";
 		public static final String STATUS_RESHARE = "/shuo/v2/statuses/%s/reshare";

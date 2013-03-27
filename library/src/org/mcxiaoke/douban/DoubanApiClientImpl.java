@@ -4,10 +4,8 @@
 package org.mcxiaoke.douban;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,14 +13,15 @@ import java.util.Map;
 import org.mcxiaoke.commons.auth.Authorization;
 import org.mcxiaoke.commons.auth.SignatureStyle;
 import org.mcxiaoke.commons.http.HttpMethod;
-import org.mcxiaoke.commons.http.RequestBuilder;
 import org.mcxiaoke.commons.http.SimpleClient;
 import org.mcxiaoke.commons.http.SimpleRequest;
 import org.mcxiaoke.commons.http.SimpleResponse;
 import org.mcxiaoke.commons.util.AssertUtils;
+import org.mcxiaoke.commons.util.StringUtils;
 import org.mcxiaoke.douban.api.model.DoubanComment;
 import org.mcxiaoke.douban.api.model.DoubanRelation;
 import org.mcxiaoke.douban.api.model.DoubanShuo;
+import org.mcxiaoke.douban.api.model.DoubanShuoStatus;
 import org.mcxiaoke.douban.api.model.DoubanShuoUpdate;
 import org.mcxiaoke.douban.api.model.DoubanUser;
 import org.scribe.model.OAuthToken;
@@ -104,23 +103,22 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 		}
 	}
 
-	private RequestBuilder createRequestBuilder(HttpMethod method, String path,
+	private SimpleRequest constructRequest(HttpMethod method, String path,
 			Map<String, String> params) {
-		RequestBuilder builder = RequestBuilder.create();
-		builder.setUrl(checkUrl(path));
-		builder.setMethod(method);
+		String url = checkUrl(path);
+		SimpleRequest request = new SimpleRequest(url, method);
 		if (params != null && params.size() > 0) {
-			builder.addParameters(params);
+			request.addParameters(params);
 		}
 		final Authorization authorization = getAuthorizationFromSession();
 		if (authorization != null) {
-			builder.setAuthorization(authorization);
+			request.setAuthorization(authorization);
 		}
-		return builder;
+		return request;
 	}
 
 	private SimpleResponse executeBodyRequest(HttpMethod method, String path,
-			Map<String, String> params, String name, InputStream stream)
+			Map<String, String> params, String name, File file)
 			throws DoubanException, IOException {
 		AssertUtils.isTrue(HttpMethod.POST == method
 				|| HttpMethod.PUT == method,
@@ -129,35 +127,41 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 				"request api path must not be null or empty.");
 		AssertUtils.notEmpty(name,
 				"file parameter name must not be null or empty.");
-		AssertUtils.notNull(stream, "inputstream must not be null.");
-		final SimpleRequest request = createRequestBuilder(method, path, params)
-				.build();
-		request.addFileParameter(name, stream);
-		debug("executeBodyRequest: " + request);
-		return mClient.execute(request);
+		AssertUtils.notNull(file, "file must not be null.");
+		final SimpleRequest request = constructRequest(method, path, params);
+		request.addParameter(name, file);
+		if (DEBUG) {
+			debug("executeBodyRequest, request= " + request);
+		}
+		SimpleResponse response = mClient.execute(request);
+		if (DEBUG) {
+			debug("executeBodyRequest, response= " + response.getStatusCode()
+					+ " " + response.getAsString());
+		}
+		return response;
 	}
 
 	private SimpleResponse executeNormalRequest(HttpMethod method, String path,
 			Map<String, String> params) throws DoubanException, IOException {
 		AssertUtils.notNull(method, "http method must not be null.");
 		AssertUtils.notEmpty(path, "request api path must not be null. ");
-		final SimpleRequest request = createRequestBuilder(method, path, params)
-				.build();
-		debug("executeNormalRequest: " + request);
-		return mClient.execute(request);
-	}
-
-	private SimpleResponse doPost(String path, Map<String, String> params,
-			String name, InputStream stream) throws DoubanException,
-			IOException {
-		return executeBodyRequest(HttpMethod.POST, path, params, name, stream);
+		final SimpleRequest request = constructRequest(method, path, params);
+		if (DEBUG) {
+			debug("executeNormalRequest, request= " + request);
+		}
+		SimpleResponse response = mClient.execute(request);
+		if (DEBUG) {
+			debug("executeNormalRequest, response= " + response.getStatusCode()
+					+ " " + response.getAsString());
+		}
+		return response;
 	}
 
 	private SimpleResponse doPost(String path, Map<String, String> params,
 			String name, File file) throws FileNotFoundException,
 			DoubanException, IOException {
 		AssertUtils.notNull(file, " file parameter must not be null.");
-		return doPost(path, params, name, new FileInputStream(file));
+		return executeBodyRequest(HttpMethod.POST, path, params, name, file);
 	}
 
 	private SimpleResponse doPost(String path, Map<String, String> params)
@@ -382,18 +386,32 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 	 * 发布一条广播
 	 */
 	@Override
-	public DoubanResponse<DoubanShuo> updateStatus(DoubanShuoUpdate status)
+	public DoubanResponse<DoubanShuoStatus> updateStatus(DoubanShuoUpdate status)
 			throws DoubanException, IOException {
 		AssertUtils.notNull(status,
 				"shuo status update object must not be null.");
+		AssertUtils.notEmpty(status.getText());
 		String path = getApiPath(DoubanConfig.Path.STATUSES);
 		Map<String, String> params = new HashMap<String, String>();
-		params.put(DoubanConfig.Key.TEXT, status.getText());
-		params.put(DoubanConfig.Key.REC_TITLE, status.getRecTitle());
-		params.put(DoubanConfig.Key.REC_URL, status.getRecUrl());
-		params.put(DoubanConfig.Key.REC_DESC, status.getRecDesc());
-		params.put(DoubanConfig.Key.REC_IMAGE, status.getRecImageUrl());
 		params.put(DoubanConfig.Key.SOURCE, mSession.getApiKey());
+		params.put(DoubanConfig.Key.TEXT, status.getText());
+		String recTitle = status.getRecTitle();
+		String recUrl = status.getRecUrl();
+		String recDesc = status.getRecDesc();
+		String recImage = status.getRecImageUrl();
+		if (StringUtils.isNotEmpty(recTitle)) {
+			params.put(DoubanConfig.Key.REC_TITLE, recTitle);
+		}
+		if (StringUtils.isNotEmpty(recUrl)) {
+			params.put(DoubanConfig.Key.REC_URL, recTitle);
+		}
+		if (StringUtils.isNotEmpty(recDesc)) {
+			params.put(DoubanConfig.Key.REC_DESC, recDesc);
+		}
+		if (StringUtils.isNotEmpty(recImage)) {
+			params.put(DoubanConfig.Key.REC_IMAGE, recImage);
+		}
+
 		SimpleResponse response;
 		if (status.hasImage()) {
 			response = doPost(path, params, DoubanConfig.Key.IMAGE,
@@ -401,50 +419,32 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 		} else {
 			response = doPost(path, params);
 		}
-		return parse(response, DoubanShuo.class);
+		return parse(response, DoubanShuoStatus.class);
 	}
 
 	@Override
-	public DoubanResponse<DoubanShuo> updateStatus(String text)
+	public DoubanResponse<DoubanShuoStatus> updateStatus(String text)
 			throws DoubanException, IOException {
 		return updateStatus(new DoubanShuoUpdate(text));
 	}
 
 	@Override
-	public DoubanResponse<DoubanShuo> updateStatus(String text, File image)
+	public DoubanResponse<DoubanShuoStatus> updateStatus(String text, File image)
 			throws DoubanException, IOException {
 		return updateStatus(new DoubanShuoUpdate(text, image));
 	}
 
 	@Override
-	public DoubanResponse<DoubanShuo> updateStatus(String text,
-			InputStream stream) throws DoubanException, IOException {
-		AssertUtils.notEmpty(text, "status text must not be null or empty.");
-		AssertUtils.notNull(stream,
-				" status image input stream must not be null.");
-		String path = getApiPath(DoubanConfig.Path.STATUSES);
-		Map<String, String> params = new HashMap<String, String>();
-		params.put(DoubanConfig.Key.TEXT, text);
-		params.put(DoubanConfig.Key.SOURCE, mSession.getApiKey());
-		SimpleResponse response;
-		if (stream != null) {
-			response = doPost(path, params, DoubanConfig.Key.IMAGE, stream);
-		} else {
-			response = doPost(path, params);
-		}
-		return parse(response, DoubanShuo.class);
-	}
-
-	@Override
-	public DoubanResponse<DoubanShuo> updateStatus(String text, String title,
-			String url, String desc) throws DoubanException, IOException {
+	public DoubanResponse<DoubanShuoStatus> updateStatus(String text,
+			String title, String url, String desc) throws DoubanException,
+			IOException {
 		return updateStatus(text, title, url, desc, null);
 	}
 
 	@Override
-	public DoubanResponse<DoubanShuo> updateStatus(String text, String title,
-			String url, String desc, String imageUrl) throws DoubanException,
-			IOException {
+	public DoubanResponse<DoubanShuoStatus> updateStatus(String text,
+			String title, String url, String desc, String imageUrl)
+			throws DoubanException, IOException {
 		DoubanShuoUpdate status = new DoubanShuoUpdate(text);
 		status.setRecTitle(title);
 		status.setRecUrl(url);
@@ -457,17 +457,19 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 	 * 获取一条消息
 	 */
 	@Override
-	public DoubanResponse<DoubanShuo> showStatus(long statusId)
+	public DoubanResponse<DoubanShuoStatus> showStatusConent(long statusId)
 			throws DoubanException, IOException {
-		return showStatus(statusId, false);
+		String path = getApiPath(DoubanConfig.Path.STATUS, statusId);
+		SimpleResponse response = doGet(path);
+		return parse(response, DoubanShuoStatus.class);
 	}
 
 	@Override
-	public DoubanResponse<DoubanShuo> showStatus(long statusId, boolean simple)
+	public DoubanResponse<DoubanShuo> showStatus(long statusId, boolean pack)
 			throws DoubanException, IOException {
 		String path = getApiPath(DoubanConfig.Path.STATUS, statusId);
 		Map<String, String> params = new HashMap<String, String>();
-		params.put(DoubanConfig.Key.PACK, String.valueOf(simple));
+		params.put(DoubanConfig.Key.PACK, String.valueOf(pack));
 		SimpleResponse response = doGet(path, params);
 		return parse(response, DoubanShuo.class);
 	}
@@ -476,11 +478,11 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 	 * 删除一条消息
 	 */
 	@Override
-	public DoubanResponse<DoubanShuo> deleteStatus(long statusId)
+	public DoubanResponse<DoubanShuoStatus> deleteStatus(long statusId)
 			throws DoubanException, IOException {
 		String path = getApiPath(DoubanConfig.Path.STATUS, statusId);
 		SimpleResponse response = doDelete(path);
-		return parse(response, DoubanShuo.class);
+		return parse(response, DoubanShuoStatus.class);
 	}
 
 	@Override
@@ -493,19 +495,19 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 	}
 
 	@Override
-	public DoubanResponse<DoubanShuo> reshareStatus(long statusId)
+	public DoubanResponse<DoubanShuoStatus> reshareStatus(long statusId)
 			throws DoubanException, IOException {
 		String path = getApiPath(DoubanConfig.Path.STATUS_RESHARE, statusId);
 		SimpleResponse response = doPost(path);
-		return parse(response, DoubanShuo.class);
+		return parse(response, DoubanShuoStatus.class);
 	}
 
 	@Override
-	public DoubanResponse<DoubanShuo> unreshareStatus(long statusId)
+	public DoubanResponse<DoubanShuoStatus> unreshareStatus(long statusId)
 			throws DoubanException, IOException {
 		String path = getApiPath(DoubanConfig.Path.STATUS, statusId);
 		SimpleResponse response = doDelete(path);
-		return parse(response, DoubanShuo.class);
+		return parse(response, DoubanShuoStatus.class);
 	}
 
 	@Override
@@ -518,19 +520,19 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 	}
 
 	@Override
-	public DoubanResponse<DoubanShuo> likeStatus(long statusId)
+	public DoubanResponse<DoubanShuoStatus> likeStatus(long statusId)
 			throws DoubanException, IOException {
 		String path = getApiPath(DoubanConfig.Path.STATUS_LIKE, statusId);
 		SimpleResponse response = doPost(path);
-		return parse(response, DoubanShuo.class);
+		return parse(response, DoubanShuoStatus.class);
 	}
 
 	@Override
-	public DoubanResponse<DoubanShuo> unlikeStatus(long statusId)
+	public DoubanResponse<DoubanShuoStatus> unlikeStatus(long statusId)
 			throws DoubanException, IOException {
 		String path = getApiPath(DoubanConfig.Path.STATUS_LIKE, statusId);
 		SimpleResponse response = doDelete(path);
-		return parse(response, DoubanShuo.class);
+		return parse(response, DoubanShuoStatus.class);
 	}
 
 	@Override
@@ -553,7 +555,7 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(DoubanConfig.Key.COUNT, String.valueOf(count));
 		params.put(DoubanConfig.Key.START, String.valueOf(start));
-		SimpleResponse response = doGet(path);
+		SimpleResponse response = doGet(path, params);
 		return parse(response, new TypeReference<List<DoubanComment>>() {
 		});
 	}
@@ -584,7 +586,7 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 		return parse(response, DoubanComment.class);
 	}
 
-	private DoubanResponse<List<DoubanShuo>> getTimeline(String path,
+	private DoubanResponse<List<DoubanShuoStatus>> getTimeline(String path,
 			long sinceId, long maxId, int count, int start)
 			throws DoubanException, IOException {
 		Map<String, String> params = new HashMap<String, String>();
@@ -597,7 +599,7 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 		params.put(DoubanConfig.Key.COUNT, String.valueOf(count));
 		params.put(DoubanConfig.Key.START, String.valueOf(start));
 		SimpleResponse response = doGet(path, params);
-		return parse(response, new TypeReference<List<DoubanShuo>>() {
+		return parse(response, new TypeReference<List<DoubanShuoStatus>>() {
 		});
 	}
 
@@ -605,32 +607,32 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 	 * Home时间线
 	 */
 	@Override
-	public DoubanResponse<List<DoubanShuo>> getHomeTimeline()
+	public DoubanResponse<List<DoubanShuoStatus>> getHomeTimeline()
 			throws DoubanException, IOException {
 		return getHomeTimeline(DoubanConfig.INVALID_ID);
 	}
 
 	@Override
-	public DoubanResponse<List<DoubanShuo>> getHomeTimeline(long sinceId)
+	public DoubanResponse<List<DoubanShuoStatus>> getHomeTimeline(long sinceId)
 			throws DoubanException, IOException {
 		return getHomeTimeline(sinceId, DoubanConfig.INVALID_ID);
 	}
 
 	@Override
-	public DoubanResponse<List<DoubanShuo>> getHomeTimeline(long sinceId,
+	public DoubanResponse<List<DoubanShuoStatus>> getHomeTimeline(long sinceId,
 			long maxId) throws DoubanException, IOException {
 		return getHomeTimeline(sinceId, maxId, DoubanConfig.DEFAULT_COUNT);
 	}
 
 	@Override
-	public DoubanResponse<List<DoubanShuo>> getHomeTimeline(long sinceId,
+	public DoubanResponse<List<DoubanShuoStatus>> getHomeTimeline(long sinceId,
 			long maxId, int count) throws DoubanException, IOException {
 		return getHomeTimeline(sinceId, maxId, count,
 				DoubanConfig.DEFAULT_START);
 	}
 
 	@Override
-	public DoubanResponse<List<DoubanShuo>> getHomeTimeline(long sinceId,
+	public DoubanResponse<List<DoubanShuoStatus>> getHomeTimeline(long sinceId,
 			long maxId, int count, int start) throws DoubanException,
 			IOException {
 		String path = getApiPath(DoubanConfig.Path.STATUSES_HOME);
@@ -641,35 +643,36 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 	 * 用户时间线
 	 */
 	@Override
-	public DoubanResponse<List<DoubanShuo>> getUserTimeline(String userName)
-			throws DoubanException, IOException {
+	public DoubanResponse<List<DoubanShuoStatus>> getUserTimeline(
+			String userName) throws DoubanException, IOException {
 		return getUserTimeline(userName, DoubanConfig.INVALID_ID);
 	}
 
 	@Override
-	public DoubanResponse<List<DoubanShuo>> getUserTimeline(String userName,
-			long sinceId) throws DoubanException, IOException {
+	public DoubanResponse<List<DoubanShuoStatus>> getUserTimeline(
+			String userName, long sinceId) throws DoubanException, IOException {
 		return getUserTimeline(userName, sinceId, DoubanConfig.INVALID_ID);
 	}
 
 	@Override
-	public DoubanResponse<List<DoubanShuo>> getUserTimeline(String userName,
-			long sinceId, long maxId) throws DoubanException, IOException {
+	public DoubanResponse<List<DoubanShuoStatus>> getUserTimeline(
+			String userName, long sinceId, long maxId) throws DoubanException,
+			IOException {
 		return getUserTimeline(userName, sinceId, maxId,
 				DoubanConfig.DEFAULT_COUNT);
 	}
 
 	@Override
-	public DoubanResponse<List<DoubanShuo>> getUserTimeline(String userName,
-			long sinceId, long maxId, int count) throws DoubanException,
-			IOException {
+	public DoubanResponse<List<DoubanShuoStatus>> getUserTimeline(
+			String userName, long sinceId, long maxId, int count)
+			throws DoubanException, IOException {
 		return getUserTimeline(userName, sinceId, maxId, count,
 				DoubanConfig.DEFAULT_START);
 	}
 
 	@Override
-	public DoubanResponse<List<DoubanShuo>> getUserTimeline(String userName,
-			long sinceId, long maxId, int count, int start)
+	public DoubanResponse<List<DoubanShuoStatus>> getUserTimeline(
+			String userName, long sinceId, long maxId, int count, int start)
 			throws DoubanException, IOException {
 		String path = getApiPath(DoubanConfig.Path.STATUSES_USER, userName);
 		return getTimeline(path, sinceId, maxId, count, start);

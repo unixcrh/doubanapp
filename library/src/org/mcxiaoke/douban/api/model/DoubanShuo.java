@@ -3,252 +3,71 @@
  */
 package org.mcxiaoke.douban.api.model;
 
-import java.util.Date;
 import java.util.List;
 
-import org.mcxiaoke.douban.api.parser.DoubanDateDeserializer;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * @author mcxiaoke
  * 
  */
 public class DoubanShuo extends AbstractModel {
-	@JsonProperty("id")
-	private long id;
-	@JsonProperty("type")
-	private String type;
-	@JsonProperty("category")
-	private String category;
-	@JsonProperty("title")
-	private String title;
-	@JsonProperty("text")
-	private String text;
-	@JsonDeserialize(using = DoubanDateDeserializer.class)
-	@JsonProperty("created_at")
-	private Date createdAt;
-	@JsonProperty("is_follow")
-	private boolean isFollow;
-	@JsonProperty("has_photo")
-	private boolean hasPhoto;
-	@JsonProperty("muted")
-	private boolean muted;
-	@JsonProperty("can_reply")
-	private int canReply;
-	@JsonProperty("liked")
-	private boolean liked;
-	@JsonProperty("reshared_count")
-	private int resharedCount;
-	@JsonProperty("like_count")
-	private int likedCount;
-	@JsonProperty("comments_count")
-	private int commentsCount;
-	@JsonProperty("attachments")
-	private List<DoubanShuoAttachment> attachments;
-	@JsonProperty("entities")
-	private List<DoubanShuoEntity> entities;
-	@JsonProperty("users")
-	private List<DoubanUser> users;
-	@JsonProperty("reshare_status")
-	private DoubanShuo resharedStatus;
-	@JsonProperty("source")
-	private DoubanSource source;
+	@JsonProperty("status")
+	private DoubanShuoStatus status;
+	@JsonProperty("reshare_users")
+	private List<DoubanUser> reshareUsers;
+	@JsonProperty("like_users")
+	private List<DoubanUser> likeUsers;
+	@JsonProperty("comments")
+	private List<DoubanComment> comments;
 
-	public long getId() {
-		return id;
+	public DoubanShuoStatus getStatus() {
+		return status;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setStatus(DoubanShuoStatus status) {
+		this.status = status;
 	}
 
-	public String getType() {
-		return type;
+	public List<DoubanUser> getReshareUsers() {
+		return reshareUsers;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setReshareUsers(List<DoubanUser> reshareUsers) {
+		this.reshareUsers = reshareUsers;
 	}
 
-	public String getCategory() {
-		return category;
+	public List<DoubanUser> getLikeUsers() {
+		return likeUsers;
 	}
 
-	public void setCategory(String category) {
-		this.category = category;
+	public void setLikeUsers(List<DoubanUser> likeUsers) {
+		this.likeUsers = likeUsers;
 	}
 
-	public String getTitle() {
-		return title;
+	public List<DoubanComment> getComments() {
+		return comments;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public boolean isFollow() {
-		return isFollow;
-	}
-
-	public void setFollow(boolean isFollow) {
-		this.isFollow = isFollow;
-	}
-
-	public boolean isHasPhoto() {
-		return hasPhoto;
-	}
-
-	public void setHasPhoto(boolean hasPhoto) {
-		this.hasPhoto = hasPhoto;
-	}
-
-	public boolean isMuted() {
-		return muted;
-	}
-
-	public void setMuted(boolean muted) {
-		this.muted = muted;
-	}
-
-	public int getCanReply() {
-		return canReply;
-	}
-
-	public void setCanReply(int canReply) {
-		this.canReply = canReply;
-	}
-
-	public boolean isLiked() {
-		return liked;
-	}
-
-	public void setLiked(boolean liked) {
-		this.liked = liked;
-	}
-
-	public int getResharedCount() {
-		return resharedCount;
-	}
-
-	public void setResharedCount(int resharedCount) {
-		this.resharedCount = resharedCount;
-	}
-
-	public int getLikedCount() {
-		return likedCount;
-	}
-
-	public void setLikedCount(int likedCount) {
-		this.likedCount = likedCount;
-	}
-
-	public int getCommentsCount() {
-		return commentsCount;
-	}
-
-	public void setCommentsCount(int commentsCount) {
-		this.commentsCount = commentsCount;
-	}
-
-	public List<DoubanShuoAttachment> getAttachments() {
-		return attachments;
-	}
-
-	public void setAttachments(List<DoubanShuoAttachment> attachments) {
-		this.attachments = attachments;
-	}
-
-	public List<DoubanShuoEntity> getEntities() {
-		return entities;
-	}
-
-	public void setEntities(List<DoubanShuoEntity> entities) {
-		this.entities = entities;
-	}
-
-	public List<DoubanUser> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<DoubanUser> users) {
-		this.users = users;
-	}
-
-	public DoubanShuo getResharedStatus() {
-		return resharedStatus;
-	}
-
-	public void setResharedStatus(DoubanShuo resharedStatus) {
-		this.resharedStatus = resharedStatus;
-	}
-
-	public DoubanSource getSource() {
-		return source;
-	}
-
-	public void setSource(DoubanSource source) {
-		this.source = source;
+	public void setComments(List<DoubanComment> comments) {
+		this.comments = comments;
 	}
 
 	@Override
 	public String toString() {
+		final int maxLen = 5;
 		StringBuilder builder = new StringBuilder();
-		builder.append("DoubanShuo [id=");
-		builder.append(id);
-		builder.append(", type=");
-		builder.append(type);
-		builder.append(", category=");
-		builder.append(category);
-		builder.append(", title=");
-		builder.append(title);
-		builder.append(", text=");
-		builder.append(text);
-		builder.append(", createdAt=");
-		builder.append(createdAt);
-		builder.append(", isFollow=");
-		builder.append(isFollow);
-		builder.append(", hasPhoto=");
-		builder.append(hasPhoto);
-		builder.append(", muted=");
-		builder.append(muted);
-		builder.append(", canReply=");
-		builder.append(canReply);
-		builder.append(", liked=");
-		builder.append(liked);
-		builder.append(", resharedCount=");
-		builder.append(resharedCount);
-		builder.append(", likedCount=");
-		builder.append(likedCount);
-		builder.append(", commentsCount=");
-		builder.append(commentsCount);
-		builder.append(", attachments=");
-		builder.append(attachments);
-		builder.append(", entities=");
-		builder.append(entities);
-		builder.append(", users=");
-		builder.append(users);
-		// builder.append(", resharedStatus=");
-		// builder.append(resharedStatus);
-		builder.append(", source=");
-		builder.append(source);
+		builder.append("DoubanShuo [status=");
+		builder.append(status);
+		builder.append(", reshareUsers=");
+		builder.append(reshareUsers != null ? reshareUsers.subList(0,
+				Math.min(reshareUsers.size(), maxLen)) : null);
+		builder.append(", likeUsers=");
+		builder.append(likeUsers != null ? likeUsers.subList(0,
+				Math.min(likeUsers.size(), maxLen)) : null);
+		builder.append(", comments=");
+		builder.append(comments != null ? comments.subList(0,
+				Math.min(comments.size(), maxLen)) : null);
 		builder.append("]");
 		return builder.toString();
 	}

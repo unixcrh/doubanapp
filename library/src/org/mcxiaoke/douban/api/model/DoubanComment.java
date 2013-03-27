@@ -22,6 +22,8 @@ public class DoubanComment extends AbstractModel {
 	private Date createdAt;
 	@JsonProperty("content")
 	private String content;
+	@JsonProperty("source")
+	private String source;
 	@JsonProperty("author")
 	private DoubanUser author;
 
@@ -49,6 +51,14 @@ public class DoubanComment extends AbstractModel {
 		this.content = content;
 	}
 
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
 	public DoubanUser getAuthor() {
 		return author;
 	}
@@ -66,6 +76,8 @@ public class DoubanComment extends AbstractModel {
 		builder.append(createdAt);
 		builder.append(", content=");
 		builder.append(content);
+		builder.append(", source=");
+		builder.append(source);
 		builder.append(", author=");
 		builder.append(author);
 		builder.append("]");

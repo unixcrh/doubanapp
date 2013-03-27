@@ -12,6 +12,7 @@ import org.mcxiaoke.douban.DoubanException;
 import org.mcxiaoke.douban.DoubanResponse;
 import org.mcxiaoke.douban.api.model.DoubanComment;
 import org.mcxiaoke.douban.api.model.DoubanShuo;
+import org.mcxiaoke.douban.api.model.DoubanShuoStatus;
 import org.mcxiaoke.douban.api.model.DoubanShuoUpdate;
 import org.mcxiaoke.douban.api.model.DoubanUser;
 
@@ -36,7 +37,7 @@ public interface DoubanShuoResources {
 	 * @throws IOException
 	 *             如果出现网络错误
 	 */
-	DoubanResponse<DoubanShuo> updateStatus(DoubanShuoUpdate status)
+	DoubanResponse<DoubanShuoStatus> updateStatus(DoubanShuoUpdate status)
 			throws DoubanException, IOException;
 
 	/**
@@ -48,7 +49,7 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<DoubanShuo> updateStatus(String text)
+	DoubanResponse<DoubanShuoStatus> updateStatus(String text)
 			throws DoubanException, IOException;
 
 	/**
@@ -62,21 +63,7 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<DoubanShuo> updateStatus(String text, File image)
-			throws DoubanException, IOException;
-
-	/**
-	 * 发布一条广播，包含图片
-	 * 
-	 * @param text
-	 *            广播文本
-	 * @param stream
-	 *            广播图片数据流
-	 * @return 发布成功的广播消息体
-	 * @throws DoubanException
-	 * @throws IOException
-	 */
-	DoubanResponse<DoubanShuo> updateStatus(String text, InputStream stream)
+	DoubanResponse<DoubanShuoStatus> updateStatus(String text, File image)
 			throws DoubanException, IOException;
 
 	/**
@@ -94,7 +81,7 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<DoubanShuo> updateStatus(String text, String title,
+	DoubanResponse<DoubanShuoStatus> updateStatus(String text, String title,
 			String url, String desc) throws DoubanException, IOException;
 
 	/**
@@ -114,13 +101,13 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<DoubanShuo> updateStatus(String text, String title,
+	DoubanResponse<DoubanShuoStatus> updateStatus(String text, String title,
 			String url, String desc, String imageUrl) throws DoubanException,
 			IOException;
 
 	// 操作广播
 	/**
-	 * 获取一条广播
+	 * 获取一条广播，广播内容
 	 * 
 	 * @param statusId
 	 *            广播ID
@@ -128,11 +115,11 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<DoubanShuo> showStatus(long statusId)
+	DoubanResponse<DoubanShuoStatus> showStatusConent(long statusId)
 			throws DoubanException, IOException;
 
 	/**
-	 * 获取一条广播
+	 * 获取一条广播，包含转发和评论等信息
 	 * 
 	 * @param statusId
 	 *            广播ID
@@ -142,7 +129,7 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<DoubanShuo> showStatus(long statusId, boolean simple)
+	DoubanResponse<DoubanShuo> showStatus(long statusId, boolean pack)
 			throws DoubanException, IOException;
 
 	/**
@@ -154,7 +141,7 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<DoubanShuo> deleteStatus(long statusId)
+	DoubanResponse<DoubanShuoStatus> deleteStatus(long statusId)
 			throws DoubanException, IOException;
 
 	/**
@@ -178,7 +165,7 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<DoubanShuo> reshareStatus(long statusId)
+	DoubanResponse<DoubanShuoStatus> reshareStatus(long statusId)
 			throws DoubanException, IOException;
 
 	/**
@@ -190,7 +177,7 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<DoubanShuo> unreshareStatus(long statusId)
+	DoubanResponse<DoubanShuoStatus> unreshareStatus(long statusId)
 			throws DoubanException, IOException;
 
 	/**
@@ -214,7 +201,7 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<DoubanShuo> likeStatus(long statusId)
+	DoubanResponse<DoubanShuoStatus> likeStatus(long statusId)
 			throws DoubanException, IOException;
 
 	/**
@@ -226,7 +213,7 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<DoubanShuo> unlikeStatus(long statusId)
+	DoubanResponse<DoubanShuoStatus> unlikeStatus(long statusId)
 			throws DoubanException, IOException;
 
 	// 广播评论
@@ -319,8 +306,8 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<List<DoubanShuo>> getHomeTimeline() throws DoubanException,
-			IOException;
+	DoubanResponse<List<DoubanShuoStatus>> getHomeTimeline()
+			throws DoubanException, IOException;
 
 	/**
 	 * 获取主页时间线
@@ -331,7 +318,7 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<List<DoubanShuo>> getHomeTimeline(long sinceId)
+	DoubanResponse<List<DoubanShuoStatus>> getHomeTimeline(long sinceId)
 			throws DoubanException, IOException;
 
 	/**
@@ -345,8 +332,8 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<List<DoubanShuo>> getHomeTimeline(long sinceId, long maxId)
-			throws DoubanException, IOException;
+	DoubanResponse<List<DoubanShuoStatus>> getHomeTimeline(long sinceId,
+			long maxId) throws DoubanException, IOException;
 
 	/**
 	 * 获取主页时间线
@@ -361,8 +348,8 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<List<DoubanShuo>> getHomeTimeline(long sinceId, long maxId,
-			int count) throws DoubanException, IOException;
+	DoubanResponse<List<DoubanShuoStatus>> getHomeTimeline(long sinceId,
+			long maxId, int count) throws DoubanException, IOException;
 
 	/**
 	 * 获取主页时间线
@@ -379,8 +366,9 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<List<DoubanShuo>> getHomeTimeline(long sinceId, long maxId,
-			int count, int start) throws DoubanException, IOException;
+	DoubanResponse<List<DoubanShuoStatus>> getHomeTimeline(long sinceId,
+			long maxId, int count, int start) throws DoubanException,
+			IOException;
 
 	// user timeline
 
@@ -393,7 +381,7 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<List<DoubanShuo>> getUserTimeline(String userName)
+	DoubanResponse<List<DoubanShuoStatus>> getUserTimeline(String userName)
 			throws DoubanException, IOException;
 
 	/**
@@ -407,7 +395,7 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<List<DoubanShuo>> getUserTimeline(String userName,
+	DoubanResponse<List<DoubanShuoStatus>> getUserTimeline(String userName,
 			long sinceId) throws DoubanException, IOException;
 
 	/**
@@ -423,7 +411,7 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<List<DoubanShuo>> getUserTimeline(String userName,
+	DoubanResponse<List<DoubanShuoStatus>> getUserTimeline(String userName,
 			long sinceId, long maxId) throws DoubanException, IOException;
 
 	/**
@@ -441,7 +429,7 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<List<DoubanShuo>> getUserTimeline(String userName,
+	DoubanResponse<List<DoubanShuoStatus>> getUserTimeline(String userName,
 			long sinceId, long maxId, int count) throws DoubanException,
 			IOException;
 
@@ -462,7 +450,7 @@ public interface DoubanShuoResources {
 	 * @throws DoubanException
 	 * @throws IOException
 	 */
-	DoubanResponse<List<DoubanShuo>> getUserTimeline(String userName,
+	DoubanResponse<List<DoubanShuoStatus>> getUserTimeline(String userName,
 			long sinceId, long maxId, int count, int start)
 			throws DoubanException, IOException;
 
