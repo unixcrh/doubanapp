@@ -75,6 +75,7 @@ public final class DoubanConfig {
 		public static final String TITLE = "title";
 		public static final String CONTENT = "content";
 		public static final String TEXT = "text";
+		public static final String DESC="desc";
 		public static final String PRIVACY = "privacy";
 		public static final String CAN_REPLY = "can_reply";
 		public static final String PACK = "pack";

@@ -20,6 +20,7 @@ import org.mcxiaoke.commons.util.AssertUtils;
 import org.mcxiaoke.commons.util.StringUtils;
 import org.mcxiaoke.douban.api.model.DoubanAlbum;
 import org.mcxiaoke.douban.api.model.DoubanAlbumPhotos;
+import org.mcxiaoke.douban.api.model.DoubanAlbums;
 import org.mcxiaoke.douban.api.model.DoubanComment;
 import org.mcxiaoke.douban.api.model.DoubanComments;
 import org.mcxiaoke.douban.api.model.DoubanNote;
@@ -1026,6 +1027,74 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 	 */
 
 	@Override
+	public DoubanResponse<DoubanAlbums> getAlbumsUserCreated(String userName)
+			throws DoubanException, IOException {
+		return getAlbumsUserCreated(userName, DoubanConfig.DEFAULT_COUNT);
+	}
+
+	@Override
+	public DoubanResponse<DoubanAlbums> getAlbumsUserCreated(String userName,
+			int count) throws DoubanException, IOException {
+		return getAlbumsUserCreated(userName, count, DoubanConfig.DEFAULT_START);
+	}
+
+	@Override
+	public DoubanResponse<DoubanAlbums> getAlbumsUserCreated(String userName,
+			int count, int start) throws DoubanException, IOException {
+		String path = getApiPath(DoubanConfig.Path.ALBUMS_CREATED, userName);
+		Map<String, String> params = new HashMap<String, String>();
+		if (count > DoubanConfig.INVALID_ID) {
+			params.put(DoubanConfig.Key.COUNT, String.valueOf(count));
+		}
+		if (start > DoubanConfig.INVALID_ID) {
+			params.put(DoubanConfig.Key.START, String.valueOf(start));
+		}
+		SimpleResponse response = doGet(path, params);
+		return parse(response, DoubanAlbums.class);
+	}
+
+	@Override
+	public DoubanResponse<DoubanAlbums> getAlbumsUserLiked(String userName)
+			throws DoubanException, IOException {
+		return getAlbumsUserLiked(userName, DoubanConfig.DEFAULT_COUNT);
+	}
+
+	@Override
+	public DoubanResponse<DoubanAlbums> getAlbumsUserLiked(String userName,
+			int count) throws DoubanException, IOException {
+		return getAlbumsUserLiked(userName, count, DoubanConfig.DEFAULT_START);
+	}
+
+	@Override
+	public DoubanResponse<DoubanAlbums> getAlbumsUserLiked(String userName,
+			int count, int start) throws DoubanException, IOException {
+		String path = getApiPath(DoubanConfig.Path.ALBUMS_LIKED, userName);
+		Map<String, String> params = new HashMap<String, String>();
+		if (count > DoubanConfig.INVALID_ID) {
+			params.put(DoubanConfig.Key.COUNT, String.valueOf(count));
+		}
+		if (start > DoubanConfig.INVALID_ID) {
+			params.put(DoubanConfig.Key.START, String.valueOf(start));
+		}
+		SimpleResponse response = doGet(path, params);
+		return parse(response, DoubanAlbums.class);
+	}
+
+	@Override
+	public DoubanResponse<DoubanAlbum> createAlbum(String title, String privacy)
+			throws DoubanException, IOException {
+		AssertUtils.notEmpty(title, " album title must not be null or empty.");
+		AssertUtils.notEmpty(privacy,
+				" album privacy must not be null or empty.");
+		String path = getApiPath(DoubanConfig.Path.ALBUMS);
+		Map<String, String> params = new HashMap<String, String>();
+		params.put(DoubanConfig.Key.TITLE, title);
+		params.put(DoubanConfig.Key.PRIVACY, privacy);
+		SimpleResponse response = doPost(path, params);
+		return parse(response, DoubanAlbum.class);
+	}
+
+	@Override
 	public DoubanResponse<DoubanAlbum> getAlbum(long albumId)
 			throws DoubanException, IOException {
 		String path = getApiPath(DoubanConfig.Path.ALBUM, albumId);
@@ -1034,10 +1103,43 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 	}
 
 	@Override
+	public DoubanResponse<DoubanPhoto> uploadPhoto(long albumId, String desc,
+			File image) throws DoubanException, IOException {
+		AssertUtils.notNull(image, "upload file must not be null.");
+		String path = getApiPath(DoubanConfig.Path.ALBUM, albumId);
+		Map<String, String> params = new HashMap<String, String>();
+		if (StringUtils.isNotEmpty(desc)) {
+			params.put(DoubanConfig.Key.DESC, desc);
+		}
+		SimpleResponse response = doPost(path, params, DoubanConfig.Key.IMAGE,
+				image);
+		return parse(response, DoubanPhoto.class);
+	}
+
+	@Override
 	public DoubanResponse<DoubanAlbumPhotos> getAlbumPhotos(long albumId)
 			throws DoubanException, IOException {
+		return getAlbumPhotos(albumId, DoubanConfig.DEFAULT_COUNT);
+	}
+
+	@Override
+	public DoubanResponse<DoubanAlbumPhotos> getAlbumPhotos(long albumId,
+			int count) throws DoubanException, IOException {
+		return getAlbumPhotos(albumId, count, DoubanConfig.DEFAULT_START);
+	}
+
+	@Override
+	public DoubanResponse<DoubanAlbumPhotos> getAlbumPhotos(long albumId,
+			int count, int start) throws DoubanException, IOException {
 		String path = getApiPath(DoubanConfig.Path.PHTOTS, albumId);
-		SimpleResponse response = doGet(path);
+		Map<String, String> params = new HashMap<String, String>();
+		if (count > DoubanConfig.INVALID_ID) {
+			params.put(DoubanConfig.Key.COUNT, String.valueOf(count));
+		}
+		if (start > DoubanConfig.INVALID_ID) {
+			params.put(DoubanConfig.Key.START, String.valueOf(start));
+		}
+		SimpleResponse response = doGet(path, params);
 		return parse(response, DoubanAlbumPhotos.class);
 	}
 
