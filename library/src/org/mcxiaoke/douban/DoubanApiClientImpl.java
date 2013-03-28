@@ -18,7 +18,13 @@ import org.mcxiaoke.commons.http.SimpleRequest;
 import org.mcxiaoke.commons.http.SimpleResponse;
 import org.mcxiaoke.commons.util.AssertUtils;
 import org.mcxiaoke.commons.util.StringUtils;
+import org.mcxiaoke.douban.api.model.DoubanAlbum;
+import org.mcxiaoke.douban.api.model.DoubanAlbumPhotos;
 import org.mcxiaoke.douban.api.model.DoubanComment;
+import org.mcxiaoke.douban.api.model.DoubanComments;
+import org.mcxiaoke.douban.api.model.DoubanNote;
+import org.mcxiaoke.douban.api.model.DoubanNotes;
+import org.mcxiaoke.douban.api.model.DoubanPhoto;
 import org.mcxiaoke.douban.api.model.DoubanRelation;
 import org.mcxiaoke.douban.api.model.DoubanShuo;
 import org.mcxiaoke.douban.api.model.DoubanShuoStatus;
@@ -96,7 +102,7 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 	}
 
 	private String checkUrl(String path) {
-		if (path.startsWith(SCHEME_HTTPS)) {
+		if (path.startsWith(SCHEME_HTTPS) || path.startsWith(SCHEME_HTTP)) {
 			return path;
 		} else {
 			return API_HOST.concat(path);
@@ -136,7 +142,7 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 		SimpleResponse response = mClient.execute(request);
 		if (DEBUG) {
 			debug("executeBodyRequest, response= " + response.getStatusCode()
-					+ " " + response.getAsString());
+					+ " " + response);
 		}
 		return response;
 	}
@@ -152,7 +158,7 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 		SimpleResponse response = mClient.execute(request);
 		if (DEBUG) {
 			debug("executeNormalRequest, response= " + response.getStatusCode()
-					+ " " + response.getAsString());
+					+ " " + response);
 		}
 		return response;
 	}
@@ -217,6 +223,48 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 	 * 
 	 * 以下是豆瓣API的各种REST操作
 	 * 
+	 */
+
+	/**
+	 * 通用评论API 产品代码： statuses/note/photo
+	 */
+
+	private DoubanResponse<DoubanComments> getComments(String target,
+			long targetId) throws DoubanException, IOException {
+		String path = getApiPath(DoubanConfig.Path.COMMENTS, target, targetId);
+		SimpleResponse response = doGet(path);
+		return parse(response, DoubanComments.class);
+	}
+
+	private DoubanResponse<DoubanComment> getComment(String target,
+			long targetId, long commentId) throws DoubanException, IOException {
+		String path = getApiPath(DoubanConfig.Path.COMMENT, target, targetId,
+				commentId);
+		SimpleResponse response = doGet(path);
+		return parse(response, DoubanComment.class);
+	}
+
+	private DoubanResponse<DoubanComment> deleteComment(String target,
+			long targetId, long commentId) throws DoubanException, IOException {
+		String path = getApiPath(DoubanConfig.Path.COMMENT, target, targetId,
+				commentId);
+		SimpleResponse response = doDelete(path);
+		return parse(response, DoubanComment.class);
+	}
+
+	private DoubanResponse<DoubanComment> addComment(String target,
+			long targetId, String text) throws DoubanException, IOException {
+		AssertUtils.notEmpty(text,
+				"photo comment text must not be null or empty. ");
+		String path = getApiPath(DoubanConfig.Path.COMMENT, target, targetId);
+		Map<String, String> params = new HashMap<String, String>();
+		params.put(DoubanConfig.Key.TEXT, text);
+		SimpleResponse response = doPost(path, params);
+		return parse(response, DoubanComment.class);
+	}
+
+	/**
+	 * 用户信息相关操作
 	 */
 
 	@Override
@@ -565,7 +613,7 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 			String text) throws DoubanException, IOException {
 		String path = getApiPath(DoubanConfig.Path.STATUS_COMMENTS, statusId);
 		Map<String, String> params = new HashMap<String, String>();
-		params.put(DoubanConfig.Key.TEXT, text);
+		params.put(DoubanConfig.Key.CONTENT, text);
 		SimpleResponse response = doPost(path, params);
 		return parse(response, DoubanComment.class);
 	}
@@ -678,13 +726,369 @@ public final class DoubanApiClientImpl implements DoubanApiClient {
 		return getTimeline(path, sinceId, maxId, count, start);
 	}
 
-	/***
+	/**
 	 * 
+	 * 豆瓣日记
+	 */
+	private DoubanResponse<DoubanNotes> getNotes(String path, String format,
+			int count, int start) throws DoubanException, IOException {
+		Map<String, String> params = new HashMap<String, String>();
+		params.put(DoubanConfig.Key.FORMAT,
+				StringUtils.isEmpty(format) ? DoubanConfig.NOTE_FORMAT_TEXT
+						: format);
+		if (count > DoubanConfig.INVALID_ID) {
+			params.put(DoubanConfig.Key.COUNT, String.valueOf(count));
+		}
+		if (start > DoubanConfig.INVALID_ID) {
+			params.put(DoubanConfig.Key.START, String.valueOf(start));
+		}
+		SimpleResponse response = doGet(path, params);
+		return parse(response, DoubanNotes.class);
+	}
+
+	/**
+	 * 用户创建的日记
+	 */
+
+	@Override
+	public DoubanResponse<DoubanNotes> getNotesUserCreated(String userName)
+			throws DoubanException, IOException {
+		return getNotesUserCreated(userName, DoubanConfig.DEFAULT_COUNT,
+				DoubanConfig.NOTE_FORMAT_TEXT);
+	}
+
+	@Override
+	public DoubanResponse<DoubanNotes> getNotesUserCreated(String userName,
+			int count, String format) throws DoubanException, IOException {
+		return getNotesUserCreated(userName, count, DoubanConfig.DEFAULT_START,
+				format);
+	}
+
+	@Override
+	public DoubanResponse<DoubanNotes> getNotesUserCreated(String userName,
+			int count, int start, String format) throws DoubanException,
+			IOException {
+		String path = getApiPath(DoubanConfig.Path.NOTES_CREATED, userName);
+		return getNotes(path, format, count, start);
+	}
+
+	/**
 	 * 
-	 * 
-	 * 
-	 * 
+	 * 用户喜欢的日记
 	 * 
 	 */
+
+	@Override
+	public DoubanResponse<DoubanNotes> getNotesUserLiked(String userName)
+			throws DoubanException, IOException {
+		return getNotesUserLiked(userName, DoubanConfig.DEFAULT_COUNT,
+				DoubanConfig.NOTE_FORMAT_TEXT);
+	}
+
+	@Override
+	public DoubanResponse<DoubanNotes> getNotesUserLiked(String userName,
+			int count, String format) throws DoubanException, IOException {
+		return getNotesUserLiked(userName, count, DoubanConfig.DEFAULT_START,
+				format);
+	}
+
+	@Override
+	public DoubanResponse<DoubanNotes> getNotesUserLiked(String userName,
+			int count, int start, String format) throws DoubanException,
+			IOException {
+		String path = getApiPath(DoubanConfig.Path.NOTES_LIKED, userName);
+		return getNotes(path, format, count, start);
+	}
+
+	/**
+	 * 
+	 * 推荐给用户的日记（API路径有问题）
+	 */
+
+	@Override
+	public DoubanResponse<DoubanNotes> getNotesGuesses(String userName)
+			throws DoubanException, IOException {
+		return getNotesGuesses(userName, DoubanConfig.DEFAULT_COUNT,
+				DoubanConfig.NOTE_FORMAT_TEXT);
+	}
+
+	@Override
+	public DoubanResponse<DoubanNotes> getNotesGuesses(String userName,
+			int count, String format) throws DoubanException, IOException {
+		return getNotesGuesses(userName, count, DoubanConfig.DEFAULT_START,
+				format);
+	}
+
+	@Override
+	public DoubanResponse<DoubanNotes> getNotesGuesses(String userName,
+			int count, int start, String format) throws DoubanException,
+			IOException {
+		String path = getApiPath(DoubanConfig.Path.NOTES_HOT, userName);
+		return getNotes(path, format, count, start);
+	}
+
+	/**
+	 * 
+	 * 单篇日记
+	 */
+
+	@Override
+	public DoubanResponse<DoubanNote> getNote(long noteId)
+			throws DoubanException, IOException {
+		return getNote(noteId, DoubanConfig.NOTE_FORMAT_TEXT);
+	}
+
+	@Override
+	public DoubanResponse<DoubanNote> getNote(long noteId, String format)
+			throws DoubanException, IOException {
+		String path = getApiPath(DoubanConfig.Path.NOTE_ID, noteId);
+		Map<String, String> params = new HashMap<String, String>();
+		params.put(DoubanConfig.Key.FORMAT,
+				StringUtils.isEmpty(format) ? DoubanConfig.NOTE_FORMAT_TEXT
+						: format);
+		SimpleResponse response = doGet(path, params);
+		return parse(response, DoubanNote.class);
+	}
+
+	/**
+	 * 
+	 * 删除日记
+	 */
+	@Override
+	public DoubanResponse<DoubanNote> delete(long noteId)
+			throws DoubanException, IOException {
+		String path = getApiPath(DoubanConfig.Path.NOTE_ID, noteId);
+		SimpleResponse response = doDelete(path);
+		return parse(response, DoubanNote.class);
+	}
+
+	/**
+	 * 喜欢日记
+	 */
+
+	@Override
+	public DoubanResponse<DoubanNote> likeNote(long noteId)
+			throws DoubanException, IOException {
+		String path = getApiPath(DoubanConfig.Path.NOTE_LIKE, noteId);
+		SimpleResponse response = doPost(path);
+		return parse(response, DoubanNote.class);
+	}
+
+	/**
+	 * 
+	 * 取消喜欢日记
+	 */
+
+	@Override
+	public DoubanResponse<DoubanNote> unlikeNote(long noteId)
+			throws DoubanException, IOException {
+		String path = getApiPath(DoubanConfig.Path.NOTE_LIKE, noteId);
+		SimpleResponse response = doDelete(path);
+		return parse(response, DoubanNote.class);
+	}
+
+	/**
+	 * 
+	 * 发布日记
+	 */
+
+	@Override
+	public DoubanResponse<DoubanNote> writeNote(String title, String content)
+			throws DoubanException, IOException {
+		return writeNote(title, content, true);
+	}
+
+	@Override
+	public DoubanResponse<DoubanNote> writeNote(String title, String content,
+			boolean canReply) throws DoubanException, IOException {
+		return writeNote(title, content, canReply, DoubanConfig.PRIVACY_PUBLIC);
+	}
+
+	@Override
+	public DoubanResponse<DoubanNote> writeNote(String title, String content,
+			boolean canReply, String privacy) throws DoubanException,
+			IOException {
+		AssertUtils.notEmpty(title, "note titlle must not be null.");
+		AssertUtils.notEmpty(content, " note content must not be null");
+		String path = getApiPath(DoubanConfig.Path.NOTES);
+		Map<String, String> params = new HashMap<String, String>();
+		params.put(DoubanConfig.Key.TITLE, title);
+		params.put(DoubanConfig.Key.CONTENT, content);
+		params.put(DoubanConfig.Key.CAN_REPLY, String.valueOf(canReply));
+		params.put(DoubanConfig.Key.PRIVACY,
+				StringUtils.isEmpty(privacy) ? DoubanConfig.PRIVACY_PUBLIC
+						: privacy);
+		SimpleResponse response = doPost(path, params);
+		return parse(response, DoubanNote.class);
+	}
+
+	/**
+	 * 更新日记
+	 */
+
+	@Override
+	public DoubanResponse<DoubanNote> updateNote(long noteId, String title,
+			String content) throws DoubanException, IOException {
+		return updateNote(noteId, title, content, true);
+	}
+
+	@Override
+	public DoubanResponse<DoubanNote> updateNote(long noteId, String title,
+			String content, boolean canReply) throws DoubanException,
+			IOException {
+		return updateNote(noteId, title, content, canReply,
+				DoubanConfig.PRIVACY_PUBLIC);
+	}
+
+	@Override
+	public DoubanResponse<DoubanNote> updateNote(long noteId, String title,
+			String content, boolean canReply, String privacy)
+			throws DoubanException, IOException {
+		AssertUtils.isTrue(noteId > 0, "note id must be valid.");
+		AssertUtils.notEmpty(title, "note titlle must not be null.");
+		AssertUtils.notEmpty(content, " note content must not be null");
+		String path = getApiPath(DoubanConfig.Path.NOTE_ID, noteId);
+		Map<String, String> params = new HashMap<String, String>();
+		params.put(DoubanConfig.Key.TITLE, title);
+		params.put(DoubanConfig.Key.CONTENT, content);
+		params.put(DoubanConfig.Key.CAN_REPLY, String.valueOf(canReply));
+		params.put(DoubanConfig.Key.PRIVACY,
+				StringUtils.isEmpty(privacy) ? DoubanConfig.PRIVACY_PUBLIC
+						: privacy);
+		SimpleResponse response = doPut(path, params);
+		return parse(response, DoubanNote.class);
+	}
+
+	/**
+	 * 日记评论
+	 */
+
+	@Override
+	public DoubanResponse<DoubanComments> getNoteComments(long noteId)
+			throws DoubanException, IOException {
+		return getNoteComments(noteId, DoubanConfig.DEFAULT_COUNT);
+	}
+
+	@Override
+	public DoubanResponse<DoubanComments> getNoteComments(long noteId, int count)
+			throws DoubanException, IOException {
+		return getNoteComments(noteId, count, DoubanConfig.DEFAULT_START);
+	}
+
+	@Override
+	public DoubanResponse<DoubanComments> getNoteComments(long noteId,
+			int count, int start) throws DoubanException, IOException {
+		String path = getApiPath(DoubanConfig.Path.NOTE_COMMENTS, noteId);
+		Map<String, String> params = new HashMap<String, String>();
+		if (count > DoubanConfig.INVALID_ID) {
+			params.put(DoubanConfig.Key.COUNT, String.valueOf(count));
+		}
+		if (start > DoubanConfig.INVALID_ID) {
+			params.put(DoubanConfig.Key.START, String.valueOf(start));
+		}
+		SimpleResponse response = doGet(path, params);
+		return parse(response, DoubanComments.class);
+	}
+
+	@Override
+	public DoubanResponse<DoubanComment> addNoteComment(long noteId, String text)
+			throws DoubanException, IOException {
+		AssertUtils.notEmpty(text, "comment text must not be null or empty");
+		String path = getApiPath(DoubanConfig.Path.NOTE_COMMENTS, noteId);
+		Map<String, String> params = new HashMap<String, String>();
+		params.put(DoubanConfig.Key.CONTENT, text);
+		SimpleResponse response = doPost(path, params);
+		return parse(response, DoubanComment.class);
+	}
+
+	@Override
+	public DoubanResponse<DoubanComment> getNoteComment(long noteId,
+			long commentId) throws DoubanException, IOException {
+		String path = getApiPath(DoubanConfig.Path.NOTE_COMMENT, noteId,
+				commentId);
+		SimpleResponse response = doGet(path);
+		return parse(response, DoubanComment.class);
+	}
+
+	@Override
+	public DoubanResponse<DoubanComment> deleteNoteComment(long noteId,
+			long commentId) throws DoubanException, IOException {
+		String path = getApiPath(DoubanConfig.Path.NOTE_COMMENT, noteId,
+				commentId);
+		SimpleResponse response = doDelete(path);
+		return parse(response, DoubanComment.class);
+	}
+
+	/**
+	 * 
+	 * 相册，照片
+	 * 
+	 */
+
+	@Override
+	public DoubanResponse<DoubanAlbum> getAlbum(long albumId)
+			throws DoubanException, IOException {
+		String path = getApiPath(DoubanConfig.Path.ALBUM, albumId);
+		SimpleResponse response = doGet(path);
+		return parse(response, DoubanAlbum.class);
+	}
+
+	@Override
+	public DoubanResponse<DoubanAlbumPhotos> getAlbumPhotos(long albumId)
+			throws DoubanException, IOException {
+		String path = getApiPath(DoubanConfig.Path.PHTOTS, albumId);
+		SimpleResponse response = doGet(path);
+		return parse(response, DoubanAlbumPhotos.class);
+	}
+
+	@Override
+	public DoubanResponse<DoubanPhoto> getPhoto(long photoId)
+			throws DoubanException, IOException {
+		String path = getApiPath(DoubanConfig.Path.PHOTO, photoId);
+		SimpleResponse response = doGet(path);
+		return parse(response, DoubanPhoto.class);
+	}
+
+	/**
+	 * 照片评论
+	 */
+
+	@Override
+	public DoubanResponse<DoubanComments> getPhotoComments(long photoId)
+			throws DoubanException, IOException {
+		String path = getApiPath(DoubanConfig.Path.PHOTO_COMMENTS, photoId);
+		SimpleResponse response = doGet(path);
+		return parse(response, DoubanComments.class);
+	}
+
+	@Override
+	public DoubanResponse<DoubanComment> getPhotoComment(long photoId,
+			long commentId) throws DoubanException, IOException {
+		String path = getApiPath(DoubanConfig.Path.PHOTO_COMMENT, photoId,
+				commentId);
+		SimpleResponse response = doGet(path);
+		return parse(response, DoubanComment.class);
+	}
+
+	@Override
+	public DoubanResponse<DoubanComment> deletePhotoComment(long photoId,
+			long commentId) throws DoubanException, IOException {
+		String path = getApiPath(DoubanConfig.Path.PHOTO_COMMENT, photoId,
+				commentId);
+		SimpleResponse response = doDelete(path);
+		return parse(response, DoubanComment.class);
+	}
+
+	@Override
+	public DoubanResponse<DoubanComment> addPhotoComment(long photoId,
+			String text) throws DoubanException, IOException {
+		AssertUtils.notEmpty(text,
+				"photo comment text must not be null or empty. ");
+		String path = getApiPath(DoubanConfig.Path.PHOTO_COMMENTS, photoId);
+		Map<String, String> params = new HashMap<String, String>();
+		params.put(DoubanConfig.Key.CONTENT, text);
+		SimpleResponse response = doPost(path, params);
+		return parse(response, DoubanComment.class);
+	}
 
 }

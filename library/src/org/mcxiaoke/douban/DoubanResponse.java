@@ -26,6 +26,7 @@ public class DoubanResponse<T> implements IDoubanResponse<T> {
 	private int errorCode;
 	private String errorMessage;
 	private Bundle extras;
+	private String rawContent;
 
 	public DoubanResponse(int errorCode) {
 		this.errorCode = errorCode;
@@ -39,6 +40,7 @@ public class DoubanResponse<T> implements IDoubanResponse<T> {
 			throws DoubanException, IOException {
 		this.statusCode = response.getStatusCode();
 		this.statusMessage = response.getStatusMessage();
+		this.rawContent = response.getAsString();
 		if (response.isSuccess()) {
 			handleResponse(response, type);
 		} else {
@@ -65,8 +67,8 @@ public class DoubanResponse<T> implements IDoubanResponse<T> {
 				this.errorCode = DoubanErrorCode.CODE_UNKOWN_ERROR;
 			}
 		}
-		// TODO 
-//		throw new DoubanException(this.errorCode, this.errorMessage);
+		// TODO
+		// throw new DoubanException(this.errorCode, this.errorMessage);
 	}
 
 	public int getStatusCode() {
@@ -121,6 +123,14 @@ public class DoubanResponse<T> implements IDoubanResponse<T> {
 		this.extras = extras;
 	}
 
+	public String getRawContent() {
+		return rawContent;
+	}
+
+	public void setRawContent(String rawContent) {
+		this.rawContent = rawContent;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -134,8 +144,8 @@ public class DoubanResponse<T> implements IDoubanResponse<T> {
 		builder.append(errorCode);
 		builder.append(", errorMessage=");
 		builder.append(errorMessage);
-		builder.append(", extras=");
-		builder.append(extras);
+		builder.append(", rawContent=");
+		builder.append(rawContent);
 		builder.append("]");
 		return builder.toString();
 	}

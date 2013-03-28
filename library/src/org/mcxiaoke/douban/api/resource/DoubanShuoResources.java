@@ -5,7 +5,6 @@ package org.mcxiaoke.douban.api.resource;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import org.mcxiaoke.douban.DoubanException;
@@ -17,11 +16,11 @@ import org.mcxiaoke.douban.api.model.DoubanShuoUpdate;
 import org.mcxiaoke.douban.api.model.DoubanUser;
 
 /**
- * 豆瓣广播API
+ * 广播相关的操作
  * 
  * @author mcxiaoke
  * @version 1.0 2013.03.24
- * @version 1.1 2013.03.26
+ * @version 1.1 2013.03.26 add detail method comments
  * 
  */
 public interface DoubanShuoResources {

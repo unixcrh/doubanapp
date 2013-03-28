@@ -18,7 +18,20 @@ public final class DoubanConfig {
 
 	public static final int DEFAULT_COUNT = 20;
 	public static final int DEFAULT_START = 0;
-	public static final int INVALID_ID=0;
+	public static final int INVALID_ID = 0;
+
+	public static final String NOTE_FORMAT_TEXT = "text";
+	public static final String NOTE_FORMAT_ABSTRACT = "abstract";
+	public static final String NOTE_FORMAT_FULL_HTML = "html_full";
+	public static final String NOTE_FORMAT_SHORT_HTML = "html_short";
+
+	public static final String PRIVACY_PUBLIC = "public";
+	public static final String PRIVACY_FRIEND = "friend";
+	public static final String PRIVACY_PRIVATE = "private";
+
+	public static final String CATEGORY_SHUO = "statuses";
+	public static final String CATEGORY_NOTE = "note";
+	public static final String CATEGORY_PHOTO = "photo";
 
 	public static final class OAuth {
 
@@ -59,8 +72,13 @@ public final class DoubanConfig {
 		public static final String TAG = "tag";
 		public static final String USER_ID = "user_id";
 		public static final String SOURCE = "source";
+		public static final String TITLE = "title";
+		public static final String CONTENT = "content";
 		public static final String TEXT = "text";
+		public static final String PRIVACY = "privacy";
+		public static final String CAN_REPLY = "can_reply";
 		public static final String PACK = "pack";
+		public static final String FORMAT = "format";
 		public static final String IMAGE = "image";
 		public static final String REC_TITLE = "rec_title";
 		public static final String REC_URL = "rec_url";
@@ -93,7 +111,7 @@ public final class DoubanConfig {
 
 	public static final class Path {
 		public static final String COMMENTS = "/v2/%s/%s/comments";
-		public static final String COMMENT = "/v2/%a/%s/comment/%s";
+		public static final String COMMENT = "/v2/%s/%s/comment/%s";
 
 		// public static final String USER = "/v2/user/%s";
 
@@ -114,24 +132,33 @@ public final class DoubanConfig {
 		public static final String USER_FRIENDSHIP = "/shuo/v2/friendships/show";
 
 		public static final String NOTES = "/v2/notes";
-		public static final String NOTES_USER = "/v2/note/user_created/%s";
+		public static final String NOTES_CREATED = "/v2/note/user_created/%s";
 		public static final String NOTES_LIKED = "/v2/note/user_liked/%s";
+		public static final String NOTES_HOT = "/v2/note/people_notes/%s/guesses";// ?
 		public static final String NOTE_ID = "/v2/note/%s";
-		public static final String NOTE_COMMENTS = "/v2/note/%s/comments";
 		public static final String NOTE_LIKE = "/v2/note/%s/like";
+		public static final String NOTE_COMMENTS = "/v2/note/%s/comments";
+		public static final String NOTE_COMMENT = "/v2/note/%s/comment/%s";
 
+		// 上传接口，参数：desc 照片描述，image 照片 POST ADVANCED
 		public static final String ALBUM = "/v2/album/%s";
+		// 创建相册，参数：title 相册标题，privacy 隐私 POST  ADVANCED
+		public static final String ALBUMS="/v2/albums";
+		public static final String ALBUMS_CREATED="/v2/album/user_created/%s"; // not public  ADVANCED
+		public static final String ALBUMS_LIKED="/v2/album/user_liked/%s"; // not public  ADVANCED
 		public static final String PHTOTS = "/v2/album/%s/photos";
 		public static final String PHOTO = "/v2/photo/%s";
+		public static final String PHOTO_COMMENTS = "/v2/photo/%s/comments";
+		public static final String PHOTO_COMMENT = "/v2/photo/%s/comment/%s";
 
 		public static final String STATUSES = "/shuo/v2/statuses/";
 		public static final String STATUSES_HOME = "/shuo/v2/statuses/home_timeline";
 		public static final String STATUSES_USER = "/shuo/v2/statuses/user_timeline/%s";
 		public static final String STATUS = "/shuo/v2/statuses/%s";
-		public static final String STATUS_COMMENTS = "/shuo/v2/statuses/%s/comments";
-		public static final String STATUS_COMMENT = "/shuo/v2/statuses/comment/%s";
 		public static final String STATUS_RESHARE = "/shuo/v2/statuses/%s/reshare";
 		public static final String STATUS_LIKE = "/shuo/v2/statuses/%s/like";
+		public static final String STATUS_COMMENTS = "/shuo/v2/statuses/%s/comments";
+		public static final String STATUS_COMMENT = "/shuo/v2/statuses/comment/%s";
 
 		public static final String BOOK = "/v2/book/%s";
 		public static final String BOOK_ISBN = "/v2/book/isbn/%s";
@@ -146,7 +173,6 @@ public final class DoubanConfig {
 		public static final String MOVIE = "/v2/movie/subject/%s";
 		public static final String MOVIE_PHOTOS = "/v2/movie/subject/%s/photos";
 		public static final String MOVIE_REVIEWS = "/v2/movie/subject/%s/reviews";
-		public static final String MOVIE_COMMENTS = "/v2/movie/subject/%s/comments";
 		public static final String MOVIES_SEARCH = "/v2/movie/search";
 		public static final String MOVIES_TOP250 = "/v2/movie/top250";
 		public static final String MOVIES_USTOP = "/v2/movie/us_box";
@@ -154,6 +180,7 @@ public final class DoubanConfig {
 		public static final String CELEBRITY = "/v2/movie/celebrity/%s";
 		public static final String CELEBRITY_WORKS = "/v2/movie/celebrity/%s/works";
 		public static final String CELEBRITY_PHOTOS = "/v2/movie/celebrity/%s/photos";
+		public static final String MOVIE_COMMENTS = "/v2/movie/subject/%s/comments";
 
 		public static final String MUSIC = "/v2/music/%s";
 		public static final String MUSICS_SEARCH = "/v2/music/search";

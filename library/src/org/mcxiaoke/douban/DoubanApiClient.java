@@ -1,10 +1,13 @@
 package org.mcxiaoke.douban;
 
+import org.mcxiaoke.douban.api.resource.DoubanNotesResources;
+import org.mcxiaoke.douban.api.resource.DoubanPhotosResources;
 import org.mcxiaoke.douban.api.resource.DoubanShuoResources;
 import org.mcxiaoke.douban.api.resource.DoubanUsersResources;
 import org.scribe.model.OAuthToken;
 
-public interface DoubanApiClient extends DoubanUsersResources,DoubanShuoResources{
+public interface DoubanApiClient extends DoubanUsersResources,
+		DoubanShuoResources, DoubanNotesResources, DoubanPhotosResources {
 
 	public String getAuthorizeUrl();
 

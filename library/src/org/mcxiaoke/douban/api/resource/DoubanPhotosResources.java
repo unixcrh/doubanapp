@@ -37,7 +37,7 @@ public interface DoubanPhotosResources {
 	DoubanResponse<DoubanComment> deletePhotoComment(long photoId,
 			long commentId) throws DoubanException, IOException;
 
-	DoubanResponse<DoubanComment> addPhotoComment(long id, String text)
+	DoubanResponse<DoubanComment> addPhotoComment(long photoId, String text)
 			throws DoubanException, IOException;
 
 }

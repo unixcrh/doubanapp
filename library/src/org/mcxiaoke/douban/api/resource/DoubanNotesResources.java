@@ -23,38 +23,29 @@ public interface DoubanNotesResources {
 	DoubanResponse<DoubanNotes> getNotesUserCreated(String userName)
 			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanNotes> getNotesUserCreated(String userName,
+	DoubanResponse<DoubanNotes> getNotesUserCreated(String userName, int count,
 			String format) throws DoubanException, IOException;
 
-	DoubanResponse<DoubanNotes> getNotesUserCreated(long userId)
-			throws DoubanException, IOException;
-
-	DoubanResponse<DoubanNotes> getNotesUserCreated(long userId, String format)
-			throws DoubanException, IOException;
+	DoubanResponse<DoubanNotes> getNotesUserCreated(String userName, int count,
+			int start, String format) throws DoubanException, IOException;
 
 	DoubanResponse<DoubanNotes> getNotesUserLiked(String userName)
 			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanNotes> getNotesUserLiked(String userName, String format)
-			throws DoubanException, IOException;
+	DoubanResponse<DoubanNotes> getNotesUserLiked(String userName, int count,
+			String format) throws DoubanException, IOException;
 
-	DoubanResponse<DoubanNotes> getNotesUserLiked(long userId)
-			throws DoubanException, IOException;
-
-	DoubanResponse<DoubanNotes> getNotesUserLiked(long userId, String format)
-			throws DoubanException, IOException;
+	DoubanResponse<DoubanNotes> getNotesUserLiked(String userName, int count,
+			int start, String format) throws DoubanException, IOException;
 
 	DoubanResponse<DoubanNotes> getNotesGuesses(String userName)
 			throws DoubanException, IOException;
 
-	DoubanResponse<DoubanNotes> getNotesGuesses(String userName, String format)
-			throws DoubanException, IOException;
+	DoubanResponse<DoubanNotes> getNotesGuesses(String userName, int count,
+			String format) throws DoubanException, IOException;
 
-	DoubanResponse<DoubanNotes> getNotesGuesses(long userId)
-			throws DoubanException, IOException;
-
-	DoubanResponse<DoubanNotes> getNotesGuesses(long userId, String format)
-			throws DoubanException, IOException;
+	DoubanResponse<DoubanNotes> getNotesGuesses(String userName, int count,
+			int start, String format) throws DoubanException, IOException;
 
 	// 日记
 
@@ -99,6 +90,12 @@ public interface DoubanNotesResources {
 	// 日记回复
 	DoubanResponse<DoubanComments> getNoteComments(long noteId)
 			throws DoubanException, IOException;
+
+	DoubanResponse<DoubanComments> getNoteComments(long noteId, int count)
+			throws DoubanException, IOException;
+
+	DoubanResponse<DoubanComments> getNoteComments(long noteId, int count,
+			int start) throws DoubanException, IOException;
 
 	DoubanResponse<DoubanComment> addNoteComment(long noteId, String text)
 			throws DoubanException, IOException;

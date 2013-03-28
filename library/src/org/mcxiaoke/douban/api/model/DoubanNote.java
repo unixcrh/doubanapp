@@ -23,6 +23,8 @@ public class DoubanNote extends AbstractModel {
 	private String title;
 	@JsonProperty("alt")
 	private String webUrl;
+	@JsonProperty("can_reply")
+	private boolean canReply;
 	@JsonProperty("privacy")
 	private String privacy;
 	@JsonProperty("summary")
@@ -69,6 +71,14 @@ public class DoubanNote extends AbstractModel {
 
 	public void setWebUrl(String webUrl) {
 		this.webUrl = webUrl;
+	}
+
+	public boolean isCanReply() {
+		return canReply;
+	}
+
+	public void setCanReply(boolean canReply) {
+		this.canReply = canReply;
 	}
 
 	public String getPrivacy() {
@@ -160,12 +170,14 @@ public class DoubanNote extends AbstractModel {
 		builder.append(title);
 		builder.append(", webUrl=");
 		builder.append(webUrl);
+		builder.append(", canReply=");
+		builder.append(canReply);
 		builder.append(", privacy=");
 		builder.append(privacy);
 		builder.append(", summary=");
 		builder.append(summary);
-		// builder.append(", content=");
-		// builder.append(content);
+		builder.append(", content=");
+		builder.append(content);
 		builder.append(", createdAt=");
 		builder.append(createdAt);
 		builder.append(", updatedAt=");
@@ -178,8 +190,8 @@ public class DoubanNote extends AbstractModel {
 		builder.append(likedCount);
 		builder.append(", authors=");
 		builder.append(authors);
-		 builder.append(", photos=");
-		 builder.append(photos);
+		builder.append(", photos=");
+		builder.append(photos);
 		builder.append("]");
 		return builder.toString();
 	}

@@ -17,8 +17,6 @@ import org.mcxiaoke.douban.api.model.DoubanShuoStatus;
 import org.mcxiaoke.douban.api.model.DoubanShuoUpdate;
 import org.mcxiaoke.douban.api.model.DoubanUser;
 
-import android.test.MoreAsserts;
-
 /**
  * @author mcxiaoke
  * 
