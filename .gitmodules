@@ -13,3 +13,9 @@
 [submodule "deps/ArcMenu"]
 	path = deps/ArcMenu
 	url = git@github.com:mcxiaoke/ArcMenu.git
+[submodule "deps/UnifiedPreference"]
+	path = deps/UnifiedPreference
+	url = git@github.com:mcxiaoke/UnifiedPreference.git
+[submodule "deps/roboguice-sherlock"]
+	path = deps/roboguice-sherlock
+	url = git@github.com:mcxiaoke/roboguice-sherlock.git
